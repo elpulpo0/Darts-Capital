@@ -109,9 +109,14 @@ export default {
         },
         addNewPlayer() {
             if (this.newPlayerName !== "") {
-                const context = require.context('@/assets/ProPlayers', false, /\.png$/);
+                const context = require.context(
+                    "@/assets/ProPlayers",
+                    false,
+                    /\.png$/
+                );
                 const avatars = context.keys().map(context);
-                const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+                const randomAvatar =
+                    avatars[Math.floor(Math.random() * avatars.length)];
 
                 const newPlayer = {
                     name: this.newPlayerName,

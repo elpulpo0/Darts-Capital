@@ -3,13 +3,20 @@ module.exports = {
     env: {
         node: true,
     },
-    extends: ["plugin:vue/vue3-essential", "eslint:recommended"],
+    extends: [
+        "plugin:vue/vue3-essential", // Support Vue 3
+        "eslint:recommended", // Règles ESLint de base
+        "plugin:@typescript-eslint/recommended", // Règles TypeScript
+    ],
+    parser: "vue-eslint-parser",
     parserOptions: {
-        parser: "@babel/eslint-parser",
+        ecmaVersion: 2020,
+        sourceType: "module",
+        parser: "@typescript-eslint/parser", // Utiliser le parser TypeScript
     },
     rules: {
         "vue/comment-directive": "off",
-        "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+        "no-console": ["warn", { allow: ["warn", "error"] }],
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     },
 };
