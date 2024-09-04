@@ -1,19 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "baseUrl": "./",
-    "moduleResolution": "node",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
+    "compilerOptions": {
+        "target": "es6", // Cible la version ECMAScript 6
+        "module": "esnext", // Utilise le système de modules ESNext
+        "baseUrl": "./", // Base URL pour résoudre les chemins relatifs
+        "moduleResolution": "node", // Résolution des modules comme Node.js
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "lib": ["esnext", "dom"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+    "exclude": [
+        "node_modules", // Exclut les modules node
+        "**/node_modules/*"
     ]
-  }
 }

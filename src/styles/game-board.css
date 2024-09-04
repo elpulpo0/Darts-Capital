@@ -1,0 +1,231 @@
+.game-board {
+  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #2C3E50;
+  color: #ECF0F1;
+  border-radius: 10px;
+  max-width: 90%;
+}
+
+.dartboard {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+  margin: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dartboard-row {
+  display: contents;
+}
+
+.dartboard-number {
+  background-color: #34495E;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.last-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr;
+  gap: 5px;
+}
+
+.double-button, .triple-button, .back-button {
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.dartboard-number:hover, .double-button:hover, .triple-button:hover, .back-button:hover {
+  background-color: #2980B9;
+}
+
+.double-button {
+  background-color: #E67E22;
+}
+
+.triple-button {
+  background-color: #D35400;
+}
+
+.back-button {
+  background-color: #C0392B;
+}
+
+.selected {
+  outline: 2px solid #FFC107;
+}
+
+.contract-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.contract-item {
+  padding: 10px;
+  background-color: #3498DB;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.contract-item.success {
+  background-color: #27AE60;
+}
+
+.contract-item.failure {
+  background-color: #E74C3C;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.player-avatar {
+  width: 40px; 
+  object-fit: cover; 
+  margin-right: 10px;
+}
+
+.player-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Permet au conteneur de s'étendre */
+}
+
+.player-main-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Aligne les éléments sur la même ligne */
+}
+
+.name-and-score {
+    display: flex;
+    flex-direction: column; /* Empile le nom et le score verticalement */
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.player-score {
+    margin-top: 5px;
+}
+
+.player-additional-info {
+    margin-left: auto; /* Aligne les informations supplémentaires à droite */
+    text-align: right;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0c8adf;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.contracts-status {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.contract-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.contract-success {
+  background-color: green;
+}
+
+.contract-fail {
+  background-color: red;
+}
+
+.contract-pending {
+  background-color: white;
+}
+
+.gametitle, .contract-result {
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    flex: 1;
+    margin-right: 10px; /* Espacement entre le texte et le bouton */
+}
+
+.contract-result-container {
+    font-size: 1.2em;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contract-result-container span,
+.contract-result-container p {
+    margin-right: 10px; /* Espacement entre le texte et le bouton */
+}
+
+.result-button {
+    background-color: #34495E;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    padding: 10px;
+    color: white;
+}
+
+.contract-result {
+    /* Assurez-vous que les styles de base sont les mêmes */
+}
+
+.contract-result.success {
+    color: #2ecc71; /* Couleur du texte pour "Contrat Réussi" */
+}
+
+.contract-result.failure {
+    color: #e74c3c; /* Couleur du texte pour "Contrat Raté" */
+}
+
+.contract-result.confirmed {
+    color: #f39c12; /* Couleur du texte pour "Capital Confirmé" */
+}
