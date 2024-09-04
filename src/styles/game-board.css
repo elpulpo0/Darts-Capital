@@ -214,10 +214,6 @@ li {
     color: white;
 }
 
-.contract-result {
-    /* Assurez-vous que les styles de base sont les mêmes */
-}
-
 .contract-result.success {
     color: #2ecc71; /* Couleur du texte pour "Contrat Réussi" */
 }

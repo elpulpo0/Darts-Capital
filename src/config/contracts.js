@@ -1,6 +1,4 @@
 export const contracts = [
-            { name: 'Side', description: 'Il faut planter 3 fléchettes dans 3 secteurs qui se touchent (Ex : 16, 7, 19).' },
-
         { name: '20', description: 'Il faut faire au moins un 20.' },
         { name: 'Suite', description: 'Il faut planter 3 fléchettes dans 3 numéros qui se suivent (ex : 20-19-18).' },      
         { name: '19', description: 'Il faut faire au moins un 19.' },
