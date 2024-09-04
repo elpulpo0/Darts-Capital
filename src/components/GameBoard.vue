@@ -1,5 +1,4 @@
 <template>
-  <div class="container">
     <div class="game-board">
       <!-- Affichage du titre ou du résultat du contrat -->
       <div class="contract-result-container">
@@ -118,7 +117,6 @@
         </button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
