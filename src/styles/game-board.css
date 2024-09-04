@@ -1,11 +1,10 @@
 .game-board {
   text-align: center;
-  margin: 20px auto;
+  margin: 0;
   padding: 20px;
   background-color: #2C3E50;
   color: #ECF0F1;
   border-radius: 10px;
-  max-width: 90%;
   box-sizing: border-box;
 }
 
@@ -13,7 +12,6 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 5px;
-  margin: 20px 0;
   width: 100%;
   box-sizing: border-box;
 }
