@@ -1,13 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import PrivacyPolicy from "@/components/PrivacyPolicy.vue";
+
 
 const routes = [
-    {
-        path: "/",
-        name: "home",
-        component: HomeView,
-    },
-    // Ajoutez d'autres routes ici pour les autres pages
+  {
+    path: "/",
+    name: "home",
+    component: HomeView,
+  },
+  {
+    path: "/privacy-policy",
+    name: "PrivacyPolicy",
+    component: PrivacyPolicy,
+  },
 ];
 
 const router = createRouter({

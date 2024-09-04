@@ -53,6 +53,10 @@
     >
       Lancer le jeu
     </button>
+    <!-- Ajouter un lien vers la politique de confidentialité -->
+    <p class="privacy-link">
+      <router-link to="/privacy-policy">Politique de confidentialité</router-link>
+    </p>
   </div>
 </template>
 
@@ -161,4 +165,17 @@ export default {
 <style scoped>
 @import "@/styles/player-selection.css";
 @import "@/styles/home.css";
+
+
+
+.privacy-link {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.privacy-link a {
+  color: white;
+  text-decoration: none;
+}
 </style>
