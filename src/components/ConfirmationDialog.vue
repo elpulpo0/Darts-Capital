@@ -73,6 +73,8 @@ export default {
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s ease;
+  min-height: 48px;
+  width: 70px;
 }
 
 .confirm-button {

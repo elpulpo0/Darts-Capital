@@ -100,6 +100,7 @@ h2 {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  min-height: 48px;
 }
 
 .back-to-home-button:hover {

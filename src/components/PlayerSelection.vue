@@ -23,11 +23,7 @@
         @touchstart="startHold(index)"
         @touchend="clearHold"
       >
-        <img
-          :src="player.avatar"
-          alt="Avatar"
-          class="player-avatar"
-        />
+        <img :src="player.avatar" alt="Avatar" class="player-avatar" />
         <div class="player-info">
           <span class="player-name">{{ player.name }}</span>
         </div>
@@ -46,8 +42,10 @@
     </form>
 
     <p v-if="selectedPlayers.length < 2" class="instruction-text">
-      Séléctionnez au moins 2 joueurs pour commencer.
+      Séléctionnez au moins 2 joueurs<br />
+      pour commencer.
     </p>
+
     <button
       @click="startGame"
       :disabled="selectedPlayers.length < 2"
@@ -56,9 +54,12 @@
     >
       Lancer le jeu
     </button>
-    <!-- Ajouter un lien vers la politique de confidentialité -->
+
+    <!-- Bouton transparent pour la politique de confidentialité -->
     <p class="privacy-link">
-      <router-link to="/privacy-policy">Politique de confidentialité</router-link>
+      <router-link to="/privacy-policy"
+        >Politique de confidentialité</router-link
+      >
     </p>
   </div>
 </template>
@@ -66,7 +67,7 @@
 <script>
 export default {
   props: {
-    defaultPlayers: Array // Recevoir les joueurs pré-sélectionnés
+    defaultPlayers: Array, // Recevoir les joueurs pré-sélectionnés
   },
   data() {
     return {
@@ -86,8 +87,10 @@ export default {
       if (players) {
         this.storedPlayers = JSON.parse(players);
         // Pré-sélectionner les joueurs reçus par les props
-        this.selectedPlayers = this.storedPlayers.filter(player =>
-          this.defaultPlayers.some(defaultPlayer => defaultPlayer.name === player.name)
+        this.selectedPlayers = this.storedPlayers.filter((player) =>
+          this.defaultPlayers.some(
+            (defaultPlayer) => defaultPlayer.name === player.name,
+          ),
         );
       }
     },
@@ -100,7 +103,7 @@ export default {
     toggleSelection(player) {
       const isSelected = this.selectedPlayers.includes(player);
       if (isSelected) {
-        this.selectedPlayers = this.selectedPlayers.filter(p => p !== player);
+        this.selectedPlayers = this.selectedPlayers.filter((p) => p !== player);
       } else {
         this.selectedPlayers.push(player);
       }
@@ -119,11 +122,7 @@ export default {
     },
     addNewPlayer() {
       if (this.newPlayerName !== "") {
-        const context = require.context(
-          "@/assets/ProPlayers",
-          false,
-          /\.png$/
-        );
+        const context = require.context("@/assets/ProPlayers", false, /\.png$/);
         const avatars = context.keys().map(context);
         const randomAvatar =
           avatars[Math.floor(Math.random() * avatars.length)];
@@ -144,14 +143,16 @@ export default {
     },
     removePlayer(index) {
       const removedPlayer = this.storedPlayers.splice(index, 1)[0];
-      this.selectedPlayers = this.selectedPlayers.filter(player => player !== removedPlayer);
+      this.selectedPlayers = this.selectedPlayers.filter(
+        (player) => player !== removedPlayer,
+      );
       this.savePlayers();
     },
     savePlayers() {
       localStorage.setItem("players", JSON.stringify(this.storedPlayers));
     },
     startGame() {
-      this.storedPlayers = this.storedPlayers.map(player => ({
+      this.storedPlayers = this.storedPlayers.map((player) => ({
         ...player,
         darts: [],
         dartsDisplay: [],
@@ -160,8 +161,8 @@ export default {
     },
     isSelected(player) {
       return this.selectedPlayers.includes(player);
-    }
-  }
+    },
+  },
 };
 </script>
 
