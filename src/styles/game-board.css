@@ -109,6 +109,12 @@
     margin-bottom: 10px;
 }
 
+.player-active {
+  outline: 2px solid #007bff; /* Cadre autour du joueur actif */
+  outline-offset: 8px; /* Espace entre le cadre et le contenu */
+  border-radius: 8px; /* Arrondi des coins du cadre */
+}
+
 .player-avatar {
   width: 40px; 
   object-fit: cover; 
@@ -130,6 +136,32 @@
 .name-and-score {
     display: flex;
     flex-direction: column; /* Empile le nom et le score verticalement */
+}
+
+/* Cercle de classement */
+.ranking-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px; /* Espacement entre le cercle et l'avatar */
+  background-color: gray; /* Couleur par défaut */
+  text-align: center;
+  line-height: 30px; /* Aligner le texte verticalement */
+  color: white;
+  font-weight: bold;
+}
+
+.ranking-circle.gold {
+  background-color: gold;
+}
+
+.ranking-circle.silver {
+  background-color: silver;
+}
+
+.ranking-circle.bronze {
+  background-color: #cd7f32; /* Bronze */
 }
 
 .player-name {

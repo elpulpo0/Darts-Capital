@@ -36,11 +36,12 @@
               <div class="player-details">
                 <div class="player-main-info">
                   <div class="name-and-score">
-                    <span class="player-name">{{ player.name }}</span>
-                    <span class="player-score"
-                      >{{ player.capital }} points</span
-                    >
-                  </div>
+          <div class="name-container">
+            <span class="ranking-circle" :class="getRankingClass(index)"></span>
+            <span class="player-name">{{ player.name }}</span>
+          </div>
+          <span class="player-score">{{ player.capital }} points</span>
+        </div>
                   <!-- Afficher les informations de lancer pour tous les joueurs -->
                   <div class="player-additional-info">
                     <span>
@@ -192,6 +193,20 @@ export default {
     },
   },
   methods: {
+    getRankingClass(index) {
+      // Supposons que `localPlayers` est trié par capital ou score
+      const sortedPlayers = [...this.localPlayers].sort(
+        (a, b) => b.capital - a.capital,
+      );
+      const ranking = sortedPlayers.findIndex(
+        (player) => player === this.localPlayers[index],
+      );
+
+      if (ranking === 0) return "gold";
+      if (ranking === 1) return "silver";
+      if (ranking === 2) return "bronze";
+      return ""; // Pas de cercle pour les autres joueurs
+    },
     restartGame() {
       // Émet l'événement pour indiquer que le jeu est terminé et qu'il faut redémarrer
       this.$emit("game-over");
@@ -525,10 +540,4 @@ export default {
 
 <style scoped>
 @import "@/styles/game-board.css";
-
-.player-active {
-  outline: 2px solid #007bff; /* Cadre autour du joueur actif */
-  outline-offset: 8px; /* Espace entre le cadre et le contenu */
-  border-radius: 8px; /* Arrondi des coins du cadre */
-}
 </style>
