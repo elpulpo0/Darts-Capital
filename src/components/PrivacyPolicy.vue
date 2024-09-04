@@ -41,12 +41,22 @@
       Si vous avez des questions concernant cette politique de confidentialité,
       vous pouvez nous contacter à : <strong>chris.elpulpo@gmail.com</strong>.
     </p>
+
+    <!-- Ajout du bouton de retour -->
+    <div class="button-container">
+      <button class="back-to-home-button" @click="goBackToHome">Retour à l'accueil</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "PrivacyPolicy",
+  methods: {
+    goBackToHome() {
+      this.$router.push("/"); // Redirige vers la page d'accueil
+    },
+  },
 };
 </script>
 
@@ -67,5 +77,26 @@ h1 {
 h2 {
   margin-top: 20px;
   color: #2c3e50;
+}
+
+/* Ajout du style pour le bouton */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-to-home-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.back-to-home-button:hover {
+  background-color: #2980b9;
 }
 </style>

@@ -45,11 +45,14 @@
       <button type="submit" class="add-button">+</button>
     </form>
 
+    <p v-if="selectedPlayers.length < 2" class="instruction-text">
+      Séléctionnez au moins 2 joueurs pour commencer.
+    </p>
     <button
       @click="startGame"
-      :disabled="selectedPlayers.length === 0"
+      :disabled="selectedPlayers.length < 2"
       class="start-game-button"
-      :class="{ disabled: selectedPlayers.length === 0 }"
+      :class="{ disabled: selectedPlayers.length < 2 }"
     >
       Lancer le jeu
     </button>
@@ -165,17 +168,4 @@ export default {
 <style scoped>
 @import "@/styles/player-selection.css";
 @import "@/styles/home.css";
-
-
-
-.privacy-link {
-  margin-top: 10px;
-  text-align: center;
-  font-size: 0.9em;
-}
-
-.privacy-link a {
-  color: white;
-  text-decoration: none;
-}
 </style>

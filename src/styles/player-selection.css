@@ -16,11 +16,6 @@
   overflow: hidden;
 }
 
-.instruction-text {
-  color: #767a7a;
-  margin-bottom: 20px;
-}
-
 .player-list {
   list-style-type: none;
   padding: 10px;
@@ -49,12 +44,8 @@
   transition: background-color 0.3s ease, transform 0.3s ease; /* Ajout de transitions */
 }
 
-.player-item:hover {
-  background-color: #3B5998; /* Changement de couleur au survol */
-}
-
-.player-item.selected {
-  background-color: #3B5998; /* Couleur différente pour indiquer la sélection */
+.player-item:active {
+  background-color: #3B5998;
 }
 
 .player-avatar {
@@ -109,7 +100,7 @@
   box-sizing: border-box; /* Assure que la taille inclut les bordures */
 }
 
-.add-button:hover {
+.add-button:active {
   background-color: #2980B9;
 }
 
@@ -129,4 +120,15 @@
 
 .start-game-button:disabled {
   background-color: #BDC3C7;
+}
+
+.privacy-link {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.privacy-link a {
+  color: white;
+  text-decoration: none;
 }

@@ -45,34 +45,6 @@ body {
   margin: 0;
 }
 
-.add-player-form {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-.add-player-form input {
-  flex-grow: 1;
-  margin-right: 10px;
-}
-
-.add-player-form button {
-  flex-shrink: 0;
-}
-
-.start-game-button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #1abc9c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1em;
-  cursor: pointer;
-}
-
-.start-game-button.disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.instruction-text {
+  color: #767a7a;
 }

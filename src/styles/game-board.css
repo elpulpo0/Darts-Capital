@@ -83,7 +83,7 @@
   flex-grow: 1;
 }
 
-.dartboard-number:hover, .double-button:hover, .triple-button:hover, .back-button:hover {
+.dartboard-number:active, .double-button:active, .triple-button:active, .back-button:active {
   background-color: #2980B9;
 }
 
@@ -133,7 +133,6 @@
 .player-info {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .player-active {
@@ -162,7 +161,8 @@
 
 .name-and-score {
     display: flex;
-    flex-direction: column; /* Empile le nom et le score verticalement */
+    flex-direction: column;
+    
 }
 
 /* Cercle de classement */
@@ -210,6 +210,7 @@
 ul {
   list-style-type: none;
   padding: 0;
+  padding-top: 20px;
 }
 
 li {
@@ -249,7 +250,7 @@ li {
     border-radius: 5px;
     text-align: center;
     flex: 1;
-    margin-right: 10px; /* Espacement entre le texte et le bouton */
+    padding-top: 35px;
 }
 
 .contract-result-container {
@@ -297,4 +298,15 @@ li {
   margin-top: 15px;
   width: 100%;
   height: 40px;
+}
+
+/* Ajouter une apparence grisée pour les boutons désactivés */
+.disabled-button {
+  background-color: #BDC3C7;
+}
+
+/* État désactivé */
+button:disabled {
+  opacity: 0.6; /* Pour rendre le bouton moins visible */
+  pointer-events: none; /* Empêche toute interaction */
 }

@@ -7,6 +7,8 @@ android {
         applicationId "com.elpulpo.darts"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 6
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -18,26 +20,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    // Incrémentation automatique du versionCode pour les builds Release
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
-            variant.outputs.all { output ->
-                def versionCodesFile = file("$projectDir/version.properties")
-                def Properties versionProps = new Properties()
-
-                if (versionCodesFile.exists()) {
-                    versionProps.load(new FileInputStream(versionCodesFile))
-                }
-
-                def versionCode = versionProps.getProperty("VERSION_CODE", "1").toInteger() + 1
-                versionProps.setProperty("VERSION_CODE", versionCode.toString())
-
-                versionProps.store(new FileOutputStream(versionCodesFile), null)
-
-                output.versionCodeOverride = versionCode
-            }
         }
     }
 }

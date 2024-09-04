@@ -1,125 +1,161 @@
 <template>
-    <div class="game-board">
-      <!-- Affichage du titre ou du résultat du contrat -->
-      <div class="contract-result-container">
-        <span class="gametitle" v-if="!contractResult">
-          <h3 v-if="isInitialPhase">Définition du Capital Initial</h3>
-          <h3 v-else-if="gameOver">Fin du Jeu</h3>
-          <h3 v-else>{{ currentContract?.name }}</h3>
-        </span>
-        <p
-          v-else
+  <div class="game-board">
+    <!-- Affichage du titre ou du résultat du contrat -->
+    <div class="contract-result-container">
+      <span v-if="!contractResult">
+        <!-- Phase initiale : définition du capital -->
+        <div v-if="isInitialPhase">
+          <h3 class="gametitle">Capital Initial</h3>
+          <p class="instruction-text">Définissez votre capital de départ.</p>
+        </div>
+
+        <!-- Fin du jeu -->
+        <h3 v-else-if="gameOver">Fin du Jeu</h3>
+
+        <!-- En cours de mission -->
+        <div v-else>
+          <h3 class="gametitle">Mission : {{ currentContract?.name }}</h3>
+          <p class="instruction-text contract-description">{{ currentContract?.description }}</p>
+        </div>
+      </span>
+
+      <p
+        v-else
+        :class="{
+          'contract-result': true,
+          success: contractResult === 'Contrat Réussi',
+          failure: contractResult === 'Contrat Raté',
+          confirmed: contractResult === 'Capital Confirmé',
+        }"
+      >
+        {{ contractResult }}
+      </p>
+    </div>
+
+    <!-- Scores des joueurs -->
+    <div v-if="!gameOver" class="players-scores">
+      <ul>
+        <li
+          v-for="(player, index) in localPlayers"
+          :key="index"
           :class="{
-            'contract-result': true,
-            success: contractResult === 'Contrat Réussi',
-            failure: contractResult === 'Contrat Raté',
-            confirmed: contractResult === 'Capital Confirmé',
+            'player-active': index === currentPlayerIndex,
           }"
         >
-          {{ contractResult }}
-        </p>
-      </div>
-
-      <!-- Scores des joueurs -->
-      <div v-if="!gameOver" class="players-scores">
-        <ul>
-          <li
-            v-for="(player, index) in localPlayers"
-            :key="index"
-            :class="{
-              'player-active': index === currentPlayerIndex,
-            }"
-          >
-            <div class="player-info">
-              <img :src="player.avatar" alt="Avatar" class="player-avatar" />
-              <div class="player-details">
-                <div class="player-main-info">
-                  <div class="name-and-score">
-          <div class="name-container">
-            <span class="ranking-circle" :class="getRankingClass(index)"></span>
-            <span class="player-name">{{ player.name }}</span>
-          </div>
-          <span class="player-score">{{ player.capital }} points</span>
-        </div>
-                  <!-- Afficher les informations de lancer pour tous les joueurs -->
-                  <div class="player-additional-info">
-                    <span>
-                      ({{ player.currentRoundPoints }})
-                      {{ player.dartsDisplay.join(" | ") }}
-                    </span>
+          <div class="player-info">
+            <img :src="player.avatar" alt="Avatar" class="player-avatar" />
+            <div class="player-details">
+              <div class="player-main-info">
+                <div class="name-and-score">
+                  <div class="name-container">
+                    <span
+                      class="ranking-circle"
+                      :class="getRankingClass(index)"
+                    ></span>
+                    <span class="player-name">{{ player.name }}</span>
                   </div>
+                  <span class="player-score">{{ player.capital }} points</span>
+                </div>
+                <!-- Afficher les informations de lancer pour tous les joueurs -->
+                <div class="player-additional-info">
+                  <span>
+                    ({{ player.currentRoundPoints }})
+                    {{ player.dartsDisplay.join(" | ") }}
+                  </span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="contracts-status">
-              <span
-                v-for="(contract, idx) in contracts"
-                :key="idx"
-                :class="{
-                  'contract-success': player.contractsStatus[idx]?.success,
-                  'contract-fail':
-                    player.contractsStatus[idx]?.success === false,
-                  'contract-pending':
-                    player.contractsStatus[idx]?.success === undefined,
-                }"
-                class="contract-circle"
-              >
-              </span>
-            </div>
-          </li>
-        </ul>
-      </div>
+          <div class="contracts-status">
+            <span
+              v-for="(contract, idx) in contracts"
+              :key="idx"
+              :class="{
+                'contract-success': player.contractsStatus[idx]?.success,
+                'contract-fail': player.contractsStatus[idx]?.success === false,
+                'contract-pending':
+                  player.contractsStatus[idx]?.success === undefined,
+              }"
+              class="contract-circle"
+            >
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-      <!-- Tableau de jeu -->
-      <div v-if="!gameOver" class="dartboard">
-        <div
-          class="dartboard-row"
-          v-for="row in dartboardLayout"
-          :key="row.join('-')"
+    <!-- Tableau de jeu -->
+    <div v-if="!gameOver" class="dartboard">
+      <div
+        class="dartboard-row"
+        v-for="row in dartboardLayout"
+        :key="row.join('-')"
+      >
+        <button
+          v-for="num in row"
+          :key="num"
+          @click="addDart(num)"
+          :disabled="
+            (num === 25 && multiplier === 3) || (num === 0 && multiplier >= 2)
+          "
+          :class="{
+            'disabled-button':
+              (num === 25 && multiplier === 3) ||
+              (num === 0 && multiplier >= 2),
+          }"
+          class="dartboard-number"
         >
-          <button
-            v-for="num in row"
-            :key="num"
-            @click="addDart(num)"
-            class="dartboard-number"
-          >
-            {{ num }}
-          </button>
-        </div>
-        <div class="last-row">
-          <button
-            :class="{ selected: multiplier === 2 }"
-            class="double-button"
-            @click="toggleMultiplier(2)"
-          >
-            DOUBLE
-          </button>
-          <button
-            :class="{ selected: multiplier === 3 }"
-            class="triple-button"
-            @click="toggleMultiplier(3)"
-          >
-            TRIPLE
-          </button>
-          <button class="back-button" @click="undoDart">BACK</button>
-        </div>
-      </div>
-
-      <!-- Message de fin de jeu -->
-      <div v-else-if="gameOver">
-        <h3>Le jeu est terminé !</h3>
-        <p class="player-name">
-          Le gagnant est {{ winner.name }} avec {{ winner.capital }} points !
-        </p>
-        <button class="restart-game-button" @click="restartGame">
-          Recommencer
+          {{ num }}
         </button>
       </div>
+      <div class="last-row">
+        <button
+          :class="{ selected: multiplier === 2 }"
+          class="double-button"
+          @click="toggleMultiplier(2)"
+        >
+          DOUBLE
+        </button>
+        <button
+          :class="{ selected: multiplier === 3 }"
+          class="triple-button"
+          @click="toggleMultiplier(3)"
+        >
+          TRIPLE
+        </button>
+        <button class="back-button" @click="undoDart">BACK</button>
+      </div>
     </div>
+
+    <!-- Message de fin de jeu -->
+    <div v-else-if="gameOver">
+      <h3>Le jeu est terminé !</h3>
+      <p class="player-name">
+        Le gagnant est {{ winner.name }} avec {{ winner.capital }} points !
+      </p>
+      <button class="restart-game-button" @click="restartGame">
+        Recommencer
+      </button>
+    </div>
+
+    <!-- Nouveau bouton pour recommencer -->
+    <button class="restart-game-button" @click="showConfirmPopup = true">
+      Recommencer
+    </button>
+
+    <!-- Composant ConfirmationDialog -->
+    <ConfirmationDialog
+      v-if="showConfirmPopup"
+      :isVisible="showConfirmPopup"
+      message="Êtes-vous sûr de vouloir annuler la partie en cours ?"
+      @confirmed="handleConfirmation"
+    />
+  </div>
 </template>
 
 <script>
+import ConfirmationDialog from "./ConfirmationDialog.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
 
@@ -129,6 +165,9 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  components: {
+    ConfirmationDialog,
   },
   data() {
     return {
@@ -158,6 +197,7 @@ export default {
       extractedDarts: [],
       originalDarts: [],
       gameHistory: [],
+      showConfirmPopup: false,
     };
   },
   watch: {
@@ -191,6 +231,12 @@ export default {
     },
   },
   methods: {
+    handleConfirmation(confirmed) {
+      this.showConfirmPopup = false;
+      if (confirmed) {
+        this.restartGame();
+      }
+    },
     getRankingClass(index) {
       // Supposons que `localPlayers` est trié par capital ou score
       const sortedPlayers = [...this.localPlayers].sort(
@@ -206,7 +252,6 @@ export default {
       return ""; // Pas de cercle pour les autres joueurs
     },
     restartGame() {
-      // Émet l'événement pour indiquer que le jeu est terminé et qu'il faut redémarrer
       this.$emit("game-over");
     },
     emitGameOver() {
