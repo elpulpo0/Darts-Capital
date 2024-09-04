@@ -235,60 +235,79 @@ export default {
             return number;
         },
         checkAdjacentSegments(darts) {
-            // Vérifiez que la liste des segments contient exactement trois éléments
-            if (darts.length !== 3) {
-                console.error("Il doit y avoir exactement trois segments.");
-                return false;
-            }
+    // Vérifiez que la liste des segments contient exactement trois éléments
+    if (darts.length !== 3) {
+        console.error("Il doit y avoir exactement trois segments.");
+        return false;
+    }
+    console.log("Segments fournis:", darts);
 
-            // Extraire les segments
-            const [first, second, third] = darts;
+    // Extraire les segments
+    const [first, second, third] = darts;
+    console.log("Segments extraits:", { first, second, third });
 
-            // Vérifiez que les segments sont uniques
-            if (new Set(darts).size !== 3) {
-                console.error("Les segments doivent être distincts.");
-                return false;
-            }
+    // Vérifiez que les segments sont uniques
+    if (new Set(darts).size !== 3) {
+        console.error("Les segments doivent être distincts.");
+        return false;
+    }
+    console.log("Les segments sont distincts.");
 
-            // Fonction pour vérifier l'adjacence entre deux segments
-            const areAdjacent = (seg1, seg2) => {
-                const segment1 = dartboardSegments[seg1];
-                const segment2 = dartboardSegments[seg2];
+    // Fonction pour vérifier l'adjacence entre deux segments
+    const areAdjacent = (seg1, seg2) => {
+        const segment1 = dartboardSegments[seg1];
+        const segment2 = dartboardSegments[seg2];
 
-                // Affiche le type de chaque clé
+        console.log(`Vérification d'adjacence entre ${seg1} et ${seg2}`);
 
-                // Vérifiez que les deux segments existent
-                if (!segment1) {
-                    console.error(`Segment ${seg1} n'est pas défini.`);
-                    return false;
-                }
-                if (!segment2) {
-                    console.error(`Segment ${seg2} n'est pas défini.`);
-                    return false;
-                }
+        // Vérifiez que les deux segments existent
+        if (!segment1) {
+            console.error(`Segment ${seg1} n'est pas défini.`);
+            return false;
+        }
+        if (!segment2) {
+            console.error(`Segment ${seg2} n'est pas défini.`);
+            return false;
+        }
 
-                // Vérifiez si seg2 est dans la liste des adjacents de seg1
-                const isAdjacent = segment1.adjacentNumbers.includes(seg2);
+        // Affiche le type de chaque clé
+        console.log(`Segments trouvés: ${seg1}`, segment1);
+        console.log(`Segments trouvés: ${seg2}`, segment2);
 
-                return isAdjacent;
-            };
+        // Vérifiez si seg2 est dans la liste des adjacents de seg1
+        const isAdjacent = segment1.adjacentNumbers.includes(seg2);
+        console.log(`Est ${seg2} adjacent à ${seg1}?`, isAdjacent);
 
-            // Vérifiez les adjacences pour chaque paire
-            const firstAdjacentToSecond = areAdjacent(first, second);
-            const firstAdjacentToThird = areAdjacent(first, third);
-            const secondAdjacentToThird = areAdjacent(second, third);
-            const secondAdjacentToFirst = areAdjacent(second, first);
-            const thirdAdjacentToFirst = areAdjacent(third, first);
-            const thirdAdjacentToSecond = areAdjacent(third, second);
+        return isAdjacent;
+    };
 
-            // Vérifiez si un des segments est adjacent aux deux autres
-            const isValid =
-                (firstAdjacentToSecond && firstAdjacentToThird) ||
-                (secondAdjacentToFirst && secondAdjacentToThird) ||
-                (thirdAdjacentToFirst && thirdAdjacentToSecond);
+    // Vérifiez les adjacences pour chaque paire
+    const firstAdjacentToSecond = areAdjacent(first, second);
+    const firstAdjacentToThird = areAdjacent(first, third);
+    const secondAdjacentToThird = areAdjacent(second, third);
+    const secondAdjacentToFirst = areAdjacent(second, first);
+    const thirdAdjacentToFirst = areAdjacent(third, first);
+    const thirdAdjacentToSecond = areAdjacent(third, second);
 
-            return isValid;
-        },
+    console.log("Résultats des vérifications d'adjacence:");
+    console.log(`Première paire (${first}, ${second}):`, firstAdjacentToSecond);
+    console.log(`Première paire (${first}, ${third}):`, firstAdjacentToThird);
+    console.log(`Deuxième paire (${second}, ${third}):`, secondAdjacentToThird);
+    console.log(`Deuxième paire (${second}, ${first}):`, secondAdjacentToFirst);
+    console.log(`Troisième paire (${third}, ${first}):`, thirdAdjacentToFirst);
+    console.log(`Troisième paire (${third}, ${second}):`, thirdAdjacentToSecond);
+
+    // Vérifiez si un des segments est adjacent aux deux autres
+    const isValid =
+        (firstAdjacentToSecond && firstAdjacentToThird) ||
+        (secondAdjacentToFirst && secondAdjacentToThird) ||
+        (thirdAdjacentToFirst && thirdAdjacentToSecond);
+
+    console.log("Les segments sont-ils adjacents selon les critères?", isValid);
+
+    return isValid;
+}
+,
 
         addDart(number) {
             this.saveGameState(); // Sauvegarder l'état avant d'ajouter un lancer
@@ -376,7 +395,6 @@ export default {
                     );
 
                 case "Side":
-                    // Vérifiez les numéros extraits indépendamment des préfixes
                     return this.checkAdjacentSegments(originalDarts);
 
                 case "Suite":

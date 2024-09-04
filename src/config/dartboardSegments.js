@@ -1,15 +1,15 @@
 export const dartboardSegments = {
   "1": {
     color: "white",
-    adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
+    adjacentNumbers: ["18", "T18", "D18", "20", "D20", "T20", "25"],
   },
   "D1": {
     color: "green",
-    adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
+    adjacentNumbers: ["18", "T18", "D18", "20", "D20", "T20", "25"],
   },
   "T1": {
     color: "green",
-    adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
+    adjacentNumbers: ["18", "T18", "D18", "20", "D20", "T20", "25"],
   },
   "2": {
     color: "black",
