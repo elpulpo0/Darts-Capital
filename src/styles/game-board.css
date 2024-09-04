@@ -225,3 +225,16 @@ li {
 .contract-result.confirmed {
     color: #f39c12; /* Couleur du texte pour "Capital Confirmé" */
 }
+
+.restart-game-button {
+  background-color: #3498DB;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  width: 100%;
+  height: 40px;
+}
