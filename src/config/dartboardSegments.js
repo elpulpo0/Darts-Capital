@@ -1,243 +1,243 @@
 export const dartboardSegments = {
     1: {
         color: "white",
-        adjacentNumbers: ["18", "4", "25"],
+        adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
     },
     D1: {
         color: "green",
-        adjacentNumbers: ["18", "4", "25"],
+        adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
     },
     T1: {
         color: "green",
-        adjacentNumbers: ["18", "4", "25"],
+        adjacentNumbers: ["18", "T18", "D18", "4", "T4", "D4", "25"],
     },
     2: {
         color: "black",
-        adjacentNumbers: ["17", "15", "25"],
+        adjacentNumbers: ["17", "T17", "D17", "15", "T15", "D15", "25"],
     },
     D2: {
         color: "red",
-        adjacentNumbers: ["17", "15", "25"],
+        adjacentNumbers: ["17", "T17", "D17", "15", "T15", "D15", "25"],
     },
     T2: {
         color: "red",
-        adjacentNumbers: ["17", "15", "25"],
+        adjacentNumbers: ["17", "T17", "D17", "15", "T15", "D15", "25"],
     },
     3: {
         color: "black",
-        adjacentNumbers: ["19", "17", "25"],
+        adjacentNumbers: ["19", "T19", "D19", "17", "T17", "D17", "25"],
     },
     D3: {
         color: "red",
-        adjacentNumbers: ["19", "17", "25"],
+        adjacentNumbers: ["19", "T19", "D19", "17", "T17", "D17", "25"],
     },
     T3: {
         color: "red",
-        adjacentNumbers: ["19", "17", "25"],
+        adjacentNumbers: ["19", "T19", "D19", "17", "T17", "D17", "25"],
     },
     4: {
         color: "white",
-        adjacentNumbers: ["13", "18", "25"],
+        adjacentNumbers: ["13", "T13", "D13", "18", "T18", "D18", "25"],
     },
     D4: {
         color: "green",
-        adjacentNumbers: ["13", "18", "25"],
+        adjacentNumbers: ["13", "T13", "D13", "18", "T18", "D18", "25"],
     },
     T4: {
         color: "green",
-        adjacentNumbers: ["13", "18", "25"],
+        adjacentNumbers: ["13", "T13", "D13", "18", "T18", "D18", "25"],
     },
     5: {
         color: "white",
-        adjacentNumbers: ["12", "20", "25"],
+        adjacentNumbers: ["12", "T12", "D12", "20", "T20", "D20", "25"],
     },
     D5: {
         color: "green",
-        adjacentNumbers: ["12", "20", "25"],
+        adjacentNumbers: ["12", "T12", "D12", "20", "T20", "D20", "25"],
     },
     T5: {
         color: "green",
-        adjacentNumbers: ["12", "20", "25"],
+        adjacentNumbers: ["12", "T12", "D12", "20", "T20", "D20", "25"],
     },
     6: {
         color: "white",
-        adjacentNumbers: ["10", "13", "25"],
+        adjacentNumbers: ["10", "T10", "D10", "13", "T13", "D13", "25"],
     },
     D6: {
         color: "green",
-        adjacentNumbers: ["10", "13", "25"],
+        adjacentNumbers: ["10", "T10", "D10", "13", "T13", "D13", "25"],
     },
     T6: {
         color: "green",
-        adjacentNumbers: ["10", "13", "25"],
+        adjacentNumbers: ["10", "T10", "D10", "13", "T13", "D13", "25"],
     },
     7: {
         color: "black",
-        adjacentNumbers: ["16", "19", "25"],
+        adjacentNumbers: ["16", "T16", "D16", "19", "T19", "D19", "25"],
     },
     D7: {
         color: "red",
-        adjacentNumbers: ["16", "19", "25"],
+        adjacentNumbers: ["16", "T16", "D16", "19", "T19", "D19", "25"],
     },
     T7: {
         color: "red",
-        adjacentNumbers: ["16", "19", "25"],
+        adjacentNumbers: ["16", "T16", "D16", "19", "T19", "D19", "25"],
     },
     8: {
         color: "black",
-        adjacentNumbers: ["11", "16", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "16", "T16", "D16", "25"],
     },
     D8: {
         color: "red",
-        adjacentNumbers: ["11", "16", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "16", "T16", "D16", "25"],
     },
     T8: {
         color: "red",
-        adjacentNumbers: ["11", "16", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "16", "T16", "D16", "25"],
     },
     9: {
         color: "white",
-        adjacentNumbers: ["14", "12", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "12", "T12", "D12", "25"],
     },
     D9: {
         color: "green",
-        adjacentNumbers: ["14", "12", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "12", "T12", "D12", "25"],
     },
     T9: {
         color: "green",
-        adjacentNumbers: ["14", "12", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "12", "T12", "D12", "25"],
     },
     10: {
         color: "black",
-        adjacentNumbers: ["6", "15", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "15", "T15", "D15", "25"],
     },
     D10: {
         color: "red",
-        adjacentNumbers: ["6", "15", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "15", "T15", "D15", "25"],
     },
     T10: {
         color: "red",
-        adjacentNumbers: ["6", "15", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "15", "T15", "D15", "25"],
     },
     11: {
         color: "white",
-        adjacentNumbers: ["14", "8", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "8", "T8", "D8", "25"],
     },
     D11: {
         color: "green",
-        adjacentNumbers: ["14", "8", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "8", "T8", "D8", "25"],
     },
     T11: {
         color: "green",
-        adjacentNumbers: ["14", "8", "25"],
+        adjacentNumbers: ["14", "T14", "D14", "8", "T8", "D8", "25"],
     },
     12: {
         color: "black",
-        adjacentNumbers: ["9", "5", "25"],
+        adjacentNumbers: ["9", "T9", "D9", "5", "T5", "D5", "25"],
     },
     D12: {
         color: "red",
-        adjacentNumbers: ["9", "5", "25"],
+        adjacentNumbers: ["9", "T9", "D9", "5", "T5", "D5", "25"],
     },
     T12: {
         color: "red",
-        adjacentNumbers: ["9", "5", "25"],
+        adjacentNumbers: ["9", "T9", "D9", "5", "T5", "D5", "25"],
     },
     13: {
         color: "black",
-        adjacentNumbers: ["6", "4", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "4", "T4", "D4", "25"],
     },
     D13: {
         color: "red",
-        adjacentNumbers: ["6", "4", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "4", "T4", "D4", "25"],
     },
     T13: {
         color: "red",
-        adjacentNumbers: ["6", "4", "25"],
+        adjacentNumbers: ["6", "T6", "D6", "4", "T4", "D4", "25"],
     },
     14: {
         color: "black",
-        adjacentNumbers: ["11", "9", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "9", "T9", "D9", "25"],
     },
     D14: {
         color: "red",
-        adjacentNumbers: ["11", "9", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "9", "T9", "D9", "25"],
     },
     T14: {
         color: "red",
-        adjacentNumbers: ["11", "9", "25"],
+        adjacentNumbers: ["11", "T11", "D11", "9", "T9", "D9", "25"],
     },
     15: {
         color: "white",
-        adjacentNumbers: ["2", "10", "25"],
+        adjacentNumbers: ["2", "T2", "D2", "10", "T10", "D10", "25"],
     },
     D15: {
         color: "green",
-        adjacentNumbers: ["2", "10", "25"],
+        adjacentNumbers: ["2", "T2", "D2", "10", "T10", "D10", "25"],
     },
     T15: {
         color: "green",
-        adjacentNumbers: ["2", "10", "25"],
+        adjacentNumbers: ["2", "T2", "D2", "10", "T10", "D10", "25"],
     },
     16: {
         color: "white",
-        adjacentNumbers: ["7", "8", "25"],
+        adjacentNumbers: ["7", "T7", "D7", "8", "T8", "D8", "25"],
     },
     D16: {
         color: "green",
-        adjacentNumbers: ["7", "8", "25"],
+        adjacentNumbers: ["7", "T7", "D7", "8", "T8", "D8", "25"],
     },
     T16: {
         color: "green",
-        adjacentNumbers: ["7", "8", "25"],
+        adjacentNumbers: ["7", "T7", "D7", "8", "T8", "D8", "25"],
     },
     17: {
         color: "white",
-        adjacentNumbers: ["3", "2", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "2", "T2", "D2", "25"],
     },
     D17: {
         color: "green",
-        adjacentNumbers: ["3", "2", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "2", "T2", "D2", "25"],
     },
     T17: {
         color: "green",
-        adjacentNumbers: ["3", "2", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "2", "T2", "D2", "25"],
     },
     18: {
         color: "black",
-        adjacentNumbers: ["1", "4", "25"],
+        adjacentNumbers: ["1", "T1", "D1", "4", "T4", "D4", "25"],
     },
     D18: {
         color: "red",
-        adjacentNumbers: ["1", "4", "25"],
+        adjacentNumbers: ["1", "T1", "D1", "4", "T4", "D4", "25"],
     },
     T18: {
         color: "red",
-        adjacentNumbers: ["1", "4", "25"],
+        adjacentNumbers: ["1", "T1", "D1", "4", "T4", "D4", "25"],
     },
     19: {
         color: "white",
-        adjacentNumbers: ["3", "7", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "7", "T7", "D7", "25"],
     },
     D19: {
         color: "green",
-        adjacentNumbers: ["3", "7", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "7", "T7", "D7", "25"],
     },
     T19: {
         color: "green",
-        adjacentNumbers: ["3", "7", "25"],
+        adjacentNumbers: ["3", "T3", "D3", "7", "T7", "D7", "25"],
     },
     20: {
         color: "black",
-        adjacentNumbers: ["5", "1", "25"],
+        adjacentNumbers: ["5", "T5", "D5", "1", "T1", "D1", "25"],
     },
     D20: {
         color: "red",
-        adjacentNumbers: ["5", "1", "25"],
+        adjacentNumbers: ["5", "T5", "D5", "1", "T1", "D1", "25"],
     },
     T20: {
         color: "red",
-        adjacentNumbers: ["5", "1", "25"],
+        adjacentNumbers: ["5", "T5", "D5", "1", "T1", "D1", "25"],
     },
     25: {
         color: "green",
