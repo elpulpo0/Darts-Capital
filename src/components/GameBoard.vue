@@ -390,7 +390,7 @@ export default {
           return darts.includes(25) || darts.includes(50);
 
         case "Peluche":
-          return this.currentPlayer.currentRoundPoints <= 20;
+          return this.checkPelucheContract(darts);
 
         default:
           return false;
@@ -482,6 +482,16 @@ export default {
       } else {
         this.multiplier = multiplier;
       }
+    },
+    checkPelucheContract(darts) {
+      const allNonZero = darts.every((dart) => dart !== 0);
+
+      // Calculez la somme des fléchettes
+      const sum = darts.reduce((acc, dart) => acc + dart, 0);
+
+      const validSum = sum <= 20;
+
+      return allNonZero && validSum;
     },
     checkDifferentColors(darts) {
       const colors = new Set();
