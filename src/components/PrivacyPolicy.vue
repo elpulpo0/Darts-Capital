@@ -44,7 +44,9 @@
 
     <!-- Ajout du bouton de retour -->
     <div class="button-container">
-      <button class="back-to-home-button" @click="goBackToHome">Retour à l'accueil</button>
+      <button class="back-to-home-button" @click="goBackToHome">
+        Retour à l'accueil
+      </button>
     </div>
   </div>
 </template>
@@ -54,7 +56,7 @@ export default {
   name: "PrivacyPolicy",
   methods: {
     goBackToHome() {
-      this.$router.push("/"); // Redirige vers la page d'accueil
+      this.$router.push("/");
     },
   },
 };
@@ -68,6 +70,10 @@ export default {
   background-color: #fff;
   color: #000;
   border-radius: 8px;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 h1 {
