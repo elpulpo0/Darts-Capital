@@ -15,7 +15,6 @@ module.exports = {
         parser: "@typescript-eslint/parser", // Utiliser le parser TypeScript
     },
     rules: {
-        "quote-props": ["error", "always"],
         "vue/comment-directive": "off",
         "no-console": ["warn", { allow: ["warn", "error"] }],
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
