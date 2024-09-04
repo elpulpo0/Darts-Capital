@@ -8,31 +8,23 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 500px;
-  height: 100%; /* Prend toute la hauteur de l'écran */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Aligne les éléments en haut */
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
 }
 
 .players-scores::-webkit-scrollbar {
-  display: none; /* Masquer la barre de défilement pour Chrome, Safari et autres navigateurs Webkit */
-}
-
-.dartboard {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 5px;
-  box-sizing: border-box;
-
+  display: none;
 }
 
 .players-scores {
   width: 100%;
-  flex-grow: 1; /* Permet à la section de prendre tout l'espace vertical disponible */
-  overflow-y: auto; /* Active le défilement vertical */
-  padding: 10px; /* Ajoute un peu de padding autour des scores */
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
   box-sizing: border-box;
 }
 
@@ -40,9 +32,9 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 5px;
-  box-sizing: border-box;
   width: 100%;
-  padding: 10px; /* Ajoute un peu de padding autour de la dartboard */
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .dartboard-row {
@@ -50,7 +42,7 @@
 }
 
 .dartboard-number {
-  background-color: #34495E;
+  background-color: #34495e;
   color: white;
   font-size: 1.2em;
   border: none;
@@ -65,11 +57,13 @@
   box-sizing: border-box;
 }
 
-/* Ajout de styles pour la dernière ligne (double, triple, back buttons) */
 .last-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr 2fr 2fr;
-  gap: 5px;
+  display: contents;
+  grid-column-gap: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .double-button, .triple-button, .back-button {
@@ -79,12 +73,14 @@
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
-  width: 100%;
-  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  flex-grow: 1;
 }
 
 .dartboard-number:hover, .double-button:hover, .triple-button:hover, .back-button:hover {
@@ -93,14 +89,17 @@
 
 .double-button {
   background-color: #E67E22;
+  grid-column: span 2;
 }
 
 .triple-button {
   background-color: #D35400;
+  grid-column: span 2;
 }
 
 .back-button {
   background-color: #C0392B;
+  grid-column: span 2;
 }
 
 .selected {
