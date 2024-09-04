@@ -527,14 +527,8 @@ export default {
 @import "@/styles/game-board.css";
 
 .player-active {
-  border: 2px solid #007bff; /* Couleur du cadre autour du joueur actif */
-  padding: 10px;
-  border-radius: 10px;
-  background-color: rgba(
-    0,
-    123,
-    255,
-    0.1
-  ); /* Fond léger pour le joueur actif */
+  outline: 2px solid #007bff; /* Cadre autour du joueur actif */
+  outline-offset: 8px; /* Espace entre le cadre et le contenu */
+  border-radius: 8px; /* Arrondi des coins du cadre */
 }
 </style>
