@@ -1,17 +1,25 @@
 .player-selection {
   text-align: center;
-  padding: 15px;
+  margin: 0;
+  padding: 20px;
   background-color: #2C3E50;
   color: #ECF0F1;
   border-radius: 10px;
-  max-width: 90%;
-  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 500px; /* Limiter la largeur de la board pour ne pas envahir tout l'écran */
+  height: 100%; /* Prendre toute la hauteur disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .player-list {
   list-style-type: none;
   padding: 0;
   margin: 15px 0;
+  width: 100%;
 }
 
 .player-item {
@@ -43,6 +51,7 @@
 
 .instruction-text {
     color: #767a7a;
+    margin-bottom: 20px;
 }
 
 .player-info {

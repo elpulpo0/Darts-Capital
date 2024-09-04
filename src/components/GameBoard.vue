@@ -540,4 +540,5 @@ export default {
 
 <style scoped>
 @import "@/styles/game-board.css";
+@import "@/styles/home.css";
 </style>

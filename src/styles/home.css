@@ -1,57 +1,88 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #34495E; /* Couleur de fond uniforme */
   margin: 0;
   padding: 0;
-  color: white; /* Changer la couleur du texte pour qu'il soit visible */
+  color: white;
   font-size: 16px;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Empêche les barres de défilement de s'afficher */
+  height: 100%; /* S'assure que le body prend 100% de la vue */
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Prend toute la largeur disponible */
+  height: 100%; /* Prend toute la hauteur disponible */
+  max-width: 500px; /* Limiter la largeur sur les grands écrans */
+  box-sizing: border-box;
 }
 
 .container {
   width: 100%;
   height: 100%;
-  max-width: 413px; /* Supprimez la limitation de largeur */
-  padding: 10px;
-  box-sizing: border-box;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: inherit; /* Assurez-vous que la couleur de fond est héritée */
-}
-
-.home {
-  text-align: center;
-  margin-top: 10px; /* Réduire la marge pour mobile */
-  background-color: white;
-  padding: 5px;
-  padding-top: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 95%; /* Limiter la largeur pour mobile */
-  margin: 0 auto; /* Centrer sur l'écran */
 }
 
 .header {
   display: flex;
-  align-items: center; /* Centre verticalement les éléments */
-  justify-content: center; /* Centre horizontalement le contenu */
-  margin-bottom: 5px; /* Espace sous le titre */
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .logo {
-  width: 50px; /* Ajustez la taille du logo en fonction de vos besoins */
-  height: 50px; /* Assurez-vous que le logo reste carré */
-  margin-right: 10px; /* Espace entre le logo et le titre */
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 
 .header h1 {
-  font-size: 1.8em; /* Ajustez la taille du titre si nécessaire */
+  font-size: 1.8em;
   color: #063a47;
-  margin: 0; /* Supprimez les marges par défaut du titre */
+  margin: 0;
 }
 
+.add-player-form {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.add-player-form input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.add-player-form button {
+  flex-shrink: 0;
+}
+
+.start-game-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.start-game-button.disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

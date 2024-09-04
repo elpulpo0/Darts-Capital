@@ -160,4 +160,5 @@ export default {
 
 <style scoped>
 @import "@/styles/player-selection.css";
+@import "@/styles/home.css";
 </style>
