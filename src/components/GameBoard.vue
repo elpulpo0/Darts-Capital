@@ -221,6 +221,7 @@ export default {
       playerRefs: [],
       showHistoryModal: false,
       historyPlayerIndex: null,
+      savedCapital: null,
     };
   },
   watch: {
@@ -440,6 +441,8 @@ export default {
         }
 
         if (this.currentPlayer.darts.length === 3) {
+          this.savedCapital = this.currentPlayer.capital; // Sauvegarde le capital avant la vérification du contrat
+
           if (this.isInitialPhase) {
             this.confirmCapital();
           } else {
@@ -593,6 +596,14 @@ export default {
             this.currentPlayer.dartsDisplay.pop();
             this.extractedDarts.pop(); // Retirer le dernier numéro extrait
             this.originalDarts.pop();
+
+            // Restaure le capital s'il y a eu vérification du contrat
+            if (
+              this.currentPlayer.darts.length === 2 &&
+              this.savedCapital !== null
+            ) {
+              this.currentPlayer.capital = this.savedCapital;
+            }
           }
         } else {
           // Si le joueur n'a pas changé, annuler simplement la dernière fléchette
