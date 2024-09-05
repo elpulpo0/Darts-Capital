@@ -405,11 +405,14 @@ export default {
       const score = number * this.multiplier;
       const dartNumber = this.extractNumber(dartDisplay);
 
+      // Vérifiez si le numéro correspond au contrat en cours pour ajouter les points
+      if (this.isInitialPhase || this.isDartValidForContract(number)) {
+        this.currentPlayer.currentRoundPoints += score;
+      }
+
       if (this.currentPlayer.darts.length < 3) {
         this.currentPlayer.darts.push(dartDisplay);
-        this.currentPlayer.currentRoundPoints += score;
         this.currentPlayer.dartsDisplay.push(dartDisplay);
-
         this.extractedDarts.push(dartNumber);
         this.originalDarts.push(dartDisplay);
 
@@ -452,6 +455,16 @@ export default {
       }
 
       this.multiplier = 1;
+    },
+    isDartValidForContract(number) {
+      const contractNumber = parseInt(this.currentContract.name);
+
+      // Vérifier si le numéro de fléchette correspond au numéro du contrat en simple, double ou triple
+      if (number === contractNumber) return true;
+      if (number === contractNumber * 2 && this.multiplier === 2) return true;
+      if (number === contractNumber * 3 && this.multiplier === 3) return true;
+
+      return false;
     },
     getDartDisplay(number) {
       if (this.multiplier === 2) {
