@@ -30,21 +30,15 @@
       </li>
     </ul>
 
-    <h3>Ajouter un Nouveau Joueur</h3>
     <form @submit.prevent="addNewPlayer" class="add-player-form">
       <input
         v-model="newPlayerName"
         type="text"
-        placeholder="Nom du joueur"
+        placeholder="Ajouter un joueur"
         class="player-input"
       />
       <button type="submit" class="add-button">+</button>
     </form>
-
-    <p v-if="selectedPlayers.length < 2" class="instruction-text">
-      Séléctionnez au moins 2 joueurs<br />
-      pour commencer.
-    </p>
 
     <button
       @click="startGame"
@@ -52,10 +46,10 @@
       class="start-game-button"
       :class="{ disabled: selectedPlayers.length < 2 }"
     >
-      Lancer le jeu
+      {{ selectedPlayers.length < 2 ? 'Sélectionnez au moins 2 joueurs' : 'Lancer le jeu' }}
     </button>
-
-    <!-- Bouton transparent pour la politique de confidentialité -->
+  
+    <!-- Ajouter un lien vers la politique de confidentialité -->
     <p class="privacy-link">
       <router-link to="/privacy-policy"
         >Politique de confidentialité</router-link

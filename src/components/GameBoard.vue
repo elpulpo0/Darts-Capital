@@ -1,36 +1,24 @@
 <template>
   <div class="game-board">
-    <!-- Affichage du titre ou du résultat du contrat -->
-    <div class="contract-result-container">
-      <span v-if="!contractResult">
-        <!-- Phase initiale : définition du capital -->
-        <div v-if="isInitialPhase">
-          <h3 class="gametitle">Capital Initial</h3>
-          <p class="instruction-text">Définissez votre capital de départ.</p>
-        </div>
+    <h2 v-if="!contractResult && isInitialPhase">Capital Initial</h2>
+    <h2 v-else-if="!contractResult && gameOver">Fin du Jeu</h2>
+    <h2 v-else>Mission : {{ currentContract?.name }}</h2>
+    <!-- Bouton retour en haut à droite -->
+    <button class="back-button-top-right" @click="showConfirmPopup = true">
+      <i class="fas fa-undo-alt"></i>
+    </button>
 
-        <!-- Fin du jeu -->
-        <h3 v-else-if="gameOver">Fin du Jeu</h3>
+    <span v-if="!contractResult">
+      <!-- Phase initiale : définition du capital -->
+      <div v-if="isInitialPhase">
+        <p class="instruction-text">Définissez votre capital de départ.</p>
+      </div>
 
-        <!-- En cours de mission -->
-        <div v-else>
-          <h3 class="gametitle">Mission : {{ currentContract?.name }}</h3>
-          <p class="instruction-text contract-description">{{ currentContract?.description }}</p>
-        </div>
-      </span>
-
-      <p
-        v-else
-        :class="{
-          'contract-result': true,
-          success: contractResult === 'Contrat Réussi',
-          failure: contractResult === 'Contrat Raté',
-          confirmed: contractResult === 'Capital Confirmé',
-        }"
-      >
-        {{ contractResult }}
-      </p>
-    </div>
+      <!-- En cours de mission -->
+      <div v-else-if="!gameOver">
+        <p class="instruction-text">{{ currentContract?.description }}</p>
+      </div>
+    </span>
 
     <!-- Scores des joueurs -->
     <div v-if="!gameOver" class="players-scores">
@@ -138,11 +126,6 @@
         Recommencer
       </button>
     </div>
-
-    <!-- Nouveau bouton pour recommencer -->
-    <button class="restart-game-button" @click="showConfirmPopup = true">
-      Recommencer
-    </button>
 
     <!-- Composant ConfirmationDialog -->
     <ConfirmationDialog

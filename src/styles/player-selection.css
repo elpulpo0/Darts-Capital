@@ -125,14 +125,7 @@
   text-align: center;
   align-items: flex-end;
   font-size: 0.9em;
-  display: inline-block;
-  width: 100%; /* S'adapte à la largeur disponible */
-  min-height: 48px; /* Hauteur minimale de 48px */
-  text-decoration: none; /* Supprime la décoration de lien */
-  font-size: 1em; /* Taille du texte */
-  color: #3498db; /* Couleur du texte */
-  border: 2px solid transparent; /* Aucun bord visible, mais cela crée l'espace pour un bouton */
-  cursor: pointer;
+  
 }
 
 .privacy-link a {
