@@ -1,6 +1,6 @@
 <template>
   <div class="player-selection">
-    <h2>Sélection des Joueurs</h2>
+    <h2>Sélection des joueurs</h2>
 
     <p v-if="storedPlayers.length === 0" class="instruction-text">
       Ajoutez des joueurs pour commencer.

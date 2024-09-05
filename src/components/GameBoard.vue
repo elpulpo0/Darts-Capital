@@ -29,6 +29,8 @@
           :class="{
             'player-active': index === currentPlayerIndex,
           }"
+          @click="showPlayerHistory(index)"
+          :ref="(el) => setPlayerRef(el, index)"
         >
           <div class="player-info">
             <img :src="player.avatar" alt="Avatar" class="player-avatar" />
@@ -134,6 +136,25 @@
       message="Êtes-vous sûr de vouloir annuler la partie en cours ?"
       @confirmed="handleConfirmation"
     />
+
+    <!-- Modal pour afficher l'historique des lancers -->
+<div v-if="showHistoryModal" class="modal-backdrop">
+  <div class="modal">
+    <h3>Historique des lancers de {{ localPlayers[historyPlayerIndex].name }}</h3>
+    <div v-if="localPlayers[historyPlayerIndex].history && localPlayers[historyPlayerIndex].history.length">
+      <ul>
+        <li v-for="(entry, index) in localPlayers[historyPlayerIndex].history" :key="index">
+          <strong>{{ entry.contract }} :</strong> {{ entry.darts.join(" | ") }}
+        </li>
+      </ul>
+    </div>
+    <p v-else>Aucun lancer enregistré</p>
+    <button class="modal-button confirm-button" @click="closeHistoryModal">
+      Fermer
+    </button>
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -167,6 +188,7 @@ export default {
         contractsStatus: Array(contracts.length).fill({
           success: undefined,
         }),
+        history: [],
       })),
       dartboardLayout: [
         [1, 2, 3, 4, 5, 6, 7],
@@ -181,6 +203,9 @@ export default {
       originalDarts: [],
       gameHistory: [],
       showConfirmPopup: false,
+      playerRefs: [],
+      showHistoryModal: false,
+      historyPlayerIndex: null,
     };
   },
   watch: {
@@ -194,6 +219,9 @@ export default {
           }
         });
       }
+    },
+    currentPlayerIndex(newVal) {
+      this.scrollToActivePlayer(newVal);
     },
   },
 
@@ -214,6 +242,27 @@ export default {
     },
   },
   methods: {
+    showPlayerHistory(index) {
+      this.historyPlayerIndex = index;
+      this.showHistoryModal = true;
+    },
+    closeHistoryModal() {
+      this.showHistoryModal = false;
+    },
+    setPlayerRef(el, index) {
+      if (el) {
+        this.playerRefs[index] = el; // Affectation directe dans Vue 3
+      }
+    },
+    scrollToActivePlayer(index) {
+      const activePlayer = this.playerRefs[index];
+      if (activePlayer) {
+        activePlayer.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    },
     handleConfirmation(confirmed) {
       this.showConfirmPopup = false;
       if (confirmed) {
@@ -348,6 +397,33 @@ export default {
         this.extractedDarts.push(dartNumber);
         this.originalDarts.push(dartDisplay);
 
+        // Gestion de l'historique
+        if (!this.currentPlayer.history) {
+          this.$set(this.currentPlayer, "history", []); // Initialiser l'historique si nécessaire
+        }
+
+        const lastHistoryEntry =
+          this.currentPlayer.history[this.currentPlayer.history.length - 1];
+
+        // Vérifier si le dernier contrat est le même que le contrat actuel
+        const currentContractName = this.isInitialPhase
+          ? "Capital Initial"
+          : this.currentContract?.name || "Sans contrat"; // Assurez-vous d'avoir un nom de contrat
+
+        if (
+          !lastHistoryEntry ||
+          lastHistoryEntry.contract !== currentContractName
+        ) {
+          // Créer une nouvelle entrée dans l'historique pour un nouveau contrat
+          this.currentPlayer.history.push({
+            contract: currentContractName, // Ajouter le nom du contrat
+            darts: [dartDisplay],
+          });
+        } else {
+          // Ajouter le lancer à l'entrée actuelle si le contrat est le même
+          lastHistoryEntry.darts.push(dartDisplay);
+        }
+
         if (this.currentPlayer.darts.length === 3) {
           if (this.isInitialPhase) {
             this.confirmCapital();
@@ -359,7 +435,6 @@ export default {
 
       this.multiplier = 1;
     },
-
     getDartDisplay(number) {
       if (this.multiplier === 2) {
         return `D${number}`; // Double
@@ -502,6 +577,7 @@ export default {
               dartNumber * this.multiplier;
             this.currentPlayer.dartsDisplay.pop();
             this.extractedDarts.pop(); // Retirer le dernier numéro extrait
+            this.originalDarts.pop();
           }
         } else {
           // Si le joueur n'a pas changé, annuler simplement la dernière fléchette
@@ -512,11 +588,30 @@ export default {
               dartNumber * this.multiplier;
             this.currentPlayer.dartsDisplay.pop();
             this.extractedDarts.pop(); // Retirer le dernier numéro extrait
+            this.originalDarts.pop();
+          }
+        }
+
+        // Supprimer la dernière entrée de l'historique si elle existe
+        if (
+          this.currentPlayer.history &&
+          this.currentPlayer.history.length > 0
+        ) {
+          const lastHistoryEntry =
+            this.currentPlayer.history[this.currentPlayer.history.length - 1];
+
+          // Si la dernière entrée contient des lancers, supprimez le dernier lancer
+          if (lastHistoryEntry.darts.length > 0) {
+            lastHistoryEntry.darts.pop();
+
+            // Si cette entrée ne contient plus de lancers, supprimez-la entièrement
+            if (lastHistoryEntry.darts.length === 0) {
+              this.currentPlayer.history.pop();
+            }
           }
         }
       }
     },
-
     toggleMultiplier(multiplier) {
       if (this.multiplier === multiplier) {
         this.multiplier = 1;
@@ -567,4 +662,5 @@ export default {
 <style scoped>
 @import "@/styles/game-board.css";
 @import "@/styles/home.css";
+@import "@/styles/popup.css";
 </style>
