@@ -1,7 +1,7 @@
 <template>
   <div class="game-board">
     <h2 v-if="!contractResult && isInitialPhase">Capital Initial</h2>
-    <h2 v-else-if="!contractResult && gameOver">Fin du Jeu</h2>
+    <h2 v-else-if="!contractResult && gameOver">Le jeu est terminé !</h2>
     <h2 v-else>Mission : {{ currentContract?.name }}</h2>
 
     <!-- Bouton retour en haut à droite -->
@@ -123,16 +123,24 @@
       </div>
     </div>
 
-    <!-- Message de fin de jeu -->
-    <div v-else-if="gameOver">
-      <h3>Le jeu est terminé !</h3>
-      <p class="player-name">
-        Le gagnant est {{ winner.name }} avec {{ winner.capital }} points !
-      </p>
-      <button class="restart-game-button" @click="restartGame">
-        Recommencer
-      </button>
-    </div>
+    <!-- Message de fin de jeu amélioré avec cohérence de style -->
+<div v-else-if="gameOver" class="game-over-container">
+  <p class="game-over-winners">
+    Le(s) gagnant(s) :
+    <br />
+    <br />
+    <span v-for="(player, index) in winners" :key="index" class="winner-name">
+      {{ player.name }}{{ index < winners.length - 1 ? ", " : "" }}
+    </span>
+    <br />
+    <br />
+    avec <span class="points">{{ winners[0].capital }} points !</span>
+  </p>
+  <button class="restart-game-button" @click="restartGame">
+    Recommencer
+  </button>
+</div>
+
 
     <!-- Composant ConfirmationDialog -->
     <ConfirmationDialog
@@ -319,7 +327,6 @@ export default {
     },
     extractNumber(dart) {
       if (typeof dart !== "string") {
-        console.error(`Type incorrect pour dart: ${dart}`);
         return NaN;
       }
 
@@ -328,27 +335,17 @@ export default {
 
       // Vérifiez si le résultat est une chaîne vide ou non numérique
       if (numberStr === "" || isNaN(numberStr)) {
-        console.error(
-          `Valeur vide ou non numérique après suppression des préfixes pour dart: ${dart}`,
-        );
         return NaN;
       }
 
       // Convertir la chaîne en nombre
       const number = parseInt(numberStr, 10);
 
-      if (isNaN(number)) {
-        console.error(
-          `Échec de la conversion pour ${dart}. Valeur extraite: ${numberStr}`,
-        );
-      }
-
       return number;
     },
     checkAdjacentSegments(darts) {
       // Vérifiez que la liste des segments contient exactement trois éléments
       if (darts.length !== 3) {
-        console.error("Il doit y avoir exactement trois segments.");
         return false;
       }
 
@@ -357,7 +354,6 @@ export default {
 
       // Vérifiez que les segments sont uniques
       if (new Set(darts).size !== 3) {
-        console.error("Les segments doivent être distincts.");
         return false;
       }
 
@@ -368,11 +364,9 @@ export default {
 
         // Vérifiez que les deux segments existent
         if (!segment1) {
-          console.error(`Segment ${seg1} n'est pas défini.`);
           return false;
         }
         if (!segment2) {
-          console.error(`Segment ${seg2} n'est pas défini.`);
           return false;
         }
 
@@ -584,8 +578,11 @@ export default {
 
     endGame() {
       this.gameOver = true;
-      this.winner = this.localPlayers.reduce((prev, current) =>
-        prev.capital > current.capital ? prev : current,
+      const maxScore = Math.max(
+        ...this.localPlayers.map((player) => player.capital),
+      );
+      this.winners = this.localPlayers.filter(
+        (player) => player.capital === maxScore,
       );
     },
     undoDart() {
@@ -678,8 +675,6 @@ export default {
         if (segment) {
           // Ajoute la couleur au Set
           colors.add(segment.color);
-        } else {
-          console.error(`Segment non trouvé: ${dart}`);
         }
       });
 
