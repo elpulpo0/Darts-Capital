@@ -3,8 +3,13 @@
     <h2 v-if="!contractResult && isInitialPhase">Capital Initial</h2>
     <h2 v-else-if="!contractResult && gameOver">Fin du Jeu</h2>
     <h2 v-else>Mission : {{ currentContract?.name }}</h2>
+
     <!-- Bouton retour en haut à droite -->
-    <button class="back-button-top-right" @click="showConfirmPopup = true">
+    <button
+      v-if="!gameOver"
+      class="back-button-top-right"
+      @click="showConfirmPopup = true"
+    >
       <font-awesome-icon :icon="['fas', 'undo-alt']" />
     </button>
 
@@ -138,23 +143,33 @@
     />
 
     <!-- Modal pour afficher l'historique des lancers -->
-<div v-if="showHistoryModal" class="modal-backdrop">
-  <div class="modal">
-    <h3>Historique des lancers de {{ localPlayers[historyPlayerIndex].name }}</h3>
-    <div v-if="localPlayers[historyPlayerIndex].history && localPlayers[historyPlayerIndex].history.length">
-      <ul>
-        <li v-for="(entry, index) in localPlayers[historyPlayerIndex].history" :key="index">
-          <strong>{{ entry.contract }} :</strong> {{ entry.darts.join(" | ") }}
-        </li>
-      </ul>
+    <div v-if="showHistoryModal" class="modal-backdrop">
+      <div class="modal">
+        <h3>
+          Historique des lancers de {{ localPlayers[historyPlayerIndex].name }}
+        </h3>
+        <div
+          v-if="
+            localPlayers[historyPlayerIndex].history &&
+            localPlayers[historyPlayerIndex].history.length
+          "
+        >
+          <ul>
+            <li
+              v-for="(entry, index) in localPlayers[historyPlayerIndex].history"
+              :key="index"
+            >
+              <strong>{{ entry.contract }} :</strong>
+              {{ entry.darts.join(" | ") }}
+            </li>
+          </ul>
+        </div>
+        <p v-else>Aucun lancer enregistré</p>
+        <button class="modal-button confirm-button" @click="closeHistoryModal">
+          Fermer
+        </button>
+      </div>
     </div>
-    <p v-else>Aucun lancer enregistré</p>
-    <button class="modal-button confirm-button" @click="closeHistoryModal">
-      Fermer
-    </button>
-  </div>
-</div>
-
   </div>
 </template>
 
