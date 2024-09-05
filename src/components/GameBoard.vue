@@ -5,7 +5,7 @@
     <h2 v-else>Mission : {{ currentContract?.name }}</h2>
     <!-- Bouton retour en haut à droite -->
     <button class="back-button-top-right" @click="showConfirmPopup = true">
-      <i class="fas fa-undo-alt"></i>
+      <font-awesome-icon :icon="['fas', 'undo-alt']" />
     </button>
 
     <span v-if="!contractResult">
