@@ -299,7 +299,6 @@ export default {
           JSON.stringify(lastSnapshot.originalDarts),
         );
 
-        console.log("État restauré depuis l'instantané", lastSnapshot);
       }
     },
 

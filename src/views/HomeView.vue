@@ -1,14 +1,19 @@
 <template>
   <div class="home">
-    <div class="header">
-      <img :src="require('@/assets/logo.png')" alt="Logo" class="logo" />
+    <!-- Afficher le logo uniquement si la partie n'a pas encore commencé -->
+    <div class="header" v-if="!gameStarted">
+      <img :src="require('@/assets/logo_white.png')" alt="Logo" class="logo" />
       <h1>VojvoDarts - Capital</h1>
     </div>
+
+    <!-- Composant PlayerSelection, visible quand la partie n'a pas commencé -->
     <PlayerSelection
       v-if="!gameStarted"
       @start-game="startGame"
       :defaultPlayers="preselectedPlayers"
     />
+
+    <!-- Composant GameBoard, visible quand la partie a commencé -->
     <GameBoard v-else :players="players" @game-over="handleGameOver" />
   </div>
 </template>
