@@ -298,7 +298,6 @@ export default {
         this.originalDarts = JSON.parse(
           JSON.stringify(lastSnapshot.originalDarts),
         );
-
       }
     },
 
@@ -332,8 +331,67 @@ export default {
           contractName === "Peluche" ||
           contractName === "57"
         ) {
-          // Comptabiliser toujours toutes les fléchettes dans le score
+          // Comptabiliser le score
           this.currentPlayer.currentRoundPoints += score;
+
+          // Cas commun : Un zéro fait échouer le contrat immédiatement
+          if (dartNumber === 0) {
+            this.abridgeContract(); // Marque comme raté et termine le tour
+            return;
+          }
+
+          // Contrat "Suite" : impossible de former une suite
+          if (contractName === "Suite" && dartNumber === 25 || contractName === "Suite" && dartNumber === 50) {
+            this.abridgeContract(); // Marque comme raté et termine le tour
+            return;
+          }
+          if (
+            contractName === "Suite" &&
+            this.currentPlayer.darts.length >= 2
+          ) {
+            const [first, second] = this.extractedDarts;
+            if (Math.abs(first - second) > 2) {
+              this.abridgeContract();
+              return;
+            }
+          }
+
+          // Contrat "Couleur" : vérifier les fléchettes de la même couleur
+          if (
+            contractName === "Couleur" &&
+            this.currentPlayer.darts.length >= 2
+          ) {
+            if (!this.checkDifferentColors(this.extractedDarts)) {
+              this.abridgeContract(); // Marque comme raté et termine le tour
+              return;
+            }
+          }
+
+          // Contrat "57" : dépassement du score
+          if (
+            contractName === "57" &&
+            this.currentPlayer.currentRoundPoints + score > 57
+          ) {
+            this.abridgeContract();
+            return;
+          }
+
+          // Contrat "Side" : segments non adjacents
+          if (contractName === "Side" && this.currentPlayer.darts.length >= 2) {
+            if (!this.checkAdjacentSegments(this.extractedDarts)) {
+              this.abridgeContract();
+              return;
+            }
+          }
+
+          // Contrat "Peluche" : dépassement de 20
+          if (
+            contractName === "Peluche" &&
+            this.currentPlayer.currentRoundPoints + score > 20
+          ) {
+            this.abridgeContract();
+            return;
+          }
         }
 
         // Sinon, on vérifie les règles selon le contrat actuel
@@ -405,6 +463,19 @@ export default {
 
       // Réinitialiser le multiplicateur à 1 après chaque lancer
       this.multiplier = 1;
+    },
+
+    // Fonction pour marquer le contrat comme échoué et abréger le tour
+    abridgeContract() {
+      this.currentPlayer.contractsStatus[this.currentContractIndex] = {
+        success: false,
+      };
+      this.contractResult = "Contrat Raté";
+      // Remplir les fléchettes restantes avec des zéros pour l'affichage
+      while (this.currentPlayer.darts.length < 3) {
+        this.currentPlayer.darts.push("0");
+        this.currentPlayer.dartsDisplay.push("0");
+      }
     },
 
     // Remplacement de la logique de undoDart par la restauration d'un instantané
