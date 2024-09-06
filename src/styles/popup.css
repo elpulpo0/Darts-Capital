@@ -61,3 +61,7 @@
 .cancel-button:hover {
   background-color: #C0392B;
 }
+
+.contract-name {
+  color: #3498db;
+}

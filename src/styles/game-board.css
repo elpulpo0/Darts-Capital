@@ -101,10 +101,6 @@
   grid-column: span 2;
 }
 
-.selected {
-  outline: 2px solid #FFC107;
-}
-
 .contract-list {
   display: flex;
   flex-wrap: wrap;
@@ -253,6 +249,12 @@ li {
   cursor: pointer;
   color: white;
   padding-top: 3px;
+}
+
+.info-icon {
+  margin-left: 10px;
+  color: #3498db; /* Couleur pour l'icône */
+  font-size: 20px;
 }
 
 .contract-result-container {

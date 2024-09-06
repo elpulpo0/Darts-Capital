@@ -131,3 +131,20 @@
   color: white;
   text-decoration: none;
 }
+
+.selected {
+  outline: 2px solid #3498db;
+}
+
+/* Style pour l'icône de suppression */
+.delete-icon {
+  font-size: 1em;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.delete-icon:hover {
+  color: #e74c3c; /* Changer la couleur au survol pour plus d'interaction */
+}

@@ -1,8 +1,10 @@
 <template>
   <div class="game-board">
-    <h2 v-if="!contractResult && isInitialPhase">Capital Initial</h2>
+    <h2 v-if="!contractResult && isInitialPhase" @click="openContractRules">Capital Initial<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" /></h2>
     <h2 v-else-if="!contractResult && gameOver">Le jeu est terminé !</h2>
-    <h2 v-else>Mission : {{ currentContract?.name }}</h2>
+    <h2 v-else @click="openContractRules">
+      Mission : {{ currentContract?.name }}<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
+    </h2>
 
     <!-- Bouton retour en haut à droite -->
     <button
@@ -10,7 +12,7 @@
       class="back-button-top-right"
       @click="showConfirmPopup = true"
     >
-      <font-awesome-icon :icon="['fas', 'undo-alt']" />
+      <font-awesome-icon :icon="['fas', 'undo-alt']"/>
     </button>
 
     <span v-if="!contractResult">
@@ -181,6 +183,11 @@
         </button>
       </div>
     </div>
+    <!-- Utilisation du composant ContractRulesModal -->
+    <ContractRulesModal
+      :isVisible="showContractRulesModal"
+      @close="closeContractRulesModal"
+    />
   </div>
 </template>
 
@@ -188,6 +195,7 @@
 import ConfirmationDialog from "./ConfirmationDialog.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
+import ContractRulesModal from './ContractRulesModal.vue';  // Assurez-vous que le chemin est correct
 
 export default {
   props: {
@@ -198,6 +206,7 @@ export default {
   },
   components: {
     ConfirmationDialog,
+    ContractRulesModal,
   },
   data() {
     return {
@@ -233,6 +242,7 @@ export default {
       showHistoryModal: false,
       historyPlayerIndex: null,
       gameHistory: [],
+      showContractRulesModal: false,
     };
   },
   watch: {
@@ -269,6 +279,12 @@ export default {
     },
   },
   methods: {
+    openContractRules() {
+      this.showContractRulesModal = true;
+    },
+    closeContractRulesModal() {
+      this.showContractRulesModal = false;
+    },
     // Nouvelle méthode pour sauvegarder un instantané complet
     saveSnapshot() {
       const snapshot = {
@@ -318,6 +334,25 @@ export default {
         this.extractedDarts.push(dartNumber);
         this.originalDarts.push(dartDisplay);
 
+        // Gestion de l'historique des fléchettes pour le joueur
+        const lastHistoryEntry =
+          this.currentPlayer.history[this.currentPlayer.history.length - 1];
+        const currentContractName = this.isInitialPhase
+          ? "Capital Initial"
+          : this.currentContract?.name || "Sans contrat";
+
+        if (
+          !lastHistoryEntry ||
+          lastHistoryEntry.contract !== currentContractName
+        ) {
+          this.currentPlayer.history.push({
+            contract: currentContractName,
+            darts: [dartDisplay],
+          });
+        } else {
+          lastHistoryEntry.darts.push(dartDisplay);
+        }
+
         // Si c'est la phase de capital initial, on comptabilise toutes les fléchettes
         if (this.isInitialPhase) {
           this.currentPlayer.currentRoundPoints += score;
@@ -341,7 +376,10 @@ export default {
           }
 
           // Contrat "Suite" : impossible de former une suite
-          if (contractName === "Suite" && dartNumber === 25 || contractName === "Suite" && dartNumber === 50) {
+          if (
+            (contractName === "Suite" && dartNumber === 25) ||
+            (contractName === "Suite" && dartNumber === 50)
+          ) {
             this.abridgeContract(); // Marque comme raté et termine le tour
             return;
           }
@@ -432,25 +470,6 @@ export default {
           }
         }
 
-        // Gestion de l'historique des fléchettes pour le joueur
-        const lastHistoryEntry =
-          this.currentPlayer.history[this.currentPlayer.history.length - 1];
-        const currentContractName = this.isInitialPhase
-          ? "Capital Initial"
-          : this.currentContract?.name || "Sans contrat";
-
-        if (
-          !lastHistoryEntry ||
-          lastHistoryEntry.contract !== currentContractName
-        ) {
-          this.currentPlayer.history.push({
-            contract: currentContractName,
-            darts: [dartDisplay],
-          });
-        } else {
-          lastHistoryEntry.darts.push(dartDisplay);
-        }
-
         // Si le joueur a lancé 3 fléchettes, on valide le tour
         if (this.currentPlayer.darts.length === 3) {
           if (this.isInitialPhase) {
@@ -476,6 +495,10 @@ export default {
         this.currentPlayer.darts.push("0");
         this.currentPlayer.dartsDisplay.push("0");
       }
+      // Ajouter "0" dans l'historique également
+      const lastHistoryEntry =
+        this.currentPlayer.history[this.currentPlayer.history.length - 1];
+      lastHistoryEntry.darts.push("0");
     },
 
     // Remplacement de la logique de undoDart par la restauration d'un instantané

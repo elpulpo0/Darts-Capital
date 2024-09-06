@@ -17,16 +17,13 @@
         class="player-item"
         :class="{ selected: isSelected(player) }"
         @click="handleClick(player, index)"
-        @mousedown="startHold(index)"
-        @mouseup="clearHold"
-        @mouseleave="clearHold"
-        @touchstart="startHold(index)"
-        @touchend="clearHold"
       >
         <img :src="player.avatar" alt="Avatar" class="player-avatar" />
         <div class="player-info">
           <span class="player-name">{{ player.name }}</span>
         </div>
+        <!-- Icône de suppression -->
+        <span class="delete-icon" @click.stop="removePlayer(index)">&#10005;</span>
       </li>
     </ul>
 
