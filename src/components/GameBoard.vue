@@ -124,23 +124,26 @@
     </div>
 
     <!-- Message de fin de jeu amélioré avec cohérence de style -->
-<div v-else-if="gameOver" class="game-over-container">
-  <p class="game-over-winners">
-    Le(s) gagnant(s) :
-    <br />
-    <br />
-    <span v-for="(player, index) in winners" :key="index" class="winner-name">
-      {{ player.name }}{{ index < winners.length - 1 ? ", " : "" }}
-    </span>
-    <br />
-    <br />
-    avec <span class="points">{{ winners[0].capital }} points !</span>
-  </p>
-  <button class="restart-game-button" @click="restartGame">
-    Recommencer
-  </button>
-</div>
-
+    <div v-else-if="gameOver" class="game-over-container">
+      <p class="game-over-winners">
+        Le(s) gagnant(s) :
+        <br />
+        <br />
+        <span
+          v-for="(player, index) in winners"
+          :key="index"
+          class="winner-name"
+        >
+          {{ player.name }}{{ index < winners.length - 1 ? ", " : "" }}
+        </span>
+        <br />
+        <br />
+        avec <span class="points">{{ winners[0].capital }} points !</span>
+      </p>
+      <button class="restart-game-button" @click="restartGame">
+        Recommencer
+      </button>
+    </div>
 
     <!-- Composant ConfirmationDialog -->
     <ConfirmationDialog
@@ -224,12 +227,12 @@ export default {
       contractResult: null,
       extractedDarts: [],
       originalDarts: [],
-      gameHistory: [],
+      snapshots: [], // Ajout de la liste des instantanés
       showConfirmPopup: false,
       playerRefs: [],
       showHistoryModal: false,
       historyPlayerIndex: null,
-      savedCapital: null,
+      gameHistory: [],
     };
   },
   watch: {
@@ -266,6 +269,150 @@ export default {
     },
   },
   methods: {
+    // Nouvelle méthode pour sauvegarder un instantané complet
+    saveSnapshot() {
+      const snapshot = {
+        currentPlayerIndex: this.currentPlayerIndex,
+        currentContractIndex: this.currentContractIndex,
+        players: JSON.parse(JSON.stringify(this.localPlayers)),
+        contractResult: this.contractResult,
+        multiplier: this.multiplier,
+        darts: JSON.parse(JSON.stringify(this.extractedDarts)),
+        originalDarts: JSON.parse(JSON.stringify(this.originalDarts)),
+      };
+      this.snapshots.push(snapshot);
+    },
+
+    // Méthode pour restaurer un instantané
+    restoreSnapshot() {
+      if (this.snapshots.length > 0) {
+        const lastSnapshot = this.snapshots.pop();
+
+        // Restauration de l'état du jeu depuis l'instantané
+        this.currentPlayerIndex = lastSnapshot.currentPlayerIndex;
+        this.currentContractIndex = lastSnapshot.currentContractIndex;
+        this.localPlayers = JSON.parse(JSON.stringify(lastSnapshot.players));
+        this.contractResult = lastSnapshot.contractResult;
+        this.multiplier = lastSnapshot.multiplier;
+        this.extractedDarts = JSON.parse(JSON.stringify(lastSnapshot.darts));
+        this.originalDarts = JSON.parse(
+          JSON.stringify(lastSnapshot.originalDarts),
+        );
+
+        console.log("État restauré depuis l'instantané", lastSnapshot);
+      }
+    },
+
+    addDart(number) {
+      this.saveSnapshot(); // Sauvegarder un instantané avant d'ajouter un lancer
+
+      const dartDisplay = this.getDartDisplay(number);
+      const score = number * this.multiplier; // Calcul du score pour la fléchette actuelle
+
+      const contractName = this.currentContract?.name;
+
+      // Ajouter la fléchette aux différentes listes
+      const dartNumber = this.extractNumber(dartDisplay);
+
+      if (this.currentPlayer.darts.length < 3) {
+        this.currentPlayer.darts.push(dartDisplay);
+        this.currentPlayer.dartsDisplay.push(dartDisplay);
+        this.extractedDarts.push(dartNumber);
+        this.originalDarts.push(dartDisplay);
+
+        // Si c'est la phase de capital initial, on comptabilise toutes les fléchettes
+        if (this.isInitialPhase) {
+          this.currentPlayer.currentRoundPoints += score;
+        }
+
+        // Contrats nécessitant 3 fléchettes (Suite, Couleur, Side, Peluche, 57)
+        else if (
+          contractName === "Suite" ||
+          contractName === "Couleur" ||
+          contractName === "Side" ||
+          contractName === "Peluche" ||
+          contractName === "57"
+        ) {
+          // Comptabiliser toujours toutes les fléchettes dans le score
+          this.currentPlayer.currentRoundPoints += score;
+        }
+
+        // Sinon, on vérifie les règles selon le contrat actuel
+        else if (this.isDartValidForContract(number)) {
+          // Gérer tous les contrats numérotés (ex. 20, 19, 18, etc.)
+          if (!isNaN(contractName)) {
+            const contractNumber = parseInt(contractName);
+
+            // Ajouter le score si la fléchette correspond au contrat (simple, double ou triple)
+            if (
+              dartNumber === contractNumber ||
+              dartNumber === contractNumber * 2 ||
+              dartNumber === contractNumber * 3
+            ) {
+              this.currentPlayer.currentRoundPoints += score;
+            }
+          }
+
+          // Contrat "Double" : vérifier que la fléchette touche une zone double
+          else if (contractName === "Double") {
+            if (this.multiplier === 2) {
+              this.currentPlayer.currentRoundPoints += score;
+            }
+          }
+
+          // Contrat "Bulle" : vérifier que la fléchette touche le centre (25 ou 50 points)
+          else if (contractName === "Centre") {
+            if (dartNumber === 25 || dartNumber === 50) {
+              this.currentPlayer.currentRoundPoints += score;
+            }
+          }
+
+          // Contrat "Triple" : vérifier que la fléchette touche une zone triple
+          else if (contractName === "Triple") {
+            if (this.multiplier === 3) {
+              this.currentPlayer.currentRoundPoints += score;
+            }
+          }
+        }
+
+        // Gestion de l'historique des fléchettes pour le joueur
+        const lastHistoryEntry =
+          this.currentPlayer.history[this.currentPlayer.history.length - 1];
+        const currentContractName = this.isInitialPhase
+          ? "Capital Initial"
+          : this.currentContract?.name || "Sans contrat";
+
+        if (
+          !lastHistoryEntry ||
+          lastHistoryEntry.contract !== currentContractName
+        ) {
+          this.currentPlayer.history.push({
+            contract: currentContractName,
+            darts: [dartDisplay],
+          });
+        } else {
+          lastHistoryEntry.darts.push(dartDisplay);
+        }
+
+        // Si le joueur a lancé 3 fléchettes, on valide le tour
+        if (this.currentPlayer.darts.length === 3) {
+          if (this.isInitialPhase) {
+            this.confirmCapital(); // Phase de capital initial
+          } else {
+            this.evaluateContract(); // Pour les autres contrats
+          }
+        }
+      }
+
+      // Réinitialiser le multiplicateur à 1 après chaque lancer
+      this.multiplier = 1;
+    },
+
+    // Remplacement de la logique de undoDart par la restauration d'un instantané
+    undoDart() {
+      this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
+    },
+
     showPlayerHistory(index) {
       this.historyPlayerIndex = index;
       this.showHistoryModal = true;
@@ -392,73 +539,47 @@ export default {
 
       return isValid;
     },
-    addDart(number) {
-      this.saveGameState(); // Sauvegarder l'état avant d'ajouter un lancer
-
-      const dartDisplay = this.getDartDisplay(number);
-      const score = number * this.multiplier;
-      const dartNumber = this.extractNumber(dartDisplay);
-
-      // Vérifiez si le numéro correspond au contrat en cours pour ajouter les points
-      if (this.isInitialPhase || this.isDartValidForContract(number)) {
-        this.currentPlayer.currentRoundPoints += score;
-      }
-
-      if (this.currentPlayer.darts.length < 3) {
-        this.currentPlayer.darts.push(dartDisplay);
-        this.currentPlayer.dartsDisplay.push(dartDisplay);
-        this.extractedDarts.push(dartNumber);
-        this.originalDarts.push(dartDisplay);
-
-        // Gestion de l'historique
-        if (!this.currentPlayer.history) {
-          this.$set(this.currentPlayer, "history", []); // Initialiser l'historique si nécessaire
-        }
-
-        const lastHistoryEntry =
-          this.currentPlayer.history[this.currentPlayer.history.length - 1];
-
-        // Vérifier si le dernier contrat est le même que le contrat actuel
-        const currentContractName = this.isInitialPhase
-          ? "Capital Initial"
-          : this.currentContract?.name || "Sans contrat"; // Assurez-vous d'avoir un nom de contrat
-
-        if (
-          !lastHistoryEntry ||
-          lastHistoryEntry.contract !== currentContractName
-        ) {
-          // Créer une nouvelle entrée dans l'historique pour un nouveau contrat
-          this.currentPlayer.history.push({
-            contract: currentContractName, // Ajouter le nom du contrat
-            darts: [dartDisplay],
-          });
-        } else {
-          // Ajouter le lancer à l'entrée actuelle si le contrat est le même
-          lastHistoryEntry.darts.push(dartDisplay);
-        }
-
-        if (this.currentPlayer.darts.length === 3) {
-          this.savedCapital = this.currentPlayer.capital; // Sauvegarde le capital avant la vérification du contrat
-
-          if (this.isInitialPhase) {
-            this.confirmCapital();
-          } else {
-            this.evaluateContract();
-          }
-        }
-      }
-
-      this.multiplier = 1;
-    },
     isDartValidForContract(number) {
-      const contractNumber = parseInt(this.currentContract.name);
+      if (this.isInitialPhase) {
+        return true;
+      }
 
-      // Vérifier si le numéro de fléchette correspond au numéro du contrat en simple, double ou triple
-      if (number === contractNumber) return true;
-      if (number === contractNumber * 2 && this.multiplier === 2) return true;
-      if (number === contractNumber * 3 && this.multiplier === 3) return true;
+      const contractName = this.currentContract?.name;
 
-      return false;
+      switch (contractName) {
+        case "Suite":
+          return this.checkSequentialNumbers(this.extractedDarts);
+
+        case "Couleur":
+          return this.checkDifferentColors(this.originalDarts);
+
+        case "Peluche":
+          return this.checkPelucheContract(this.extractedDarts);
+
+        case "Centre":
+          return number === 25 || number === 50;
+
+        case "Triple":
+          return this.multiplier === 3;
+
+        case "Double":
+          return this.multiplier === 2;
+
+        case "57":
+          return this.currentPlayer.currentRoundPoints === 57;
+
+        case "Side":
+          return this.checkAdjacentSegments(this.originalDarts);
+
+        default: {
+          const contractNumber = parseInt(contractName);
+          return (
+            number === contractNumber ||
+            (number === contractNumber * 2 && this.multiplier === 2) ||
+            (number === contractNumber * 3 && this.multiplier === 3)
+          );
+        }
+      }
     },
     getDartDisplay(number) {
       if (this.multiplier === 2) {
@@ -584,69 +705,6 @@ export default {
       this.winners = this.localPlayers.filter(
         (player) => player.capital === maxScore,
       );
-    },
-    undoDart() {
-      if (this.gameHistory.length > 0) {
-        const previousState = this.gameHistory.pop();
-
-        // Si le joueur a changé, restaurer l'état du joueur précédent
-        if (this.currentPlayerIndex !== previousState.currentPlayerIndex) {
-          this.currentPlayerIndex = previousState.currentPlayerIndex;
-          this.currentContractIndex = previousState.currentContractIndex;
-          this.localPlayers = previousState.localPlayers;
-          this.extractedDarts = previousState.extractedDarts;
-          this.originalDarts = previousState.originalDarts;
-
-          // Si le joueur actuel a déjà des fléchettes lancées, on supprime la dernière
-          if (this.currentPlayer.darts.length > 0) {
-            const lastDart = this.currentPlayer.darts.pop();
-            const dartNumber = this.extractNumber(lastDart);
-            this.currentPlayer.currentRoundPoints -=
-              dartNumber * this.multiplier;
-            this.currentPlayer.dartsDisplay.pop();
-            this.extractedDarts.pop(); // Retirer le dernier numéro extrait
-            this.originalDarts.pop();
-
-            // Restaure le capital s'il y a eu vérification du contrat
-            if (
-              this.currentPlayer.darts.length === 2 &&
-              this.savedCapital !== null
-            ) {
-              this.currentPlayer.capital = this.savedCapital;
-            }
-          }
-        } else {
-          // Si le joueur n'a pas changé, annuler simplement la dernière fléchette
-          if (this.currentPlayer.darts.length > 0) {
-            const lastDart = this.currentPlayer.darts.pop();
-            const dartNumber = this.extractNumber(lastDart);
-            this.currentPlayer.currentRoundPoints -=
-              dartNumber * this.multiplier;
-            this.currentPlayer.dartsDisplay.pop();
-            this.extractedDarts.pop(); // Retirer le dernier numéro extrait
-            this.originalDarts.pop();
-          }
-        }
-
-        // Supprimer la dernière entrée de l'historique si elle existe
-        if (
-          this.currentPlayer.history &&
-          this.currentPlayer.history.length > 0
-        ) {
-          const lastHistoryEntry =
-            this.currentPlayer.history[this.currentPlayer.history.length - 1];
-
-          // Si la dernière entrée contient des lancers, supprimez le dernier lancer
-          if (lastHistoryEntry.darts.length > 0) {
-            lastHistoryEntry.darts.pop();
-
-            // Si cette entrée ne contient plus de lancers, supprimez-la entièrement
-            if (lastHistoryEntry.darts.length === 0) {
-              this.currentPlayer.history.pop();
-            }
-          }
-        }
-      }
     },
     toggleMultiplier(multiplier) {
       if (this.multiplier === multiplier) {
