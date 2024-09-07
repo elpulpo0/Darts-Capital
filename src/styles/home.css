@@ -7,8 +7,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Empêche les barres de défilement de s'afficher */
-  height: 100%; /* S'assure que le body prend 100% de la vue */
+  min-height: 100vh;
+  overflow: auto;
 }
 
 .home {
@@ -34,21 +34,34 @@ body {
 
 .logo {
   width: 100px;
-  height: 100px;
+  height: auto;
   margin-right: 50px;
 }
 
 .capital {
   width: auto;
   height: 50px;
-  margin-right: 50px;
+  margin-right: 20px;
 }
 
-.header h1 {
-  font-size: 1.5em;
-  color: white;
-  padding: 10px;
-  margin: 0;
+/* Ajouter un ajustement pour les petits écrans */
+@media (max-width: 440px) {
+  .logo {
+    width: 90px;
+    margin-left: 30px; /* Réduire l'écart sur les petits écrans */
+  }
+}
+
+@media (max-width: 400px) {
+  .logo {
+    width: 80px;
+    margin-left: 20px; /* Réduire l'écart davantage sur les très petits écrans */
+  }
+
+  .capital {
+  width: auto;
+  height: 40px;
+}
 }
 
 .instruction-text {
