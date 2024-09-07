@@ -65,27 +65,21 @@ export default {
 </script>
 
 <style scoped>
-/* Le reste de la page ne doit pas défiler */
-.privacy-policy-page {
-  height: 100vh; /* La page prend toute la hauteur de la fenêtre */
-  overflow: hidden; /* Empêche le défilement global */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f4f4f4; /* Couleur de fond pour la page */
-}
 
-/* Conteneur de la politique de confidentialité qui peut défiler */
 .privacy-policy-container {
   width: 100%;
   max-width: 800px;
-  height: 80vh; /* Limite la hauteur de la section, pour activer le défilement */
-  overflow-y: auto; /* Active le défilement vertical uniquement pour ce conteneur */
-  background-color: #fff;
-  color: #000;
-  border-radius: 8px;
+  height: 90vh; 
+  overflow-y: auto;
+  color: white;
   padding: 20px;
   box-sizing: border-box;
+  scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
+  -ms-overflow-style: none; /* Masquer la barre de défilement pour Internet Explorer et Edge */
+}
+
+.privacy-policy-container::-webkit-scrollbar {
+  display: none; /* Masquer la barre de défilement pour Chrome, Safari et autres navigateurs Webkit */
 }
 
 h1 {
@@ -94,7 +88,7 @@ h1 {
 
 h2 {
   margin-top: 20px;
-  color: #2c3e50;
+  color: #989a9b;
 }
 
 /* Ajout du style pour le bouton */

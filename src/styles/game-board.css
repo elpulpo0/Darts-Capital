@@ -16,16 +16,18 @@
   position: relative;
 }
 
-.players-scores::-webkit-scrollbar {
-  display: none;
-}
-
 .players-scores {
   width: 100%;
   flex-grow: 1;
   overflow-y: auto;
   padding: 0 10px 50px 10px; /* 0 en haut, 10px à gauche et à droite, 50px en bas */
   box-sizing: border-box;
+  scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
+  -ms-overflow-style: none; /* Masquer la barre de défilement pour Internet Explorer et Edge */
+}
+
+.players-scores::-webkit-scrollbar {
+  display: none; /* Masquer la barre de défilement pour Chrome, Safari et autres navigateurs Webkit */
 }
 
 .dartboard {
