@@ -417,6 +417,27 @@ export default {
             }
           }
 
+          // Contrat "57" : réussite avant la fin
+          if (
+            contractName === "57" &&
+            this.currentPlayer.currentRoundPoints === 57
+          ) {
+            this.evaluateContract();
+
+            // Ajouter des "0" pour les fléchettes restantes si le contrat est réussi avant la fin
+            while (this.currentPlayer.darts.length < 3) {
+              this.currentPlayer.darts.push("0");
+              this.currentPlayer.dartsDisplay.push("0");
+
+              // Ajouter les "0" dans l'historique pour chaque fléchette restante
+              const lastHistoryEntry =
+                this.currentPlayer.history[
+                  this.currentPlayer.history.length - 1
+                ];
+              lastHistoryEntry.darts.push("0");
+            }
+          }
+
           // Contrat "57" : dépassement du score
           if (
             contractName === "57" &&
@@ -522,7 +543,6 @@ export default {
       this.currentPlayer.capital = Math.floor(this.currentPlayer.capital / 2);
     },
 
-    // Remplacement de la logique de undoDart par la restauration d'un instantané
     undoDart() {
       this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
     },

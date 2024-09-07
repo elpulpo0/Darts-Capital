@@ -144,7 +144,3 @@
   margin-left: 10px;
   transition: color 0.3s ease;
 }
-
-.delete-icon:hover {
-  color: #e74c3c; /* Changer la couleur au survol pour plus d'interaction */
-}
