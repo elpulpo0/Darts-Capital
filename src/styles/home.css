@@ -1,15 +1,19 @@
+/* Empêche les gestes tactiles comme le pinch-to-zoom et le double-tap zoom */
+html, body {
+  height: 100%; /* S'assurer que le body prend 100% de la hauteur */
+  margin: 0; /* Supprimer toute marge */
+  padding: 0; /* Supprimer tout padding */
+  overflow: hidden; /* Empêcher le scroll */
+  box-sizing: border-box; /* Utiliser un modèle de box-sizing compatible */
+}
+
 body {
   font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  color: white;
-  background-color: #2C3E50;
+  background-color: white;
   font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Empêche les barres de défilement de s'afficher */
-  height: 100%; /* S'assure que le body prend 100% de la vue */
 }
 
 .home {
@@ -21,7 +25,7 @@ body {
   padding-top: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 100%; /* Prend toute la largeur disponible */
-  height: 100%; /* Prend toute la hauteur disponible */
+  height: 100vh; /* Prend toute la hauteur disponible */
   max-width: 500px; /* Limiter la largeur sur les grands écrans */
   box-sizing: border-box;
 }

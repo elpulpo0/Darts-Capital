@@ -1,5 +1,4 @@
 <template>
-  <div class="privacy-policy-page">
     <div class="privacy-policy-container">
       <h1>Politique de Confidentialité</h1>
       <p>Dernière mise à jour : 4 septembre 2024</p>
@@ -50,28 +49,34 @@
         </button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
   name: "PrivacyPolicy",
+  mounted() {
+    document.body.classList.add("scrollable"); // Active le défilement uniquement sur cette page
+  },
+  beforeUnmount() {
+    document.body.classList.remove("scrollable"); // Désactive le défilement quand tu quittes cette page
+  },
   methods: {
     goBackToHome() {
       this.$router.push("/");
     },
   },
 };
+
 </script>
 
 <style scoped>
 
 .privacy-policy-container {
   width: 100%;
-  max-width: 800px;
-  height: 90vh; 
+  max-width: 500px;
   overflow-y: auto;
   color: white;
+  background-color: #2C3E50;
   padding: 20px;
   box-sizing: border-box;
   scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
