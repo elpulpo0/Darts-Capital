@@ -1,9 +1,15 @@
 <template>
   <div class="game-board">
-    <h2 v-if="!contractResult && isInitialPhase" @click="openContractRules">Capital Initial<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" /></h2>
+    <h2 v-if="!contractResult && isInitialPhase" @click="openContractRules">
+      Capital Initial<font-awesome-icon
+        :icon="['fas', 'info-circle']"
+        class="info-icon"
+      />
+    </h2>
     <h2 v-else-if="!contractResult && gameOver">Le jeu est terminé !</h2>
     <h2 v-else @click="openContractRules">
-      Mission : {{ currentContract?.name }}<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
+      Mission : {{ currentContract?.name
+      }}<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
     </h2>
 
     <!-- Bouton retour en haut à droite -->
@@ -12,7 +18,7 @@
       class="back-button-top-right"
       @click="showConfirmPopup = true"
     >
-      <font-awesome-icon :icon="['fas', 'undo-alt']"/>
+      <font-awesome-icon :icon="['fas', 'undo-alt']" />
     </button>
 
     <span v-if="!contractResult">
@@ -195,7 +201,7 @@
 import ConfirmationDialog from "./ConfirmationDialog.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
-import ContractRulesModal from './ContractRulesModal.vue';  // Assurez-vous que le chemin est correct
+import ContractRulesModal from "./ContractRulesModal.vue"; // Assurez-vous que le chemin est correct
 
 export default {
   props: {
@@ -370,7 +376,7 @@ export default {
           this.currentPlayer.currentRoundPoints += score;
 
           // Cas commun : Un zéro fait échouer le contrat immédiatement
-          if (dartNumber === 0) {
+          if (dartNumber === 0 && contractName != "57") {
             this.abridgeContract(); // Marque comme raté et termine le tour
             return;
           }
@@ -399,7 +405,7 @@ export default {
             contractName === "Couleur" &&
             this.currentPlayer.darts.length >= 2
           ) {
-            if (!this.checkDifferentColors(this.extractedDarts)) {
+            if (!this.checkDifferentColors(this.originalDarts)) {
               this.abridgeContract(); // Marque comme raté et termine le tour
               return;
             }
@@ -408,16 +414,22 @@ export default {
           // Contrat "57" : dépassement du score
           if (
             contractName === "57" &&
-            this.currentPlayer.currentRoundPoints + score > 57
+            this.currentPlayer.currentRoundPoints > 57
           ) {
             this.abridgeContract();
             return;
           }
 
           // Contrat "Side" : segments non adjacents
-          if (contractName === "Side" && this.currentPlayer.darts.length >= 2) {
-            if (!this.checkAdjacentSegments(this.extractedDarts)) {
-              this.abridgeContract();
+          if (
+            contractName === "Side" &&
+            this.currentPlayer.darts.length === 2
+          ) {
+            const [firstDart, secondDart] = this.extractedDarts;
+
+            // Vérifier que les deux fléchettes ne sont pas identiques
+            if (firstDart === secondDart) {
+              this.abridgeContract(); // Si elles sont identiques, échouer le contrat
               return;
             }
           }
@@ -425,7 +437,7 @@ export default {
           // Contrat "Peluche" : dépassement de 20
           if (
             contractName === "Peluche" &&
-            this.currentPlayer.currentRoundPoints + score > 20
+            this.currentPlayer.currentRoundPoints >= 19
           ) {
             this.abridgeContract();
             return;
@@ -433,57 +445,54 @@ export default {
         }
 
         // Sinon, on vérifie les règles selon le contrat actuel
-        else if (this.isDartValidForContract(number)) {
+        else if (!isNaN(contractName)) {
           // Gérer tous les contrats numérotés (ex. 20, 19, 18, etc.)
-          if (!isNaN(contractName)) {
-            const contractNumber = parseInt(contractName);
+          const contractNumber = parseInt(contractName);
 
-            // Ajouter le score si la fléchette correspond au contrat (simple, double ou triple)
-            if (
-              dartNumber === contractNumber ||
-              dartNumber === contractNumber * 2 ||
-              dartNumber === contractNumber * 3
-            ) {
-              this.currentPlayer.currentRoundPoints += score;
-            }
-          }
-
-          // Contrat "Double" : vérifier que la fléchette touche une zone double
-          else if (contractName === "Double") {
-            if (this.multiplier === 2) {
-              this.currentPlayer.currentRoundPoints += score;
-            }
-          }
-
-          // Contrat "Bulle" : vérifier que la fléchette touche le centre (25 ou 50 points)
-          else if (contractName === "Centre") {
-            if (dartNumber === 25 || dartNumber === 50) {
-              this.currentPlayer.currentRoundPoints += score;
-            }
-          }
-
-          // Contrat "Triple" : vérifier que la fléchette touche une zone triple
-          else if (contractName === "Triple") {
-            if (this.multiplier === 3) {
-              this.currentPlayer.currentRoundPoints += score;
-            }
+          // Ajouter le score si la fléchette correspond au contrat (simple, double ou triple)
+          if (
+            dartNumber === contractNumber ||
+            dartNumber === contractNumber * 2 ||
+            dartNumber === contractNumber * 3
+          ) {
+            this.currentPlayer.currentRoundPoints += score;
           }
         }
 
-        // Si le joueur a lancé 3 fléchettes, on valide le tour
-        if (this.currentPlayer.darts.length === 3) {
-          if (this.isInitialPhase) {
-            this.confirmCapital(); // Phase de capital initial
-          } else {
-            this.evaluateContract(); // Pour les autres contrats
+        // Contrat "Double" : vérifier que la fléchette touche une zone double
+        else if (contractName === "Double") {
+          if (this.multiplier === 2) {
+            this.currentPlayer.currentRoundPoints += score;
           }
+        }
+
+        // Contrat "Bulle" : vérifier que la fléchette touche le centre (25 ou 50 points)
+        else if (contractName === "Centre") {
+          if (dartNumber === 25 || dartNumber === 50) {
+            this.currentPlayer.currentRoundPoints += score;
+          }
+        }
+
+        // Contrat "Triple" : vérifier que la fléchette touche une zone triple
+        else if (contractName === "Triple") {
+          if (this.multiplier === 3) {
+            this.currentPlayer.currentRoundPoints += score;
+          }
+        }
+      }
+
+      // Si le joueur a lancé 3 fléchettes, on valide le tour
+      if (this.currentPlayer.darts.length === 3) {
+        if (this.isInitialPhase) {
+          this.confirmCapital(); // Phase de capital initial
+        } else {
+          this.evaluateContract(); // Pour les autres contrats
         }
       }
 
       // Réinitialiser le multiplicateur à 1 après chaque lancer
       this.multiplier = 1;
     },
-
     // Fonction pour marquer le contrat comme échoué et abréger le tour
     abridgeContract() {
       this.currentPlayer.contractsStatus[this.currentContractIndex] = {
@@ -570,6 +579,10 @@ export default {
         return NaN;
       }
 
+      if (dart === "D25") {
+        return 50;
+      }
+
       // Supprime les préfixes 'D' ou 'T' s'ils existent
       let numberStr = dart.replace(/^[DT]/, "");
 
@@ -584,53 +597,56 @@ export default {
       return number;
     },
     checkAdjacentSegments(darts) {
-      // Vérifiez que la liste des segments contient exactement trois éléments
-      if (darts.length !== 3) {
-        return false;
-      }
-
-      // Extraire les segments
-      const [first, second, third] = darts;
-
-      // Vérifiez que les segments sont uniques
-      if (new Set(darts).size !== 3) {
-        return false;
-      }
-
+      console.log(darts);
       // Fonction pour vérifier l'adjacence entre deux segments
       const areAdjacent = (seg1, seg2) => {
         const segment1 = dartboardSegments[seg1];
         const segment2 = dartboardSegments[seg2];
 
         // Vérifiez que les deux segments existent
-        if (!segment1) {
-          return false;
-        }
-        if (!segment2) {
+        if (!segment1 || !segment2) {
           return false;
         }
 
         // Vérifiez si seg2 est dans la liste des adjacents de seg1
-        const isAdjacent = segment1.adjacentNumbers.includes(seg2);
-
-        return isAdjacent;
+        return segment1.adjacentNumbers.includes(seg2);
       };
+      if (darts.length === 3) {
+        // Extraire les segments
+        const [first, second, third] = darts;
 
-      // Vérifiez les adjacences pour chaque paire
-      const firstAdjacentToSecond = areAdjacent(first, second);
-      const firstAdjacentToThird = areAdjacent(first, third);
-      const secondAdjacentToThird = areAdjacent(second, third);
-      const secondAdjacentToFirst = areAdjacent(second, first);
-      const thirdAdjacentToFirst = areAdjacent(third, first);
-      const thirdAdjacentToSecond = areAdjacent(third, second);
+        // Vérifiez que les segments sont uniques
+        if (new Set(darts).size !== 3) {
+          return false;
+        }
 
-      // Vérifiez si un des segments est adjacent aux deux autres
-      const isValid =
-        (firstAdjacentToSecond && firstAdjacentToThird) ||
-        (secondAdjacentToFirst && secondAdjacentToThird) ||
-        (thirdAdjacentToFirst && thirdAdjacentToSecond);
+        // Vérifiez les adjacences pour chaque paire
+        const firstAdjacentToSecond = areAdjacent(first, second);
+        const firstAdjacentToThird = areAdjacent(first, third);
+        const secondAdjacentToThird = areAdjacent(second, third);
+        const secondAdjacentToFirst = areAdjacent(second, first);
+        const thirdAdjacentToFirst = areAdjacent(third, first);
+        const thirdAdjacentToSecond = areAdjacent(third, second);
 
-      return isValid;
+        // Vérifiez si un des segments est adjacent aux deux autres
+        if (
+          (firstAdjacentToSecond && firstAdjacentToThird) ||
+          (secondAdjacentToFirst && secondAdjacentToThird) ||
+          (thirdAdjacentToFirst && thirdAdjacentToSecond)
+        );
+
+        return true;
+      } else if (darts.length === 2) {
+        // Vérifiez que les segments sont uniques
+        if (new Set(darts).size !== 2) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      // Si le nombre de fléchettes est différent de 2 ou 3, on ne peut pas vérifier
+      return false;
     },
     isDartValidForContract(number) {
       if (this.isInitialPhase) {
@@ -640,15 +656,6 @@ export default {
       const contractName = this.currentContract?.name;
 
       switch (contractName) {
-        case "Suite":
-          return this.checkSequentialNumbers(this.extractedDarts);
-
-        case "Couleur":
-          return this.checkDifferentColors(this.originalDarts);
-
-        case "Peluche":
-          return this.checkPelucheContract(this.extractedDarts);
-
         case "Centre":
           return number === 25 || number === 50;
 
@@ -657,12 +664,6 @@ export default {
 
         case "Double":
           return this.multiplier === 2;
-
-        case "57":
-          return this.currentPlayer.currentRoundPoints === 57;
-
-        case "Side":
-          return this.checkAdjacentSegments(this.originalDarts);
 
         default: {
           const contractNumber = parseInt(contractName);
@@ -730,7 +731,7 @@ export default {
           );
 
         case "Side":
-          return this.checkAdjacentSegments(originalDarts);
+          return this.checkAdjacentSegments(darts);
 
         case "Suite":
           return this.checkSequentialNumbers(darts);

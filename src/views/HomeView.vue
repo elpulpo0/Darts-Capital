@@ -2,8 +2,8 @@
   <div class="home">
     <!-- Afficher le logo uniquement si la partie n'a pas encore commencé -->
     <div class="header" v-if="!gameStarted">
-      <img :src="require('@/assets/logo_white.png')" alt="Logo" class="logo" />
-      <h1>VojvoDarts - Capital</h1>
+      <img :src="require('@/assets/logo.png')" alt="Logo" class="logo" />
+      <img :src="require('@/assets/capital.png')" alt="Title" class="capital" />
     </div>
 
     <!-- Composant PlayerSelection, visible quand la partie n'a pas commencé -->

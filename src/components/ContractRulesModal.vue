@@ -39,7 +39,7 @@ export default {
           "Le joueur doit toucher trois segments de couleurs différentes.",
         "Side": "Le joueur doit marquer des points dans 3 segments adjacents.",
         "Peluche": "Le total des fléchettes ne doit pas dépasser 20.",
-        "57": "Le joueur doit marquer exactement 57 points avec exacteemnt 3 fléchettes, sans le 0.",
+        "57": "Le joueur doit marquer exactement 57 points avec une, deux ou trois fléchettes",
         "Double": "Le joueur doit toucher un segment double.",
         "Triple": "Le joueur doit toucher un segment triple.",
         "Centre":
