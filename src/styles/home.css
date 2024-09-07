@@ -7,8 +7,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  overflow: auto;
+  overflow: hidden; /* Empêche les barres de défilement de s'afficher */
+  height: 100%; /* S'assure que le body prend 100% de la vue */
 }
 
 .home {
