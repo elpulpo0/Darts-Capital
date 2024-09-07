@@ -386,7 +386,7 @@ export default {
             (contractName === "Suite" && dartNumber === 25) ||
             (contractName === "Suite" && dartNumber === 50)
           ) {
-            this.abridgeContract(); // Marque comme raté et termine le tour
+            this.abridgeContract();
             return;
           }
           if (
@@ -394,6 +394,12 @@ export default {
             this.currentPlayer.darts.length >= 2
           ) {
             const [first, second] = this.extractedDarts;
+
+            if (first === second) {
+              this.abridgeContract();
+              return;
+            }
+
             if (Math.abs(first - second) > 2) {
               this.abridgeContract();
               return;
@@ -436,9 +442,12 @@ export default {
 
           // Contrat "Peluche" : dépassement de 20
           if (
-            contractName === "Peluche" && this.currentPlayer.darts.length === 2 &&
-            this.currentPlayer.currentRoundPoints >= 20 || contractName === "Peluche" && this.currentPlayer.darts.length === 1 &&
-            this.currentPlayer.currentRoundPoints >= 19
+            (contractName === "Peluche" &&
+              this.currentPlayer.darts.length === 2 &&
+              this.currentPlayer.currentRoundPoints >= 20) ||
+            (contractName === "Peluche" &&
+              this.currentPlayer.darts.length === 1 &&
+              this.currentPlayer.currentRoundPoints >= 19)
           ) {
             this.abridgeContract();
             return;
