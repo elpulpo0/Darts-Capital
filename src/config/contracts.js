@@ -1,5 +1,5 @@
 export const contracts = [
-  { name: "20", description: "Marquez au moins un 20." },
+  { name: "Peluche", description: "Marquez au moins un 20." },
   {
     name: "Suite",
     description: "Marquez 3 numéros qui se suivent.",

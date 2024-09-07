@@ -436,7 +436,8 @@ export default {
 
           // Contrat "Peluche" : dépassement de 20
           if (
-            contractName === "Peluche" &&
+            contractName === "Peluche" && this.currentPlayer.darts.length === 2 &&
+            this.currentPlayer.currentRoundPoints >= 20 || contractName === "Peluche" && this.currentPlayer.darts.length === 1 &&
             this.currentPlayer.currentRoundPoints >= 19
           ) {
             this.abridgeContract();
@@ -508,6 +509,8 @@ export default {
       const lastHistoryEntry =
         this.currentPlayer.history[this.currentPlayer.history.length - 1];
       lastHistoryEntry.darts.push("0");
+
+      this.currentPlayer.capital = Math.floor(this.currentPlayer.capital / 2);
     },
 
     // Remplacement de la logique de undoDart par la restauration d'un instantané
@@ -597,7 +600,6 @@ export default {
       return number;
     },
     checkAdjacentSegments(darts) {
-      console.log(darts);
       // Fonction pour vérifier l'adjacence entre deux segments
       const areAdjacent = (seg1, seg2) => {
         const segment1 = dartboardSegments[seg1];
