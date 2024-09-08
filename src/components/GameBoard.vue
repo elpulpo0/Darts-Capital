@@ -638,8 +638,8 @@ export default {
     checkAdjacentSegments(darts) {
       // Fonction pour vérifier l'adjacence entre deux segments
       const areAdjacent = (seg1, seg2) => {
-        const segment1 = dartboardSegments[seg1];
-        const segment2 = dartboardSegments[seg2];
+        const segment1 = dartboardSegments[String(seg1)];
+        const segment2 = dartboardSegments[String(seg2)];
 
         // Vérifiez que les deux segments existent
         if (!segment1 || !segment2) {
@@ -647,7 +647,7 @@ export default {
         }
 
         // Vérifiez si seg2 est dans la liste des adjacents de seg1
-        return segment1.adjacentNumbers.includes(seg2);
+        return segment1.adjacentNumbers.includes(String(seg2));
       };
       if (darts.length === 3) {
         // Extraire les segments
@@ -671,19 +671,14 @@ export default {
           (firstAdjacentToSecond && firstAdjacentToThird) ||
           (secondAdjacentToFirst && secondAdjacentToThird) ||
           (thirdAdjacentToFirst && thirdAdjacentToSecond)
-        );
-
-        return true;
-      } else if (darts.length === 2) {
-        // Vérifiez que les segments sont uniques
-        if (new Set(darts).size !== 2) {
-          return false;
-        } else {
+        ) {
           return true;
+        } else {
+          return false;
         }
       }
 
-      // Si le nombre de fléchettes est différent de 2 ou 3, on ne peut pas vérifier
+      // Si le nombre de fléchettes est différent de 3, on ne peut pas vérifier
       return false;
     },
     isDartValidForContract(number) {
