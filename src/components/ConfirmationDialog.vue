@@ -19,7 +19,7 @@ export default {
     },
     message: {
       type: String,
-      default: "Êtes-vous sûr de vouloir continuer ?"
+      default: "Êtes-vous sûr de vouloir annuler la partie en cours ?"
     }
   },
   methods: {

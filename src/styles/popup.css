@@ -123,3 +123,28 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.game-over-title {
+  font-size: 24px;
+  color: #ecf0f1;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.game-over-winners {
+  font-size: 18px;
+  color: #ecf0f1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.winner-name {
+  font-weight: bold;
+  color: #2ecc71; /* Couleur verte pour les gagnants */
+}
+
+.points {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e74c3c; /* Couleur rouge pour les points */
+}

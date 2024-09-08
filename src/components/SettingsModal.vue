@@ -40,11 +40,19 @@ export default {
       localSoundEnabled: this.soundEnabled, // Utilisation d'une copie locale
     };
   },
+  watch: {
+    soundEnabled(newVal) {
+      this.localSoundEnabled = newVal; // Met à jour la copie locale si la prop change
+    },
+  },
+
   methods: {
     saveSettings() {
-      this.$emit("settings-saved", this.localSoundEnabled); // Sauvegarde les paramètres
-      this.closeModal();
-    },
+  this.$emit("settings-saved", this.localSoundEnabled); // Sauvegarde les paramètres
+  this.closeModal();
+}
+
+,
     closeModal() {
       this.$emit("close"); // Ferme la modale
     },

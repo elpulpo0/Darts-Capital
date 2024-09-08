@@ -1,225 +1,60 @@
 <template>
   <div class="game-board">
-    <h2 v-if="!contractResult && isInitialPhase" @click="openContractRules">
-      Capital Initial<font-awesome-icon
-        :icon="['fas', 'info-circle']"
-        class="info-icon"
-      />
-    </h2>
-    <h2 v-else-if="!contractResult && gameOver">Le jeu est terminé !</h2>
-    <h2 v-else @click="openContractRules">
-      Mission : {{ currentContract?.name
-      }}<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
-    </h2>
-
-    <!-- Bouton retour en haut à droite -->
-    <button
-      v-if="!gameOver"
-      class="back-button-top-right"
-      @click="showConfirmPopup = true"
-    >
-      <font-awesome-icon :icon="['fas', 'undo-alt']" />
-    </button>
-
-    <!-- Bouton Réglages en haut à gauche -->
-    <button
-      v-if="!gameOver"
-      class="settings-button-top-left"
-      @click="openSettingsModal"
-    >
-      <font-awesome-icon :icon="['fas', 'cog']" />
-    </button>
-
-    <span v-if="!contractResult">
-      <!-- Phase initiale : définition du capital -->
-      <div v-if="isInitialPhase">
-        <p class="instruction-text">Définissez votre capital de départ.</p>
-      </div>
-
-      <!-- En cours de mission -->
-      <div v-else-if="!gameOver">
-        <p class="instruction-text">{{ currentContract?.description }}</p>
-      </div>
-    </span>
-
-    <!-- Scores des joueurs -->
-    <div v-if="!gameOver" class="players-scores">
-      <ul>
-        <li
-          v-for="(player, index) in localPlayers"
-          :key="index"
-          :class="{
-            'player-active': index === currentPlayerIndex,
-          }"
-          @click="showPlayerHistory(index)"
-          :ref="(el) => setPlayerRef(el, index)"
-        >
-          <div class="player-info">
-            <img :src="player.avatar" alt="Avatar" class="player-avatar" />
-            <div class="player-details">
-              <div class="player-main-info">
-                <div class="name-and-score">
-                  <div class="name-container">
-                    <span
-                      class="ranking-circle"
-                      :class="getRankingClass(index)"
-                    ></span>
-                    <span class="player-name">{{ player.name }}</span>
-                  </div>
-                  <span class="player-score">{{ player.capital }} points</span>
-                </div>
-                <!-- Afficher les informations de lancer pour tous les joueurs -->
-                <div class="player-additional-info">
-                  <span>
-                    ({{ player.currentRoundPoints }})
-                    {{ player.dartsDisplay.join(" | ") }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="contracts-status">
-            <span
-              v-for="(contract, idx) in contracts"
-              :key="idx"
-              :class="{
-                'contract-success': player.contractsStatus[idx]?.success,
-                'contract-fail': player.contractsStatus[idx]?.success === false,
-                'contract-pending':
-                  player.contractsStatus[idx]?.success === undefined,
-              }"
-              class="contract-circle"
-            >
-            </span>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Tableau de jeu -->
-    <div v-if="!gameOver" class="dartboard">
-      <div
-        class="dartboard-row"
-        v-for="row in dartboardLayout"
-        :key="row.join('-')"
-      >
-        <button
-          v-for="num in row"
-          :key="num"
-          @click="addDart(num)"
-          :disabled="
-            (num === 25 && multiplier === 3) || (num === 0 && multiplier >= 2)
-          "
-          :class="{
-            'disabled-button':
-              (num === 25 && multiplier === 3) ||
-              (num === 0 && multiplier >= 2),
-          }"
-          class="dartboard-number"
-        >
-          {{ num }}
-        </button>
-      </div>
-      <div class="last-row">
-        <button
-          :class="{ selected: multiplier === 2 }"
-          class="double-button"
-          @click="toggleMultiplier(2)"
-        >
-          DOUBLE
-        </button>
-        <button
-          :class="{ selected: multiplier === 3 }"
-          class="triple-button"
-          @click="toggleMultiplier(3)"
-        >
-          TRIPLE
-        </button>
-        <button class="back-button" @click="undoDart">BACK</button>
-      </div>
-    </div>
-
-    <!-- Message de fin de jeu amélioré avec cohérence de style -->
-    <div v-else-if="gameOver" class="game-over-container">
-      <p class="game-over-winners">
-        Le(s) gagnant(s) :
-        <br />
-        <br />
-        <span
-          v-for="(player, index) in winners"
-          :key="index"
-          class="winner-name"
-        >
-          {{ player.name }}{{ index < winners.length - 1 ? ", " : "" }}
-        </span>
-        <br />
-        <br />
-        avec <span class="points">{{ winners[0].capital }} points !</span>
-      </p>
-      <button class="restart-game-button" @click="restartGame">
-        Recommencer
-      </button>
-    </div>
-
-    <!-- Composant ConfirmationDialog -->
-    <ConfirmationDialog
-      v-if="showConfirmPopup"
-      :isVisible="showConfirmPopup"
-      message="Êtes-vous sûr de vouloir annuler la partie en cours ?"
-      @confirmed="handleConfirmation"
+    <GameBoardHeader
+      :contractResult="contractResult"
+      :isInitialPhase="isInitialPhase"
+      :gameOver="gameOver"
+      :currentContract="currentContract"
+      @show-confirm-popup="showConfirmPopup = true"
+      @open-settings-modal="openSettingsModal"
+      @open-contract-rules="openContractRules"
     />
 
-    <!-- Composant SettingsModal -->
-    <SettingsModal
-      :isVisible="showSettingsModal"
+    <PlayerList
+      v-if="!gameOver"
+      :localPlayers="localPlayers"
+      :currentPlayerIndex="currentPlayerIndex"
+      :contracts="contracts"
+      @show-player-history="showPlayerHistory"
+    />
+
+    <DartBoard
+      v-if="!gameOver"
+      :dartboardLayout="dartboardLayout"
+      :multiplier="multiplier"
+      @add-dart="addDart"
+      @toggle-multiplier="toggleMultiplier"
+      @undo-dart="undoDart"
+    />
+
+    <ModalsHandler
+      :showConfirmPopup="showConfirmPopup"
+      :showSettingsModal="showSettingsModal"
+      :showContractRulesModal="showContractRulesModal"
       :soundEnabled="soundEnabled"
+      @confirmed="handleConfirmation"
+      @close-settings-modal="closeSettingsModal"
+      @close-contract-rules-modal="closeContractRulesModal"
       @settings-saved="handleSettingsSaved"
-      @close="closeSettingsModal"
     />
 
-    <!-- Modal pour afficher l'historique des lancers -->
-    <div v-if="showHistoryModal" class="modal-backdrop">
-      <div class="modal">
-        <h3>
-          Historique des lancers de {{ localPlayers[historyPlayerIndex].name }}
-        </h3>
-        <div
-          v-if="
-            localPlayers[historyPlayerIndex].history &&
-            localPlayers[historyPlayerIndex].history.length
-          "
-        >
-          <ul>
-            <li
-              v-for="(entry, index) in localPlayers[historyPlayerIndex].history"
-              :key="index"
-            >
-              <strong>{{ entry.contract }} :</strong>
-              {{ entry.darts.join(" | ") }}
-            </li>
-          </ul>
-        </div>
-        <p v-else>Aucun lancer enregistré</p>
-        <button class="modal-button confirm-button" @click="closeHistoryModal">
-          Fermer
-        </button>
-      </div>
-    </div>
-    <!-- Utilisation du composant ContractRulesModal -->
-    <ContractRulesModal
-      :isVisible="showContractRulesModal"
-      @close="closeContractRulesModal"
+    <PlayerHistoryModal
+      v-if="showHistoryModal"
+      :isVisible="showHistoryModal"
+      :player="localPlayers[historyPlayerIndex]"
+      @close="closeHistoryModal"
     />
   </div>
 </template>
 
 <script>
-import ConfirmationDialog from "./ConfirmationDialog.vue";
-import SettingsModal from "./SettingsModal.vue";
+import GameBoardHeader from "./GameBoardHeader.vue";
+import PlayerList from "./PlayerList.vue";
+import DartBoard from "./DartBoard.vue";
+import ModalsHandler from "./ModalsHandler.vue";
+import PlayerHistoryModal from "./PlayerHistoryModal.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
-import ContractRulesModal from "./ContractRulesModal.vue";
 import successSound from "@/assets/sounds/success.mp3";
 import failedSound from "@/assets/sounds/failed.mp3";
 import clicSound from "@/assets/sounds/clic.mp3";
@@ -235,9 +70,11 @@ export default {
     },
   },
   components: {
-    ConfirmationDialog,
-    ContractRulesModal,
-    SettingsModal,
+    GameBoardHeader,
+    PlayerList,
+    DartBoard,
+    ModalsHandler,
+    PlayerHistoryModal,
   },
   data() {
     return {
@@ -251,7 +88,7 @@ export default {
       localPlayers: this.players.map((player) => ({
         ...player,
         darts: [],
-        dartsDisplay: [], // Chaque joueur a son propre dartsDisplay
+        dartsDisplay: [],
         currentRoundPoints: 0,
         contractsStatus: Array(contracts.length).fill({
           success: undefined,
@@ -269,7 +106,7 @@ export default {
       contractResult: null,
       extractedDarts: [],
       originalDarts: [],
-      snapshots: [], // Ajout de la liste des instantanés
+      snapshots: [],
       showConfirmPopup: false,
       playerRefs: [],
       showHistoryModal: false,
@@ -280,7 +117,7 @@ export default {
   },
   watch: {
     contractResult(newValue) {
-      if (newValue && !this.isUndoing) {
+      if (newValue !== null && !this.isUndoing) {
         // Ne pas changer de joueur si on est en train d'annuler
         this.$nextTick(() => {
           // Vérifie une dernière fois que `isUndoing` est bien à `false` avant de changer de joueur
@@ -307,9 +144,6 @@ export default {
         ? this.contracts[this.currentContractIndex]
         : null;
     },
-    contractResultClass() {
-      return this.contractResult === "Réussi" ? "success" : "failure";
-    },
   },
   methods: {
     openSettingsModal() {
@@ -321,6 +155,7 @@ export default {
     handleSettingsSaved(newSoundSetting) {
       this.soundEnabled = newSoundSetting;
     },
+
     openContractRules() {
       this.showContractRulesModal = true;
     },
@@ -573,7 +408,7 @@ export default {
       this.currentPlayer.contractsStatus[this.currentContractIndex] = {
         success: false,
       };
-      this.contractResult = "Contrat Raté";
+      this.contractResult = false;
       // Remplir les fléchettes restantes avec des zéros pour l'affichage
       while (this.currentPlayer.darts.length < 3) {
         this.currentPlayer.darts.push("0");
@@ -619,7 +454,7 @@ export default {
     handleConfirmation(confirmed) {
       this.showConfirmPopup = false;
       if (confirmed) {
-        this.restartGame();
+        this.$emit('restart-game');
       }
     },
     getRankingClass(index) {
@@ -635,9 +470,6 @@ export default {
       if (ranking === 1) return "silver";
       if (ranking === 2) return "bronze";
       return ""; // Pas de cercle pour les autres joueurs
-    },
-    restartGame() {
-      this.$emit("game-over");
     },
     saveGameState() {
       this.gameHistory.push({
@@ -775,9 +607,7 @@ export default {
       };
 
       // Stocker le résultat pour l'affichage
-      this.contractResult = contractIsSuccessful
-        ? "Contrat Réussi"
-        : "Contrat Raté";
+      this.contractResult = contractIsSuccessful;
     },
     checkContractSuccess() {
       if (this.isInitialPhase) return true;
@@ -832,7 +662,7 @@ export default {
     confirmCapital() {
       this.localPlayers[this.currentPlayerIndex].capital =
         this.currentPlayer.currentRoundPoints;
-      this.contractResult = "Capital confirmé";
+      this.contractResult = true;
     },
     nextPlayer() {
       if (this.isUndoing) {
@@ -864,13 +694,13 @@ export default {
       } else if (this.currentContractIndex < this.contracts.length - 1) {
         this.currentContractIndex++;
       } else {
-        if (this.soundEnabled) {
-          setTimeout(() => {
+        setTimeout(() => {
+          if (this.soundEnabled) {
             const gameover = new Audio(gameoverSound);
             gameover.play();
-            this.endGame();
-          }, 500);
-        }
+          }
+          this.endGame();
+        }, 500);
       }
     },
 
@@ -882,6 +712,7 @@ export default {
       this.winners = this.localPlayers.filter(
         (player) => player.capital === maxScore,
       );
+      this.$emit('game-over', this.winners);
     },
     toggleMultiplier(multiplier) {
       if (this.soundEnabled) {

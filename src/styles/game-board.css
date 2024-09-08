@@ -317,6 +317,7 @@ li {
   margin-top: 15px;
   width: 100%;
   min-height: 48px;
+  margin-bottom: 300px;
 }
 
 /* Ajouter une apparence grisée pour les boutons désactivés */
@@ -328,27 +329,4 @@ li {
 button:disabled {
   opacity: 0.6; /* Pour rendre le bouton moins visible */
   pointer-events: none; /* Empêche toute interaction */
-}
-
-.game-over-title {
-  font-size: 24px;
-  color: #ecf0f1;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.game-over-winners {
-  font-size: 18px;
-  color: #ecf0f1;
-}
-
-.winner-name {
-  font-weight: bold;
-  color: #2ecc71; /* Couleur verte pour les gagnants */
-}
-
-.points {
-  font-size: 20px;
-  font-weight: bold;
-  color: #e74c3c; /* Couleur rouge pour les points */
 }
