@@ -2,11 +2,15 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faUndoAlt, faInfoCircle } from "@fortawesome/free-solid-svg-icons"; // Ajout de faInfoCircle
+import {
+  faUndoAlt,
+  faInfoCircle,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons"; // Ajout de faInfoCircle
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 // Ajouter uniquement les icônes dont vous avez besoin
-library.add(faUndoAlt, faInfoCircle); // Ajout de faInfoCircle dans la bibliothèque
+library.add(faUndoAlt, faInfoCircle, faCog); // Ajout de faInfoCircle dans la bibliothèque
 
 const app = createApp(App);
 

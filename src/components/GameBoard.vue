@@ -21,6 +21,15 @@
       <font-awesome-icon :icon="['fas', 'undo-alt']" />
     </button>
 
+    <!-- Bouton Réglages en haut à gauche -->
+    <button
+      v-if="!gameOver"
+      class="settings-button-top-left"
+      @click="openSettingsModal"
+    >
+      <font-awesome-icon :icon="['fas', 'cog']" />
+    </button>
+
     <span v-if="!contractResult">
       <!-- Phase initiale : définition du capital -->
       <div v-if="isInitialPhase">
@@ -161,6 +170,14 @@
       @confirmed="handleConfirmation"
     />
 
+    <!-- Composant SettingsModal -->
+    <SettingsModal
+      :isVisible="showSettingsModal"
+      :soundEnabled="soundEnabled"
+      @settings-saved="handleSettingsSaved"
+      @close="closeSettingsModal"
+    />
+
     <!-- Modal pour afficher l'historique des lancers -->
     <div v-if="showHistoryModal" class="modal-backdrop">
       <div class="modal">
@@ -199,6 +216,7 @@
 
 <script>
 import ConfirmationDialog from "./ConfirmationDialog.vue";
+import SettingsModal from "./SettingsModal.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
 import ContractRulesModal from "./ContractRulesModal.vue";
@@ -219,9 +237,12 @@ export default {
   components: {
     ConfirmationDialog,
     ContractRulesModal,
+    SettingsModal,
   },
   data() {
     return {
+      showSettingsModal: false,
+      soundEnabled: true,
       gameOver: false,
       winner: null,
       currentPlayerIndex: 0,
@@ -291,6 +312,15 @@ export default {
     },
   },
   methods: {
+    openSettingsModal() {
+      this.showSettingsModal = true;
+    },
+    closeSettingsModal() {
+      this.showSettingsModal = false;
+    },
+    handleSettingsSaved(newSoundSetting) {
+      this.soundEnabled = newSoundSetting;
+    },
     openContractRules() {
       this.showContractRulesModal = true;
     },
@@ -330,8 +360,10 @@ export default {
     },
 
     addDart(number) {
-      const dart = new Audio(dartSound);
-      dart.play();
+      if (this.soundEnabled) {
+        const dart = new Audio(dartSound);
+        dart.play();
+      }
       this.saveSnapshot(); // Sauvegarder un instantané avant d'ajouter un lancer
 
       const dartDisplay = this.getDartDisplay(number);
@@ -534,8 +566,10 @@ export default {
     },
     // Fonction pour marquer le contrat comme échoué et abréger le tour
     abridgeContract() {
-      const fail = new Audio(failedSound);
-      fail.play();
+      if (this.soundEnabled) {
+        const fail = new Audio(failedSound);
+        fail.play();
+      }
       this.currentPlayer.contractsStatus[this.currentContractIndex] = {
         success: false,
       };
@@ -554,8 +588,10 @@ export default {
     },
 
     undoDart() {
-      const back = new Audio(backSound);
-      back.play();
+      if (this.soundEnabled) {
+        const back = new Audio(backSound);
+        back.play();
+      }
       this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
     },
 
@@ -721,12 +757,16 @@ export default {
       const contractIsSuccessful = this.checkContractSuccess();
 
       if (contractIsSuccessful) {
-        const success = new Audio(successSound);
-        success.play();
+        if (this.soundEnabled) {
+          const success = new Audio(successSound);
+          success.play();
+        }
         this.currentPlayer.capital += this.currentPlayer.currentRoundPoints;
       } else {
-        const fail = new Audio(failedSound);
-        fail.play();
+        if (this.soundEnabled) {
+          const fail = new Audio(failedSound);
+          fail.play();
+        }
         this.currentPlayer.capital = Math.floor(this.currentPlayer.capital / 2);
       }
 
@@ -824,11 +864,13 @@ export default {
       } else if (this.currentContractIndex < this.contracts.length - 1) {
         this.currentContractIndex++;
       } else {
-        setTimeout(() => {
-          const gameover = new Audio(gameoverSound);
-          gameover.play();
-          this.endGame();
-        }, 500);
+        if (this.soundEnabled) {
+          setTimeout(() => {
+            const gameover = new Audio(gameoverSound);
+            gameover.play();
+            this.endGame();
+          }, 500);
+        }
       }
     },
 
@@ -842,8 +884,10 @@ export default {
       );
     },
     toggleMultiplier(multiplier) {
-      const clic = new Audio(clicSound);
-      clic.play();
+      if (this.soundEnabled) {
+        const clic = new Audio(clicSound);
+        clic.play();
+      }
       if (this.multiplier === multiplier) {
         this.multiplier = 1;
       } else {
