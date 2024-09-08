@@ -201,7 +201,13 @@
 import ConfirmationDialog from "./ConfirmationDialog.vue";
 import { contracts } from "@/config/contracts";
 import { dartboardSegments } from "@/config/dartboardSegments";
-import ContractRulesModal from "./ContractRulesModal.vue"; // Assurez-vous que le chemin est correct
+import ContractRulesModal from "./ContractRulesModal.vue";
+import successSound from "@/assets/sounds/success.mp3";
+import failedSound from "@/assets/sounds/failed.mp3";
+import clicSound from "@/assets/sounds/clic.mp3";
+import dartSound from "@/assets/sounds/dart.mp3";
+import backSound from "@/assets/sounds/back.mp3";
+import gameoverSound from "@/assets/sounds/gameover.mp3";
 
 export default {
   props: {
@@ -324,6 +330,8 @@ export default {
     },
 
     addDart(number) {
+      const dart = new Audio(dartSound);
+      dart.play();
       this.saveSnapshot(); // Sauvegarder un instantané avant d'ajouter un lancer
 
       const dartDisplay = this.getDartDisplay(number);
@@ -526,6 +534,8 @@ export default {
     },
     // Fonction pour marquer le contrat comme échoué et abréger le tour
     abridgeContract() {
+      const fail = new Audio(failedSound);
+      fail.play();
       this.currentPlayer.contractsStatus[this.currentContractIndex] = {
         success: false,
       };
@@ -544,6 +554,8 @@ export default {
     },
 
     undoDart() {
+      const back = new Audio(backSound);
+      back.play();
       this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
     },
 
@@ -590,11 +602,6 @@ export default {
     },
     restartGame() {
       this.$emit("game-over");
-    },
-    emitGameOver() {
-      this.gameOver = true;
-      // Optionnel: définissez le gagnant ou d'autres détails
-      this.winner = { name: "Joueur", capital: 100 }; // Remplacez par les données réelles
     },
     saveGameState() {
       this.gameHistory.push({
@@ -719,8 +726,12 @@ export default {
       const contractIsSuccessful = this.checkContractSuccess();
 
       if (contractIsSuccessful) {
+        const success = new Audio(successSound);
+        success.play();
         this.currentPlayer.capital += this.currentPlayer.currentRoundPoints;
       } else {
+        const fail = new Audio(failedSound);
+        fail.play();
         this.currentPlayer.capital = Math.floor(this.currentPlayer.capital / 2);
       }
 
@@ -818,7 +829,11 @@ export default {
       } else if (this.currentContractIndex < this.contracts.length - 1) {
         this.currentContractIndex++;
       } else {
-        this.endGame();
+        setTimeout(() => {
+          const gameover = new Audio(gameoverSound);
+          gameover.play();
+          this.endGame();
+        }, 500);
       }
     },
 
@@ -832,6 +847,8 @@ export default {
       );
     },
     toggleMultiplier(multiplier) {
+      const clic = new Audio(clicSound);
+      clic.play();
       if (this.multiplier === multiplier) {
         this.multiplier = 1;
       } else {
