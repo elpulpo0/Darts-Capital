@@ -30,6 +30,7 @@
 .modal-actions {
   display: flex;
   justify-content: space-between;
+  flex-direction: column; /* Make the buttons stack vertically */
 }
 
 .modal-button {
@@ -42,11 +43,21 @@
   min-height: 48px;
   width: auto;
   min-width: 70px;
+  margin-bottom: 10px; /* Adds spacing between buttons */
 }
 
 .confirm-button {
   background-color: #3498DB;
   color: white;
+}
+
+.cancel-button {
+  background-color: #E74C3C;
+  color: white;
+}
+
+.cancel-button:last-child {
+  margin-bottom: 0; /* No margin on the last button */
 }
 
 .cancel-button {

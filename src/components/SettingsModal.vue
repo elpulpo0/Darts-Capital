@@ -16,7 +16,7 @@
           Sauvegarder
         </button>
         <button class="modal-button cancel-button" @click="closeModal">
-          Annuler
+          Fermer
         </button>
       </div>
     </div>
@@ -54,6 +54,7 @@ export default {
 
 ,
     closeModal() {
+      this.localSoundEnabled = this.soundEnabled;
       this.$emit("close"); // Ferme la modale
     },
   },

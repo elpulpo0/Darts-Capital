@@ -3,6 +3,8 @@
     <ConfirmationDialog
       :isVisible="showConfirmPopup"
       @confirmed="handleConfirmation"
+      @canceled="handleCancelation"
+      @save-game="handleSaveGame"
     />
     <SettingsModal
       :isVisible="showSettingsModal"
@@ -29,10 +31,13 @@ export default {
     showContractRulesModal: Boolean,
     soundEnabled: Boolean,
   },
-  emits: ["confirmed", "close-settings-modal", "close-contract-rules-modal", "settings-saved"],
+  emits: ["canceled", "confirmed", "close-settings-modal", "close-contract-rules-modal", "settings-saved", "save-game"],
   methods: {
-    handleConfirmation(confirmed) {
-      this.$emit("confirmed", confirmed);
+    handleConfirmation() {
+      this.$emit("confirmed");
+    },
+    handleCancelation() {
+      this.$emit("canceled");
     },
     closeSettingsModal() {
       this.$emit("close-settings-modal");
@@ -42,6 +47,9 @@ export default {
     },
     forwardSettingsSaved(newSoundSetting) {
       this.$emit("settings-saved", newSoundSetting);
+    },
+    handleSaveGame() {
+      this.$emit("save-game");
     },
   },
   components: {

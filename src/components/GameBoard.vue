@@ -33,6 +33,8 @@
       :showContractRulesModal="showContractRulesModal"
       :soundEnabled="soundEnabled"
       @confirmed="handleConfirmation"
+      @canceled="closeConfirmPopup"
+      @save-game="handleSaveGame"
       @close-settings-modal="closeSettingsModal"
       @close-contract-rules-modal="closeContractRulesModal"
       @settings-saved="handleSettingsSaved"
@@ -115,6 +117,7 @@ export default {
       showContractRulesModal: false,
     };
   },
+
   watch: {
     contractResult(newValue) {
       if (newValue !== null && !this.isUndoing) {
@@ -174,8 +177,18 @@ export default {
         originalDarts: JSON.parse(JSON.stringify(this.originalDarts)),
       };
       this.snapshots.push(snapshot);
+      localStorage.setItem("dartGameSnapshot", JSON.stringify(snapshot));
     },
 
+    restoreGame(snapshot) {
+      this.currentPlayerIndex = snapshot.currentPlayerIndex;
+      this.currentContractIndex = snapshot.currentContractIndex;
+      this.localPlayers = JSON.parse(JSON.stringify(snapshot.players));
+      this.contractResult = snapshot.contractResult;
+      this.multiplier = snapshot.multiplier;
+      this.extractedDarts = JSON.parse(JSON.stringify(snapshot.darts));
+      this.originalDarts = JSON.parse(JSON.stringify(snapshot.originalDarts));
+    },
     // Méthode pour restaurer un instantané
     restoreSnapshot() {
       if (this.snapshots.length > 0) {
@@ -451,14 +464,17 @@ export default {
         });
       }
     },
-    handleConfirmation(confirmed) {
-      this.showConfirmPopup = false;
-      if (confirmed) {
-        this.$emit('restart-game');
-      }
+    handleSaveGame() {
+      this.saveSnapshot();
+      this.$emit("restart-game");
+    },
+    handleConfirmation() {
+      this.$emit("restart-game");
+    },
+    closeConfirmPopup() {
+        this.showConfirmPopup = false;
     },
     getRankingClass(index) {
-      // Supposons que `localPlayers` est trié par capital ou score
       const sortedPlayers = [...this.localPlayers].sort(
         (a, b) => b.capital - a.capital,
       );
@@ -469,7 +485,7 @@ export default {
       if (ranking === 0) return "gold";
       if (ranking === 1) return "silver";
       if (ranking === 2) return "bronze";
-      return ""; // Pas de cercle pour les autres joueurs
+      return "";
     },
     saveGameState() {
       this.gameHistory.push({
@@ -712,7 +728,7 @@ export default {
       this.winners = this.localPlayers.filter(
         (player) => player.capital === maxScore,
       );
-      this.$emit('game-over', this.winners);
+      this.$emit("game-over", this.winners);
     },
     toggleMultiplier(multiplier) {
       if (this.soundEnabled) {

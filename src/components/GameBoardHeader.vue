@@ -27,6 +27,16 @@
     >
       <font-awesome-icon :icon="['fas', 'cog']" />
     </button>
+
+    <span v-if="!contractResult">
+      <div v-if="isInitialPhase">
+        <p class="instruction-text">Définissez votre capital de départ.</p>
+      </div>
+
+      <div v-else-if="!gameOver">
+        <p class="instruction-text">{{ currentContract?.description }}</p>
+      </div>
+    </span>
   </div>
 </template>
 

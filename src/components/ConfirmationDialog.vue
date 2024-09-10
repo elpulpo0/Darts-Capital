@@ -3,8 +3,15 @@
     <div class="modal">
       <p class="modal-message">{{ message }}</p>
       <div class="modal-actions">
-        <button class="modal-button confirm-button" @click="confirm(true)">Oui</button>
-        <button class="modal-button cancel-button" @click="confirm(false)">Non</button>
+        <button class="modal-button confirm-button" @click="confirmAndQuit">
+          Annuler et quitter
+        </button>
+        <button class="modal-button confirm-button" @click="saveAndQuit">
+          Sauvegarder et quitter
+        </button>
+        <button class="modal-button cancel-button" @click="cancel">
+          Retour
+        </button>
       </div>
     </div>
   </div>
@@ -15,18 +22,24 @@ export default {
   props: {
     isVisible: {
       type: Boolean,
-      required: true
+      required: true,
     },
     message: {
       type: String,
-      default: "Êtes-vous sûr de vouloir annuler la partie en cours ?"
-    }
+      default: "Êtes-vous sûr de vouloir quitter la partie en cours ?",
+    },
   },
   methods: {
-    confirm(response) {
-      this.$emit("confirmed", response);
+    confirmAndQuit() {
+      this.$emit("confirmed");
+    },
+    saveAndQuit() {
+      this.$emit("save-game");
+    },
+    cancel() {
+        this.$emit("canceled")
     }
-  }
+  },
 };
 </script>
 

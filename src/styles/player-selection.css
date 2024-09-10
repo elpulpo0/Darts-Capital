@@ -112,7 +112,8 @@
   border-radius: 5px;
   width: 100%;
   min-height: 48px;
-  margin-top: auto; /* Cela s'assure que le bouton reste tout en bas du conteneur */
+  margin-top: auto; 
+  margin-bottom: 10px;
 }
 
 .start-game-button:disabled {

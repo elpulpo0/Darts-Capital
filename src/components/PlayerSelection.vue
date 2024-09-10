@@ -43,10 +43,17 @@
       class="start-game-button"
       :class="{ disabled: selectedPlayers.length < 2 }"
     >
-      {{ selectedPlayers.length < 2 ? 'Sélectionnez au moins 2 joueurs' : 'Lancer le jeu' }}
+      {{ selectedPlayers.length < 2 ? 'Sélectionnez au moins 2 joueurs' : 'Lancer une nouvelle partie' }}
+    </button>
+
+    <button
+      v-if="gameSaved"
+      @click="restoreGame"
+      class="start-game-button"
+    >
+      Restaurer la partie sauvegardée
     </button>
   
-    <!-- Ajouter un lien vers la politique de confidentialité -->
     <p class="privacy-link">
       <router-link to="/privacy-policy"
         >Politique de confidentialité</router-link
@@ -67,23 +74,32 @@ export default {
       newPlayerName: "",
       holdTimeout: null,
       holding: false,
+      gameSaved: false,
     };
   },
   mounted() {
     this.loadStoredPlayers();
+    this.checkSavedGame();
   },
   methods: {
     loadStoredPlayers() {
       const players = localStorage.getItem("players");
       if (players) {
         this.storedPlayers = JSON.parse(players);
-        // Pré-sélectionner les joueurs reçus par les props
         this.selectedPlayers = this.storedPlayers.filter((player) =>
           this.defaultPlayers.some(
             (defaultPlayer) => defaultPlayer.name === player.name,
           ),
         );
       }
+    },
+    checkSavedGame() {
+      // Vérifier si un snapshot existe dans le localStorage
+      const savedGame = localStorage.getItem("dartGameSnapshot");
+      this.gameSaved = !!savedGame; // true si une sauvegarde existe
+    },
+    restoreGame() {
+      this.$emit("restore-game");  
     },
     handleClick(player) {
       if (this.holding) {
