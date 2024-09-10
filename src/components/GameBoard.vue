@@ -32,7 +32,7 @@
       :showSettingsModal="showSettingsModal"
       :showContractRulesModal="showContractRulesModal"
       :soundEnabled="soundEnabled"
-      @confirmed="handleConfirmation"
+      @do-not-save="handleDoNotSave"
       @canceled="closeConfirmPopup"
       @save-game="handleSaveGame"
       @close-settings-modal="closeSettingsModal"
@@ -177,9 +177,21 @@ export default {
         originalDarts: JSON.parse(JSON.stringify(this.originalDarts)),
       };
       this.snapshots.push(snapshot);
-      localStorage.setItem("dartGameSnapshot", JSON.stringify(snapshot));
     },
-
+    saveGameProgression() {
+      const snapshot = {
+        currentPlayerIndex: this.currentPlayerIndex,
+        currentContractIndex: this.currentContractIndex,
+        players: JSON.parse(JSON.stringify(this.localPlayers)),
+        contractResult: this.contractResult,
+        multiplier: this.multiplier,
+        darts: JSON.parse(JSON.stringify(this.extractedDarts)),
+        originalDarts: JSON.parse(JSON.stringify(this.originalDarts)),
+      };
+      this.snapshots.push(snapshot);
+      localStorage.setItem("dartGameSnapshot", JSON.stringify(snapshot));
+    }, 
+    
     restoreGame(snapshot) {
       this.currentPlayerIndex = snapshot.currentPlayerIndex;
       this.currentContractIndex = snapshot.currentContractIndex;
@@ -465,10 +477,10 @@ export default {
       }
     },
     handleSaveGame() {
-      this.saveSnapshot();
+      this.saveGameProgression();
       this.$emit("restart-game");
     },
-    handleConfirmation() {
+    handleDoNotSave() {
       this.$emit("restart-game");
     },
     closeConfirmPopup() {

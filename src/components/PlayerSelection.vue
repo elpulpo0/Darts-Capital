@@ -22,8 +22,9 @@
         <div class="player-info">
           <span class="player-name">{{ player.name }}</span>
         </div>
-        <!-- Icône de suppression -->
-        <span class="delete-icon" @click.stop="removePlayer(index)">&#10005;</span>
+        <span class="delete-icon" @click.stop="removePlayer(index)"
+          >&#10005;</span
+        >
       </li>
     </ul>
 
@@ -37,23 +38,30 @@
       <button type="submit" class="add-button">+</button>
     </form>
 
+    <button @click="clearLocalStorage">Vider les sauvegardes</button>
+
     <button
       @click="startGame"
       :disabled="selectedPlayers.length < 2"
       class="start-game-button"
       :class="{ disabled: selectedPlayers.length < 2 }"
     >
-      {{ selectedPlayers.length < 2 ? 'Sélectionnez au moins 2 joueurs' : 'Lancer une nouvelle partie' }}
+      {{
+        selectedPlayers.length < 2
+          ? "Sélectionnez au moins 2 joueurs"
+          : "Lancer une nouvelle partie"
+      }}
     </button>
 
     <button
-      v-if="gameSaved"
       @click="restoreGame"
+      :disabled="!gameSaved"
       class="start-game-button"
+      :class="{ disabled: !gameSaved }"
     >
       Restaurer la partie sauvegardée
     </button>
-  
+
     <p class="privacy-link">
       <router-link to="/privacy-policy"
         >Politique de confidentialité</router-link
@@ -94,12 +102,11 @@ export default {
       }
     },
     checkSavedGame() {
-      // Vérifier si un snapshot existe dans le localStorage
       const savedGame = localStorage.getItem("dartGameSnapshot");
-      this.gameSaved = !!savedGame; // true si une sauvegarde existe
+      this.gameSaved = !!savedGame;
     },
     restoreGame() {
-      this.$emit("restore-game");  
+      this.$emit("restore-game");
     },
     handleClick(player) {
       if (this.holding) {

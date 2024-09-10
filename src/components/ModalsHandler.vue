@@ -2,7 +2,7 @@
   <div>
     <ConfirmationDialog
       :isVisible="showConfirmPopup"
-      @confirmed="handleConfirmation"
+      @do-not-save="handleDoNotSave"
       @canceled="handleCancelation"
       @save-game="handleSaveGame"
     />
@@ -31,10 +31,17 @@ export default {
     showContractRulesModal: Boolean,
     soundEnabled: Boolean,
   },
-  emits: ["canceled", "confirmed", "close-settings-modal", "close-contract-rules-modal", "settings-saved", "save-game"],
+  emits: [
+    "canceled",
+    "do-no-save",
+    "close-settings-modal",
+    "close-contract-rules-modal",
+    "settings-saved",
+    "save-game",
+  ],
   methods: {
-    handleConfirmation() {
-      this.$emit("confirmed");
+    handleDoNotSave() {
+      this.$emit("do-not-save");
     },
     handleCancelation() {
       this.$emit("canceled");

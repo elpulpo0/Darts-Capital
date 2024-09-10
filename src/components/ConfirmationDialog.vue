@@ -31,14 +31,14 @@ export default {
   },
   methods: {
     confirmAndQuit() {
-      this.$emit("confirmed");
+      this.$emit("do-not-save");
     },
     saveAndQuit() {
       this.$emit("save-game");
     },
     cancel() {
-        this.$emit("canceled")
-    }
+      this.$emit("canceled");
+    },
   },
 };
 </script>
