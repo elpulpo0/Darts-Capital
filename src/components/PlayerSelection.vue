@@ -38,8 +38,6 @@
       <button type="submit" class="add-button">+</button>
     </form>
 
-    <button @click="clearLocalStorage">Vider les sauvegardes</button>
-
     <button
       @click="startGame"
       :disabled="selectedPlayers.length < 2"
