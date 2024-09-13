@@ -40,13 +40,12 @@ body {
 .logo {
   width: 100px;
   height: auto;
-  margin-right: 50px;
 }
 
 .capital {
   width: auto;
   height: 50px;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 /* Ajouter un ajustement pour les petits écrans */
@@ -71,4 +70,15 @@ body {
 
 .instruction-text {
   color: #767a7a;
+}
+
+/* Empêcher l'orientation paysage */
+@media screen and (orientation: landscape) {
+  body {
+    transform: rotate(90deg);
+    transform-origin: center;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+  }
 }

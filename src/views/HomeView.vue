@@ -2,8 +2,13 @@
   <div class="home">
     <!-- Show the logo only if the game hasn't started or it's over -->
     <div class="header" v-if="!gameStarted || gameOver">
-      <img :src="require('@/assets/logo.png')" alt="Logo" class="logo" />
       <img :src="require('@/assets/capital.png')" alt="Title" class="capital" />
+      <img
+        :src="require('@/assets/logo.png')"
+        alt="Logo"
+        class="logo"
+        @click="showAssociationInfo = true"
+      />
     </div>
 
     <!-- PlayerSelection component, visible when the game has not started -->
@@ -25,6 +30,46 @@
 
     <!-- GameOver component, visible when the game is over -->
     <GameOver v-if="gameOver" :winners="winners" @restart-game="restartGame" />
+
+    <!-- Modale d'information sur l'association -->
+    <div v-if="showAssociationInfo" class="modal-backdrop">
+      <div class="modal">
+        <h3>VojvoDarts Cote d'Azur</h3>
+        <p class="modal-message">
+          L’association a pour objet de :
+          <br /><br />
+          - Proposer l’initiation au jeu de fléchettes traditionnelles au grand
+          public.<br /><br />
+          - Développer la vocation éducative et sociale du sport<br /><br />
+          - Proposer à ses membres la pratique libre ou encadrée du jeu de
+          fléchettes traditionnelles et éventuellement électroniques.<br /><br />
+        </p>
+        <div class="modal-actions">
+          <button
+            class="modal-button confirm-button"
+            @click="
+              openLink(
+                'https://www.helloasso.com/associations/vojvodarts-cote-d-azur',
+              )
+            "
+          >
+            Visiter HelloAsso
+          </button>
+          <button
+            class="modal-button confirm-button"
+            @click="openLink('https://www.facebook.com/VojvoDarts')"
+          >
+            Suivez-nous sur Facebook
+          </button>
+          <button
+            class="modal-button cancel-button"
+            @click="showAssociationInfo = false"
+          >
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,8 +85,9 @@ export default {
       gameOver: false,
       players: [],
       winners: [],
-      preselectedPlayers: [], 
+      preselectedPlayers: [],
       restoreGameState: false,
+      showAssociationInfo: false,
     };
   },
   watch: {
@@ -111,4 +157,5 @@ export default {
 
 <style scoped>
 @import "@/styles/home.css";
+@import "@/styles/popup.css";
 </style>
