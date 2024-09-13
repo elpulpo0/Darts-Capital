@@ -34,7 +34,7 @@
     <!-- Modale d'information sur l'association -->
     <div v-if="showAssociationInfo" class="modal-backdrop">
       <div class="modal">
-        <h3>VojvoDarts Cote d'Azur</h3>
+        <h3>VojvoDarts Côte d'Azur</h3>
         <p class="modal-message">
           L’association a pour objet de :
           <br /><br />
@@ -42,25 +42,25 @@
           public.<br /><br />
           - Développer la vocation éducative et sociale du sport<br /><br />
           - Proposer à ses membres la pratique libre ou encadrée du jeu de
-          fléchettes traditionnelles et éventuellement électroniques.<br /><br />
+          fléchettes traditionnelles et éventuellement électroniques.
         </p>
+
+        <div class="social-buttons">
+  <button
+    class="social-button"
+    @click="openLink('https://www.instagram.com/vojvodarts', '_blank')"
+  >
+    <font-awesome-icon :icon="['fab', 'instagram']" />
+  </button>
+  <button
+    class="social-button"
+    @click="openLink('https://www.facebook.com/VojvoDarts', '_blank')"
+  >
+    <font-awesome-icon :icon="['fab', 'facebook']" />
+  </button>
+</div>
+
         <div class="modal-actions">
-          <button
-            class="modal-button confirm-button"
-            @click="
-              openLink(
-                'https://www.helloasso.com/associations/vojvodarts-cote-d-azur',
-              )
-            "
-          >
-            Visiter HelloAsso
-          </button>
-          <button
-            class="modal-button confirm-button"
-            @click="openLink('https://www.facebook.com/VojvoDarts')"
-          >
-            Suivez-nous sur Facebook
-          </button>
           <button
             class="modal-button cancel-button"
             @click="showAssociationInfo = false"

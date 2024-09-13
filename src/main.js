@@ -6,15 +6,14 @@ import {
   faUndoAlt,
   faInfoCircle,
   faCog,
-} from "@fortawesome/free-solid-svg-icons"; // Ajout de faInfoCircle
+} from "@fortawesome/free-solid-svg-icons";
+import { faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-// Ajouter uniquement les icônes dont vous avez besoin
-library.add(faUndoAlt, faInfoCircle, faCog); // Ajout de faInfoCircle dans la bibliothèque
+library.add(faUndoAlt, faInfoCircle, faCog, faInstagram, faFacebook);
 
 const app = createApp(App);
 
-// Enregistrer le composant FontAwesomeIcon globalement
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(router);
