@@ -115,6 +115,9 @@ export default {
     },
   },
   methods: {
+    openLink(url) {
+      window.open(url, "_blank");
+    },
     startGame(selectedPlayers) {
       // Start a new game without restoring any saved state
       this.players = selectedPlayers.sort(() => Math.random() - 0.5);
