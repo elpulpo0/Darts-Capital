@@ -450,6 +450,11 @@ export default {
       lastHistoryEntry.darts.push("0");
 
       this.currentPlayer.capital = Math.floor(this.currentPlayer.capital / 2);
+
+      // Si c'est au tour de l'ordinateur, mettre fin immédiatement à son tour
+      if (this.currentPlayer.isComputer) {
+        this.isComputerPlaying = false;
+      }
     },
 
     undoDart() {
@@ -458,18 +463,57 @@ export default {
         back.play();
       }
 
-      this.isUndoing = true; // Indique que nous sommes en train d'annuler
-      this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
+      this.isUndoing = true; // Indiquer que nous sommes en train d'annuler
 
-      // Après l'annulation, vérifier si c'est au tour de l'ordinateur
-      if (this.currentPlayer.isComputer) {
-        setTimeout(() => {
-          this.playComputerTurn(); // Rejouer le tour de l'ordinateur
-          this.isUndoing = false; // Réinitialiser après le tour de l'ordinateur
-        }, 100); // Ajouter un léger délai pour éviter la boucle
+      // Réinitialiser le multiplicateur à sa valeur par défaut
+      this.multiplier = 1;
+
+      // Déterminer le joueur précédent (celui qui était avant l'ordinateur)
+      const previousPlayerIndex =
+        this.currentPlayerIndex === 0
+          ? this.localPlayers.length - 1
+          : this.currentPlayerIndex - 1;
+      const previousPlayer = this.localPlayers[previousPlayerIndex];
+
+      // Vérifier si le joueur précédent était un ordinateur
+      if (previousPlayer.isComputer) {
+        // Restaurer l'état du jeu avant le tour de l'ordinateur
+        this.restoreSnapshot(); // Remettre le jeu à l'état précédant le tour de l'ordinateur
+
+        // Réinitialiser les fléchettes lancées par l'ordinateur
+        previousPlayer.darts = [];
+        previousPlayer.dartsDisplay = [];
+        previousPlayer.currentRoundPoints = 0;
+        // Forcer Vue à détecter les changements
+        this.localPlayers.splice(previousPlayerIndex, 1, { ...previousPlayer });
+
+        // Retirer la dernière fléchette du joueur avant l'ordinateur
+        const playerBeforeComputerIndex =
+          previousPlayerIndex === 0
+            ? this.localPlayers.length - 1
+            : previousPlayerIndex - 1;
+        const playerBeforeComputer =
+          this.localPlayers[playerBeforeComputerIndex];
+
+        if (playerBeforeComputer.darts.length > 0) {
+          // Retirer la dernière fléchette
+          const lastDartDisplay = playerBeforeComputer.dartsDisplay.pop();
+          playerBeforeComputer.darts.pop();
+
+          // Ajuster les points du joueur
+          const lastDartScore = this.extractNumber(lastDartDisplay);
+          playerBeforeComputer.currentRoundPoints -=
+            lastDartScore * this.multiplier;
+        }
+
+        // Réinitialiser l'index du joueur actuel à l'état restauré
+        this.currentPlayerIndex = playerBeforeComputerIndex;
       } else {
-        this.isUndoing = false; // Réinitialiser immédiatement si ce n'est pas l'ordinateur
+        // Si ce n'était pas un ordinateur, juste restaurer l'instantané habituel
+        this.restoreSnapshot();
       }
+      this.$forceUpdate();
+      this.isUndoing = false; // Réinitialiser l'état de l'annulation
     },
     showPlayerHistory(index) {
       this.historyPlayerIndex = index;
@@ -708,6 +752,7 @@ export default {
         this.currentPlayer.currentRoundPoints;
       this.contractResult = true;
     },
+
     nextPlayer() {
       if (this.isUndoing) {
         return;
@@ -728,65 +773,74 @@ export default {
         this.nextPhase();
       }
 
-      // Si c'est au tour de l'ordinateur
+      // Réinitialisation des informations du nouveau joueur
+      this.currentPlayer.darts = [];
+      this.currentPlayer.dartsDisplay = [];
+      this.currentPlayer.currentRoundPoints = 0;
+      this.extractedDarts = [];
+      this.originalDarts = [];
+      this.contractResult = null;
+
+      // Si c'est au tour de l'ordinateur, exécuter playComputerTurn
       if (this.currentPlayer.isComputer) {
         this.playComputerTurn();
-      } else {
-        // Réinitialisation des informations du nouveau joueur
-        this.currentPlayer.darts = [];
-        this.currentPlayer.dartsDisplay = [];
-        this.currentPlayer.currentRoundPoints = 0;
-        this.extractedDarts = [];
-        this.originalDarts = [];
-        this.contractResult = null;
       }
     },
     playComputerTurn() {
-      setTimeout(() => {
-        // Réinitialiser les fléchettes et les points de l'ordinateur pour le nouveau tour
-        this.currentPlayer.darts = [];
-        this.currentPlayer.dartsDisplay = [];
-        this.extractedDarts = [];
-        this.originalDarts = [];
-        this.currentPlayer.currentRoundPoints = 0; // Réinitialiser les points du tour ici
+      // Sauvegarder l'état du jeu avant le tour de l'ordinateur
+      this.saveSnapshot();
+      // Désactiver l'interface pour le joueur humain pendant le tour de l'ordinateur
+      this.isComputerPlaying = true;
 
+      const throwDart = (dartNumber) => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            if (this.contractResult !== null) {
+              resolve(); // Si le contrat est abrégé ou complété, ne pas lancer
+              return;
+            }
+            this.addDart(dartNumber); // Lancer la fléchette pour l'ordinateur
+            resolve(); // Résoudre la promesse une fois le lancer effectué
+          }, 1000); // Simuler un délai d'une seconde entre chaque lancer
+        });
+      };
+
+      const throwDartsSequentially = async () => {
         for (let i = 0; i < 3; i++) {
+          if (!this.currentPlayer.isComputer) {
+            return; // Si le tour change, arrêter
+          }
+
+          // Arrêter immédiatement si le contrat est abrégé
+          if (this.contractResult !== null) {
+            break;
+          }
+
           let dartNumber;
-          let multiplier = 1; // Par défaut, simple
-          const randomChance = Math.random(); // Génère un nombre entre 0 et 1
+          let multiplier =
+            Math.random() < 0.5 ? 1 : Math.random() < 0.8 ? 2 : 3; // Simple, double ou triple
 
-          // Déterminer si le lancer est un double, triple ou simple
-          if (randomChance < 0.5) {
-            // 50% de chances d'un lancer simple
-            multiplier = 1;
-          } else if (randomChance < 0.8) {
-            // 30% de chances d'un lancer double
-            multiplier = 2;
-          } else {
-            // 20% de chances d'un lancer triple
-            multiplier = 3;
-          }
-
-          // Générer un lancer avec la possibilité de doubler ou tripler le score
           if (Math.random() < 0.7) {
-            dartNumber = this.getSuccessfulDartNumber();
+            dartNumber = this.getSuccessfulDartNumber(); // Numéro "réussi"
           } else {
-            dartNumber = this.getRandomDartNumber();
+            dartNumber = this.getRandomDartNumber(); // Numéro aléatoire
           }
 
-          // Mettre à jour le multiplicateur avant d'ajouter la fléchette
           this.multiplier = multiplier;
 
-          // Appeler la fonction addDart et mettre à jour l'interface
-          this.addDart(dartNumber);
+          // Attendre que la fléchette soit lancée avant de passer à la suivante
+          await throwDart(dartNumber);
+
+          // Arrêter si nous sommes en train d'annuler
+          if (this.isUndoing) {
+            break;
+          }
         }
+        this.isComputerPlaying = false; // Le tour de l'ordinateur est terminé
+      };
 
-        // Réinitialiser le multiplicateur à 1 pour le prochain tour
-        this.multiplier = 1;
-
-        // Passer au joueur suivant
-        this.nextPlayer();
-      }, 1000); // Délai d'une seconde pour simuler la réflexion
+      // Commencer les lancers de l'ordinateur
+      throwDartsSequentially();
     },
     // Méthode pour obtenir un numéro de lancer "réussi"
     getSuccessfulDartNumber() {
