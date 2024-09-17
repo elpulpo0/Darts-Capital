@@ -65,6 +65,12 @@
   color: #ECF0F1;
 }
 
+.add-players-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espace entre les éléments */
+}
+
 .add-player-form {
   display: flex;
   align-items: center;

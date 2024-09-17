@@ -15,28 +15,43 @@
         v-for="(player, index) in storedPlayers"
         :key="index"
         class="player-item"
-        :class="{ selected: isSelected(player) }"
+        :class="{ selected: isSelected(player), computer: player.isComputer }"
         @click="handleClick(player, index)"
       >
         <img :src="player.avatar" alt="Avatar" class="player-avatar" />
         <div class="player-info">
-          <span class="player-name">{{ player.name }}</span>
+          <!-- Appliquer une couleur différente pour les ordinateurs -->
+          <span
+            class="player-name"
+            :style="{ color: player.isComputer ? '#3498db' : 'white' }"
+          >
+            {{ player.name }}
+          </span>
         </div>
-        <span class="delete-icon" @click.stop="removePlayer(index)"
-          >&#10005;</span
-        >
+        <span class="delete-icon" @click.stop="removePlayer(index)">
+          &#10005;
+        </span>
       </li>
     </ul>
 
-    <form @submit.prevent="addNewPlayer" class="add-player-form">
-      <input
-        v-model="newPlayerName"
-        type="text"
-        placeholder="Ajouter un joueur"
-        class="player-input"
-      />
-      <button type="submit" class="add-button">+</button>
-    </form>
+    <!-- Nouvelle section pour les inputs et les boutons alignés -->
+    <div class="add-players-container">
+      <!-- Formulaire pour ajouter un joueur -->
+      <form @submit.prevent="addNewPlayer" class="add-player-form">
+        <input
+          v-model="newPlayerName"
+          type="text"
+          placeholder="Ajouter un joueur"
+          class="player-input"
+        />
+        <button type="submit" class="add-button">+</button>
+      </form>
+
+      <!-- Bouton pour ajouter un ordinateur avec le même design -->
+      <button @click="addComputerPlayer" class="start-game-button" title="Ajouter un ordinateur">
+        Ajouter un ordinateur 💻
+      </button>
+    </div>
 
     <button
       @click="startGame"
@@ -71,13 +86,14 @@
 <script>
 export default {
   props: {
-    defaultPlayers: Array, // Recevoir les joueurs pré-sélectionnés
+    defaultPlayers: Array,
   },
   data() {
     return {
       storedPlayers: [],
       selectedPlayers: [],
       newPlayerName: "",
+      newComputerName: "",
       holdTimeout: null,
       holding: false,
       gameSaved: false,
@@ -88,6 +104,34 @@ export default {
     this.checkSavedGame();
   },
   methods: {
+    addComputerPlayer() {
+      // Charger tous les avatars disponibles
+      const context = require.context("@/assets/ProPlayers", false, /\.png$/);
+      const avatars = context.keys().map(context);
+
+      // Sélectionner un avatar aléatoire
+      const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+      // Extraire le nom du fichier pour générer le nom du joueur
+const fileName = randomAvatar.split("/").pop().split(".")[0]; // Récupérer seulement le nom sans l'extension
+const playerName = fileName.replace(/_/g, " "); // Remplacer les underscores par des espaces
+
+// Créer le joueur ordinateur avec le nom extrait du fichier
+const computerPlayer = {
+    name: playerName,
+    isComputer: true,
+    avatar: randomAvatar,
+    capital: 0,
+    score: 0,
+    darts: [],
+    dartsDisplay: [],
+};
+
+
+      // Ajouter le joueur ordinateur à la liste des joueurs
+      this.storedPlayers.push(computerPlayer);
+      this.selectedPlayers.push(computerPlayer);
+    },
     loadStoredPlayers() {
       const players = localStorage.getItem("players");
       if (players) {

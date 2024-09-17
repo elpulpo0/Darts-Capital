@@ -117,7 +117,12 @@ export default {
       showContractRulesModal: false,
     };
   },
-
+  mounted() {
+    // Si le premier joueur est un ordinateur, lancez son tour immédiatement
+    if (this.currentPlayer.isComputer) {
+      this.playComputerTurn();
+    }
+  },
   watch: {
     contractResult(newValue) {
       if (newValue !== null && !this.isUndoing) {
@@ -190,8 +195,8 @@ export default {
       };
       this.snapshots.push(snapshot);
       localStorage.setItem("dartGameSnapshot", JSON.stringify(snapshot));
-    }, 
-    
+    },
+
     restoreGame(snapshot) {
       this.currentPlayerIndex = snapshot.currentPlayerIndex;
       this.currentContractIndex = snapshot.currentContractIndex;
@@ -452,9 +457,20 @@ export default {
         const back = new Audio(backSound);
         back.play();
       }
-      this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
-    },
 
+      this.isUndoing = true; // Indique que nous sommes en train d'annuler
+      this.restoreSnapshot(); // Restaurer l'état depuis l'instantané
+
+      // Après l'annulation, vérifier si c'est au tour de l'ordinateur
+      if (this.currentPlayer.isComputer) {
+        setTimeout(() => {
+          this.playComputerTurn(); // Rejouer le tour de l'ordinateur
+          this.isUndoing = false; // Réinitialiser après le tour de l'ordinateur
+        }, 100); // Ajouter un léger délai pour éviter la boucle
+      } else {
+        this.isUndoing = false; // Réinitialiser immédiatement si ce n'est pas l'ordinateur
+      }
+    },
     showPlayerHistory(index) {
       this.historyPlayerIndex = index;
       this.showHistoryModal = true;
@@ -484,7 +500,7 @@ export default {
       this.$emit("restart-game");
     },
     closeConfirmPopup() {
-        this.showConfirmPopup = false;
+      this.showConfirmPopup = false;
     },
     getRankingClass(index) {
       const sortedPlayers = [...this.localPlayers].sort(
@@ -697,7 +713,14 @@ export default {
         return;
       }
 
-      this.saveGameState();
+      // Stocker les informations du dernier tour avant de réinitialiser
+      this.currentPlayer.lastRoundPoints =
+        this.currentPlayer.currentRoundPoints;
+      this.currentPlayer.lastDartsDisplay = [
+        ...this.currentPlayer.dartsDisplay,
+      ];
+
+      this.saveGameState(); // Sauvegarder l'état du jeu
 
       this.currentPlayerIndex++;
       if (this.currentPlayerIndex >= this.localPlayers.length) {
@@ -705,15 +728,78 @@ export default {
         this.nextPhase();
       }
 
-      // Réinitialisation des informations du nouveau joueur
-      this.currentPlayer.darts = [];
-      this.currentPlayer.dartsDisplay = [];
-      this.currentPlayer.currentRoundPoints = 0;
-      this.extractedDarts = [];
-      this.originalDarts = [];
-      this.contractResult = null;
+      // Si c'est au tour de l'ordinateur
+      if (this.currentPlayer.isComputer) {
+        this.playComputerTurn();
+      } else {
+        // Réinitialisation des informations du nouveau joueur
+        this.currentPlayer.darts = [];
+        this.currentPlayer.dartsDisplay = [];
+        this.currentPlayer.currentRoundPoints = 0;
+        this.extractedDarts = [];
+        this.originalDarts = [];
+        this.contractResult = null;
+      }
+    },
+    playComputerTurn() {
+      setTimeout(() => {
+        // Réinitialiser les fléchettes et les points de l'ordinateur pour le nouveau tour
+        this.currentPlayer.darts = [];
+        this.currentPlayer.dartsDisplay = [];
+        this.extractedDarts = [];
+        this.originalDarts = [];
+        this.currentPlayer.currentRoundPoints = 0; // Réinitialiser les points du tour ici
+
+        for (let i = 0; i < 3; i++) {
+          let dartNumber;
+          let multiplier = 1; // Par défaut, simple
+          const randomChance = Math.random(); // Génère un nombre entre 0 et 1
+
+          // Déterminer si le lancer est un double, triple ou simple
+          if (randomChance < 0.5) {
+            // 50% de chances d'un lancer simple
+            multiplier = 1;
+          } else if (randomChance < 0.8) {
+            // 30% de chances d'un lancer double
+            multiplier = 2;
+          } else {
+            // 20% de chances d'un lancer triple
+            multiplier = 3;
+          }
+
+          // Générer un lancer avec la possibilité de doubler ou tripler le score
+          if (Math.random() < 0.7) {
+            dartNumber = this.getSuccessfulDartNumber();
+          } else {
+            dartNumber = this.getRandomDartNumber();
+          }
+
+          // Mettre à jour le multiplicateur avant d'ajouter la fléchette
+          this.multiplier = multiplier;
+
+          // Appeler la fonction addDart et mettre à jour l'interface
+          this.addDart(dartNumber);
+        }
+
+        // Réinitialiser le multiplicateur à 1 pour le prochain tour
+        this.multiplier = 1;
+
+        // Passer au joueur suivant
+        this.nextPlayer();
+      }, 1000); // Délai d'une seconde pour simuler la réflexion
+    },
+    // Méthode pour obtenir un numéro de lancer "réussi"
+    getSuccessfulDartNumber() {
+      const successfulNumbers = [15, 16, 17, 18, 19, 20]; // Nombres avec des scores élevés
+      return successfulNumbers[
+        Math.floor(Math.random() * successfulNumbers.length)
+      ];
     },
 
+    // Méthode pour obtenir un numéro de lancer aléatoire
+    getRandomDartNumber() {
+      return Math.floor(Math.random() * 20) + 1; // Numéro entre 1 et 20
+    },
     nextPhase() {
       this.saveGameState(); // Sauvegarder l'état avant de changer de phase
 
