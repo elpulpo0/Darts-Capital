@@ -109,6 +109,7 @@ export default {
       extractedDarts: [],
       originalDarts: [],
       snapshots: [],
+      snapshotIndex: -1,
       showConfirmPopup: false,
       playerRefs: [],
       showHistoryModal: false,
@@ -172,6 +173,10 @@ export default {
     },
     // Nouvelle méthode pour sauvegarder un instantané complet
     saveSnapshot() {
+      const previousPlayerIndex =
+        this.currentPlayerIndex === 0
+          ? this.localPlayers.length - 1
+          : this.currentPlayerIndex - 1;
       const snapshot = {
         currentPlayerIndex: this.currentPlayerIndex,
         currentContractIndex: this.currentContractIndex,
@@ -180,8 +185,12 @@ export default {
         multiplier: this.multiplier,
         darts: JSON.parse(JSON.stringify(this.extractedDarts)),
         originalDarts: JSON.parse(JSON.stringify(this.originalDarts)),
+        previousIsComputer: this.localPlayers[previousPlayerIndex].isComputer,
       };
+
+      // Ajoutez le snapshot et augmentez l'index
       this.snapshots.push(snapshot);
+      this.snapshotIndex++;
     },
     saveGameProgression() {
       const snapshot = {
@@ -207,20 +216,21 @@ export default {
       this.originalDarts = JSON.parse(JSON.stringify(snapshot.originalDarts));
     },
     // Méthode pour restaurer un instantané
-    restoreSnapshot() {
-      if (this.snapshots.length > 0) {
-        const lastSnapshot = this.snapshots.pop();
+    restoreSnapshot(index) {
+      if (index >= 0 && index < this.snapshots.length) {
+        const snapshot = this.snapshots[index];
 
         // Restauration de l'état du jeu depuis l'instantané
-        this.currentPlayerIndex = lastSnapshot.currentPlayerIndex;
-        this.currentContractIndex = lastSnapshot.currentContractIndex;
-        this.localPlayers = JSON.parse(JSON.stringify(lastSnapshot.players));
-        this.contractResult = lastSnapshot.contractResult;
-        this.multiplier = lastSnapshot.multiplier;
-        this.extractedDarts = JSON.parse(JSON.stringify(lastSnapshot.darts));
-        this.originalDarts = JSON.parse(
-          JSON.stringify(lastSnapshot.originalDarts),
-        );
+        this.currentPlayerIndex = snapshot.currentPlayerIndex;
+        this.currentContractIndex = snapshot.currentContractIndex;
+        this.localPlayers = JSON.parse(JSON.stringify(snapshot.players));
+        this.contractResult = snapshot.contractResult;
+        this.multiplier = snapshot.multiplier;
+        this.extractedDarts = JSON.parse(JSON.stringify(snapshot.darts));
+        this.originalDarts = JSON.parse(JSON.stringify(snapshot.originalDarts));
+
+        // Mettez à jour l'index actuel
+        this.snapshotIndex = index;
       }
     },
 
@@ -465,54 +475,53 @@ export default {
 
       this.isUndoing = true; // Indiquer que nous sommes en train d'annuler
 
-      // Réinitialiser le multiplicateur à sa valeur par défaut
-      this.multiplier = 1;
+      // Vérifier que les snapshots existent et que l'index est valide
+      if (this.snapshots.length === 0 || this.snapshotIndex < 0) {
+        this.isUndoing = false; // Réinitialiser l'état de l'annulation
+        return;
+      }
 
-      // Déterminer le joueur précédent (celui qui était avant l'ordinateur)
+      // Déterminer combien de snapshots à restaurer
+      let snapshotsToRestore = 1; // Par défaut, remonter d'un snapshot
+
+      // Vérifier si le joueur précédent était un ordinateur
       const previousPlayerIndex =
         this.currentPlayerIndex === 0
           ? this.localPlayers.length - 1
           : this.currentPlayerIndex - 1;
       const previousPlayer = this.localPlayers[previousPlayerIndex];
 
-      // Vérifier si le joueur précédent était un ordinateur
+      // Si le joueur précédent est un ordinateur, remonter plusieurs snapshots
       if (previousPlayer.isComputer) {
-        // Restaurer l'état du jeu avant le tour de l'ordinateur
-        this.restoreSnapshot(); // Remettre le jeu à l'état précédant le tour de l'ordinateur
-
-        // Réinitialiser les fléchettes lancées par l'ordinateur
-        previousPlayer.darts = [];
-        previousPlayer.dartsDisplay = [];
-        previousPlayer.currentRoundPoints = 0;
-        // Forcer Vue à détecter les changements
-        this.localPlayers.splice(previousPlayerIndex, 1, { ...previousPlayer });
-
-        // Retirer la dernière fléchette du joueur avant l'ordinateur
-        const playerBeforeComputerIndex =
-          previousPlayerIndex === 0
-            ? this.localPlayers.length - 1
-            : previousPlayerIndex - 1;
-        const playerBeforeComputer =
-          this.localPlayers[playerBeforeComputerIndex];
-
-        if (playerBeforeComputer.darts.length > 0) {
-          // Retirer la dernière fléchette
-          const lastDartDisplay = playerBeforeComputer.dartsDisplay.pop();
-          playerBeforeComputer.darts.pop();
-
-          // Ajuster les points du joueur
-          const lastDartScore = this.extractNumber(lastDartDisplay);
-          playerBeforeComputer.currentRoundPoints -=
-            lastDartScore * this.multiplier;
+        // Parcourez les snapshots pour trouver le début du tour de l'ordinateur
+        while (snapshotsToRestore < this.snapshots.length) {
+          const snapshot =
+            this.snapshots[this.snapshotIndex - snapshotsToRestore];
+          if (
+            !snapshot ||
+            snapshot.currentPlayerIndex !== previousPlayerIndex
+          ) {
+            break;
+          }
+          snapshotsToRestore++;
         }
-
-        // Réinitialiser l'index du joueur actuel à l'état restauré
-        this.currentPlayerIndex = playerBeforeComputerIndex;
-      } else {
-        // Si ce n'était pas un ordinateur, juste restaurer l'instantané habituel
-        this.restoreSnapshot();
+        if (snapshotsToRestore > 1) {
+          snapshotsToRestore++;
+        }
       }
-      this.$forceUpdate();
+
+      // Restaurer les snapshots en fonction du nombre déterminé
+      for (let i = 0; i < snapshotsToRestore; i++) {
+        if (this.snapshotIndex >= 0) {
+          this.restoreSnapshot(this.snapshotIndex);
+          this.snapshotIndex--; // Mettre à jour l'index
+        }
+      }
+
+      // Réinitialiser le multiplicateur
+      this.multiplier = 1;
+
+      this.$forceUpdate(); // Forcer la mise à jour de l'interface utilisateur
       this.isUndoing = false; // Réinitialiser l'état de l'annulation
     },
     showPlayerHistory(index) {
