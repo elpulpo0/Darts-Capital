@@ -22,6 +22,7 @@
       v-if="!gameOver"
       :dartboardLayout="dartboardLayout"
       :multiplier="multiplier"
+      :contractNumber="currentContract?.name"
       @add-dart="addDart"
       @toggle-multiplier="toggleMultiplier"
       @undo-dart="undoDart"
@@ -101,7 +102,6 @@ export default {
         [1, 2, 3, 4, 5, 6, 7],
         [8, 9, 10, 11, 12, 13, 14],
         [15, 16, 17, 18, 19, 20, 25],
-        [0],
       ],
       multiplier: 1,
       contracts: contracts || [],
@@ -825,15 +825,17 @@ export default {
             break;
           }
 
-          let dartNumber;
-          let multiplier =
-            Math.random() < 0.5 ? 1 : Math.random() < 0.8 ? 2 : 3; // Simple, double ou triple
+          let dartNumber = this.getRandomDartNumber(); // Obtenir un numéro en respectant les règles du contrat
 
-          if (Math.random() < 0.7) {
-            dartNumber = this.getSuccessfulDartNumber(); // Numéro "réussi"
-          } else {
-            dartNumber = this.getRandomDartNumber(); // Numéro aléatoire
-          }
+          // Si le numéro est 0 (MISS), forcer le multiplicateur à 1 (pas de double ou triple pour un MISS)
+          let multiplier =
+            dartNumber === 0
+              ? 1
+              : Math.random() < 0.5
+                ? 1
+                : Math.random() < 0.8
+                  ? 2
+                  : 3;
 
           this.multiplier = multiplier;
 
@@ -851,17 +853,21 @@ export default {
       // Commencer les lancers de l'ordinateur
       throwDartsSequentially();
     },
-    // Méthode pour obtenir un numéro de lancer "réussi"
-    getSuccessfulDartNumber() {
-      const successfulNumbers = [15, 16, 17, 18, 19, 20]; // Nombres avec des scores élevés
-      return successfulNumbers[
-        Math.floor(Math.random() * successfulNumbers.length)
-      ];
-    },
 
-    // Méthode pour obtenir un numéro de lancer aléatoire
+    // Méthode pour obtenir un numéro de lancer aléatoire selon le contrat
     getRandomDartNumber() {
-      return Math.floor(Math.random() * 20) + 1; // Numéro entre 1 et 20
+      const contractName = this.currentContract?.name;
+
+      // Si le contrat est numérique (et pas "57"), l'ordinateur ne doit lancer que sur ce numéro ou sur "MISS"
+      if (!isNaN(contractName) && contractName !== "57") {
+        const contractNumber = parseInt(contractName);
+
+        // 70% de chances de lancer sur le numéro du contrat, 30% de chances de lancer sur "MISS"
+        return Math.random() < 0.7 ? contractNumber : 0;
+      }
+
+      // Pour les autres contrats, il peut lancer sur n'importe quel numéro entre 1 et 20
+      return Math.floor(Math.random() * 20) + 1;
     },
     nextPhase() {
       this.saveGameState(); // Sauvegarder l'état avant de changer de phase

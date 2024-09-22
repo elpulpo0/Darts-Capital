@@ -42,6 +42,23 @@
   display: contents;
 }
 
+.dartboard-unique-number {
+    background-color: #34495e;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+    grid-column: span 7;
+}
+
 .dartboard-number {
   background-color: #34495e;
   color: white;
@@ -84,7 +101,7 @@
   flex-grow: 1;
 }
 
-.dartboard-number:active, .double-button:active, .triple-button:active, .back-button:active {
+.dartboard-number:active, .double-button:active, .triple-button:active, .back-button:active, .dartboard-unique-number:active {
   background-color: #2980B9;
 }
 
@@ -98,9 +115,14 @@
   grid-column: span 2;
 }
 
+.miss-button {
+  background-color: #d39000;
+  grid-column: span 2;
+}
+
 .back-button {
   background-color: #C0392B;
-  grid-column: span 2;
+  grid-column: span 1;
 }
 
 .contract-list {
