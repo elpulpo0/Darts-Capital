@@ -49,7 +49,7 @@
 
       <!-- Bouton pour ajouter un ordinateur avec le même design -->
       <button @click="addComputerPlayer" class="start-game-button" title="Ajouter un ordinateur">
-        Ajouter un ordinateur 💻
+        Ajouter une IA
       </button>
     </div>
 
