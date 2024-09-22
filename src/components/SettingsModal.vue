@@ -11,6 +11,17 @@
         </label>
       </div>
 
+      <div class="modal-row">
+        <span class="modal-label">Niveau de l'IA</span>
+        <select v-model="localIaDifficulty" class="modal-select">
+          <option value="very_easy">Easy</option>
+          <option value="easy">Soft</option>
+          <option value="medium">Middle</option>
+          <option value="hard">Hard</option>
+          <option value="very_hard">Pro</option>
+        </select>
+      </div>
+
       <div class="modal-actions">
         <button class="modal-button confirm-button" @click="saveSettings">
           Sauvegarder
@@ -34,28 +45,45 @@ export default {
       type: Boolean,
       default: true,
     },
+    iaDifficulty: {
+      type: String,
+      default: "medium",
+    },
   },
   data() {
     return {
-      localSoundEnabled: this.soundEnabled, // Utilisation d'une copie locale
+      localSoundEnabled: this.soundEnabled, // Copie locale du son
+      localIaDifficulty: this.iaDifficulty, // Copie locale de la difficulté de l'IA
     };
   },
   watch: {
+    // Synchroniser les props avec la copie locale lorsque le modal est ouvert
     soundEnabled(newVal) {
-      this.localSoundEnabled = newVal; // Met à jour la copie locale si la prop change
+      this.localSoundEnabled = newVal;
+    },
+    iaDifficulty(newVal) {
+      this.localIaDifficulty = newVal;
     },
   },
-
   methods: {
+    // Appliquer et sauvegarder les modifications lorsqu'on clique sur "Sauvegarder"
     saveSettings() {
-  this.$emit("settings-saved", this.localSoundEnabled); // Sauvegarde les paramètres
-  this.closeModal();
-}
+      this.$emit(
+        "settings-saved",
+        this.localSoundEnabled,
+        this.localIaDifficulty,
+      );
+      this.closeModal(true); // Fermer la modale après avoir sauvegardé
+    },
 
-,
-    closeModal() {
-      this.localSoundEnabled = this.soundEnabled;
-      this.$emit("close"); // Ferme la modale
+    // Fermer la modale sans sauvegarder les modifications (si isSaving est false)
+    closeModal(isSaving = false) {
+      if (!isSaving) {
+        // Réinitialiser les valeurs locales aux valeurs des props
+        this.localSoundEnabled = this.soundEnabled;
+        this.localIaDifficulty = this.iaDifficulty;
+      }
+      this.$emit("close"); // Fermer la modale
     },
   },
 };

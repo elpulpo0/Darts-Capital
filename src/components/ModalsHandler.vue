@@ -9,6 +9,7 @@
     <SettingsModal
       :isVisible="showSettingsModal"
       :soundEnabled="soundEnabled"
+      :iaDifficulty="iaDifficulty"
       @settings-saved="forwardSettingsSaved"
       @close="closeSettingsModal"
     />
@@ -30,7 +31,12 @@ export default {
     showSettingsModal: Boolean,
     showContractRulesModal: Boolean,
     soundEnabled: Boolean,
+    iaDifficulty: {
+      type: String,
+      default: "medium", // Valeur par défaut
+    },
   },
+
   emits: [
     "canceled",
     "do-no-save",
@@ -52,8 +58,8 @@ export default {
     closeContractRulesModal() {
       this.$emit("close-contract-rules-modal");
     },
-    forwardSettingsSaved(newSoundSetting) {
-      this.$emit("settings-saved", newSoundSetting);
+    forwardSettingsSaved(newSoundSetting, newIaDifficulty) {
+      this.$emit("settings-saved", newSoundSetting, newIaDifficulty);
     },
     handleSaveGame() {
       this.$emit("save-game");

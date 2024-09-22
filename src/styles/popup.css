@@ -189,3 +189,26 @@ input:checked + .slider:before {
 .social-button:active {
   background-color: #2471a3;
 }
+
+.modal-select {
+  background-color: #34495e;
+  color: #ecf0f1;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1em;
+  width: 30%;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-select:focus {
+  outline: none;
+  background-color: #2c3e50;
+  border-color: #2980b9;
+}
+
+.modal-select option {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}

@@ -33,6 +33,7 @@
       :showSettingsModal="showSettingsModal"
       :showContractRulesModal="showContractRulesModal"
       :soundEnabled="soundEnabled"
+      :iaDifficulty="iaDifficulty"
       @do-not-save="handleDoNotSave"
       @canceled="closeConfirmPopup"
       @save-game="handleSaveGame"
@@ -83,6 +84,7 @@ export default {
     return {
       showSettingsModal: false,
       soundEnabled: true,
+      iaDifficulty: "medium",
       gameOver: false,
       winner: null,
       currentPlayerIndex: 0,
@@ -161,8 +163,9 @@ export default {
     closeSettingsModal() {
       this.showSettingsModal = false;
     },
-    handleSettingsSaved(newSoundSetting) {
+    handleSettingsSaved(newSoundSetting, newIaDifficulty) {
       this.soundEnabled = newSoundSetting;
+      this.iaDifficulty = newIaDifficulty;
     },
 
     openContractRules() {
@@ -854,20 +857,64 @@ export default {
       throwDartsSequentially();
     },
 
-    // Méthode pour obtenir un numéro de lancer aléatoire selon le contrat
+    // Méthode pour obtenir un numéro de lancer aléatoire selon le contrat et la difficulté
     getRandomDartNumber() {
       const contractName = this.currentContract?.name;
 
-      // Si le contrat est numérique (et pas "57"), l'ordinateur ne doit lancer que sur ce numéro ou sur "MISS"
+      // Si le contrat est numérique (et pas "57"), l'ordinateur doit viser ce numéro ou "MISS"
       if (!isNaN(contractName) && contractName !== "57") {
         const contractNumber = parseInt(contractName);
 
-        // 70% de chances de lancer sur le numéro du contrat, 30% de chances de lancer sur "MISS"
-        return Math.random() < 0.7 ? contractNumber : 0;
+        // Ajuster la probabilité de lancer en fonction de la difficulté
+        let hitChance;
+        switch (this.iaDifficulty) {
+          case "very_easy":
+            hitChance = 0.4; // 40% de chance de toucher le numéro du contrat, 60% sur "MISS"
+            break;
+          case "easy":
+            hitChance = 0.5; // 50% de chance de toucher le numéro du contrat
+            break;
+          case "medium":
+            hitChance = 0.7; // 70% de chance de toucher le numéro du contrat
+            break;
+          case "hard":
+            hitChance = 0.85; // 85% de chance de toucher le numéro du contrat
+            break;
+          case "very_hard":
+            hitChance = 0.95; // 95% de chance de toucher le numéro du contrat
+            break;
+          default:
+            hitChance = 0.7; // Valeur par défaut (moyenne)
+        }
+
+        // Retourner le numéro du contrat ou "MISS" selon la probabilité
+        return Math.random() < hitChance ? contractNumber : 0;
       }
 
       // Pour les autres contrats, il peut lancer sur n'importe quel numéro entre 1 et 20
-      return Math.floor(Math.random() * 20) + 1;
+      let hitChance;
+      switch (this.iaDifficulty) {
+        case "very_easy":
+          hitChance = 0.5; // IA débutante rate souvent
+          break;
+        case "easy":
+          hitChance = 0.6;
+          break;
+        case "medium":
+          hitChance = 0.75;
+          break;
+        case "hard":
+          hitChance = 0.85;
+          break;
+        case "very_hard":
+          hitChance = 0.95; // IA experte ne rate presque jamais
+          break;
+        default:
+          hitChance = 0.7;
+      }
+
+      // Retourner un numéro entre 1 et 20 ou "MISS" selon la difficulté
+      return Math.random() < hitChance ? Math.floor(Math.random() * 20) + 1 : 0;
     },
     nextPhase() {
       this.saveGameState(); // Sauvegarder l'état avant de changer de phase
