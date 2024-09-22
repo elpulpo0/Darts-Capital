@@ -66,45 +66,60 @@
 }
 
 .add-players-container {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr; /* Input et IA à 3/7 chacun et bouton ajouter à 1/7 */
   gap: 10px; /* Espace entre les éléments */
-}
-
-.add-player-form {
-  display: flex;
-  align-items: center;
+  align-items: center; /* Centrer verticalement */
+  width: 100%; /* Occuper toute la largeur */
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.add-player-form .player-input {
-  height: 48px; /* Assure une hauteur fixe pour l'input */
+.add-player-form {
+  display: flex; /* Flexbox pour aligner l'input et le bouton "+" horizontalement */
+  grid-column: 1 / span 1; /* Prendre seulement la première colonne */
+}
+
+.player-input {
   flex-grow: 1; /* Permet à l'input de prendre tout l'espace disponible */
+  height: 48px;
   border-radius: 5px;
   border: 1px solid #BDC3C7;
-  padding: 0 10px; /* Padding pour un meilleur espacement interne */
-  margin-right: 10px;
-  box-sizing: border-box; /* Assure que la hauteur inclut le padding */
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .add-button {
   background-color: #3498DB;
   color: white;
   border: none;
-  font-size: 1.5em; /* Taille du "+" */
+  font-size: 1.5em;
   cursor: pointer;
   border-radius: 5px;
-  min-height: 48px; /* Hauteur identique à celle de l'input */
-  width: 48px; /* Rendre le bouton carré */
+  min-height: 48px; /* Assurer la même hauteur que l'input */
+  width: 48px; /* Carré */
   display: flex;
   align-items: center;
-  justify-content: center; /* Centre le contenu (le "+") */
-  padding: 0; /* Supprimer le padding interne */
-  box-sizing: border-box; /* Assure que la taille inclut les bordures */
+  justify-content: center;
+  padding: 0;
+  margin-left: 10px; /* Espace entre l'input et le bouton */
 }
 
-.add-button:active {
+.add-ia-button {
+  background-color: #3498DB;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  min-height: 48px;
+  grid-column: 3 / span 1; /* Placer ce bouton dans la troisième colonne */
+  width: 100%; /* Prendre toute la largeur allouée par la grille */
+  box-sizing: border-box;
+}
+
+.add-button:active, .add-ia-button:active {
   background-color: #2980B9;
 }
 

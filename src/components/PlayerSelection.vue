@@ -34,7 +34,6 @@
       </li>
     </ul>
 
-    <!-- Nouvelle section pour les inputs et les boutons alignés -->
     <div class="add-players-container">
       <!-- Formulaire pour ajouter un joueur -->
       <form @submit.prevent="addNewPlayer" class="add-player-form">
@@ -47,8 +46,8 @@
         <button type="submit" class="add-button">+</button>
       </form>
 
-      <!-- Bouton pour ajouter un ordinateur avec le même design -->
-      <button @click="addComputerPlayer" class="start-game-button" title="Ajouter un ordinateur">
+      <!-- Bouton pour ajouter une IA -->
+      <button @click="addComputerPlayer" class="add-ia-button">
         Ajouter une IA
       </button>
     </div>
@@ -113,20 +112,19 @@ export default {
       const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
 
       // Extraire le nom du fichier pour générer le nom du joueur
-const fileName = randomAvatar.split("/").pop().split(".")[0]; // Récupérer seulement le nom sans l'extension
-const playerName = fileName.replace(/_/g, " "); // Remplacer les underscores par des espaces
+      const fileName = randomAvatar.split("/").pop().split(".")[0]; // Récupérer seulement le nom sans l'extension
+      const playerName = fileName.replace(/_/g, " "); // Remplacer les underscores par des espaces
 
-// Créer le joueur ordinateur avec le nom extrait du fichier
-const computerPlayer = {
-    name: playerName,
-    isComputer: true,
-    avatar: randomAvatar,
-    capital: 0,
-    score: 0,
-    darts: [],
-    dartsDisplay: [],
-};
-
+      // Créer le joueur ordinateur avec le nom extrait du fichier
+      const computerPlayer = {
+        name: playerName,
+        isComputer: true,
+        avatar: randomAvatar,
+        capital: 0,
+        score: 0,
+        darts: [],
+        dartsDisplay: [],
+      };
 
       // Ajouter le joueur ordinateur à la liste des joueurs
       this.storedPlayers.push(computerPlayer);
