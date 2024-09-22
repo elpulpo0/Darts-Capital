@@ -35,22 +35,23 @@
     </ul>
 
     <div class="add-players-container">
-      <!-- Formulaire pour ajouter un joueur -->
-      <form @submit.prevent="addNewPlayer" class="add-player-form">
-        <input
-          v-model="newPlayerName"
-          type="text"
-          placeholder="Ajouter un joueur"
-          class="player-input"
-        />
-        <button type="submit" class="add-button">+</button>
-      </form>
+  <!-- À gauche : Bouton pour ajouter une IA -->
+  <button @click="addComputerPlayer" class="add-ia-button">
+    Ajouter une IA
+  </button>
 
-      <!-- Bouton pour ajouter une IA -->
-      <button @click="addComputerPlayer" class="add-ia-button">
-        Ajouter une IA
-      </button>
-    </div>
+  <!-- À droite : Formulaire pour ajouter un joueur (input + bouton +) -->
+  <form @submit.prevent="addNewPlayer" class="add-player-form">
+    <input
+      v-model="newPlayerName"
+      type="text"
+      placeholder="Ajouter un joueur"
+      class="player-input"
+    />
+    <button type="submit" class="add-button">+</button>
+  </form>
+</div>
+
 
     <button
       @click="startGame"
