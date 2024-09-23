@@ -30,6 +30,9 @@
           Fermer
         </button>
       </div>
+      <div class="app-version">
+        <p>Version: {{ versionName }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -52,8 +55,9 @@ export default {
   },
   data() {
     return {
-      localSoundEnabled: this.soundEnabled, // Copie locale du son
-      localIaDifficulty: this.iaDifficulty, // Copie locale de la difficulté de l'IA
+      localSoundEnabled: this.soundEnabled,
+      localIaDifficulty: this.iaDifficulty,
+      versionName: process.env.VUE_APP_VERSION_NAME || "Unknown", // Fetch the environment variable
     };
   },
   watch: {
