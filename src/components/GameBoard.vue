@@ -958,8 +958,8 @@ export default {
     checkPelucheContract(darts) {
       const allNonZero = darts.every((dart) => dart !== 0);
 
-      // Calculez la somme des fléchettes
-      const sum = darts.reduce((acc, dart) => acc + dart, 0);
+      // Calculez la somme des fléchettes en tenant compte du multiplicateur
+      const sum = darts.reduce((acc, dart) => acc + dart * this.multiplier, 0);
 
       const validSum = sum <= 20;
 
