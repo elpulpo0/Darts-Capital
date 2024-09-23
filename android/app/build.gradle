@@ -43,53 +43,6 @@ dependencies {
 
 apply from: 'capacitor.build.gradle'
 
-// Update versionCode and versionName in gradle.properties and .env
-task updateVersionFiles {
-    doLast {
-        def propertiesFile = file("${rootDir}/gradle.properties")
-        def envFile = file("${rootDir}/../.env")
-
-        // Load gradle.properties
-        def properties = new Properties()
-        properties.load(new FileInputStream(propertiesFile))
-
-        // Get current version name and version code
-        def currentVersionName = properties.VUE_APP_VERSION_NAME
-        def currentVersionCode = properties.VUE_APP_VERSION_CODE.toInteger()
-
-        // Split the version (major.minor.patch)
-        def versionParts = currentVersionName.split("\\.")
-        def major = versionParts[0]
-        def minor = versionParts[1]
-        def patch = versionParts[2].toInteger() + 1 // Increment patch version
-
-        // Generate new version name
-        def newVersionName = "${major}.${minor}.${patch}"
-
-        // Update versionCode and versionName in gradle.properties
-        properties.setProperty("VUE_APP_VERSION_CODE", (currentVersionCode + 1).toString())
-        properties.setProperty("VUE_APP_VERSION_NAME", newVersionName)
-        properties.store(new FileOutputStream(propertiesFile), null)
-
-        println "Updated gradle.properties with VUE_APP_VERSION_CODE=${currentVersionCode + 1} and VUE_APP_VERSION_NAME=${newVersionName}"
-
-        // Update .env file
-        println "Updating .env at: ${envFile.absolutePath}"
-        if (envFile.exists()) {
-            def envContent = envFile.text
-            envContent = envContent.replaceFirst(/VUE_APP_VERSION_NAME=.*/, "VUE_APP_VERSION_NAME=${newVersionName}")
-            envFile.text = envContent
-        } else {
-            envFile.write("VUE_APP_VERSION_NAME=${newVersionName}\n")
-        }
-
-        println "Updated .env with VUE_APP_VERSION_NAME=${newVersionName}"
-    }
-}
-
-// Ensure the version files are updated before building
-preBuild.dependsOn updateVersionFiles
-
 try {
     def servicesJSON = file('google-services.json')
     if (servicesJSON.text) {
