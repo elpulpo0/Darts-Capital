@@ -16,11 +16,6 @@
   position: relative;
 }
 
-body.light .game-board {
-  background-color: #ECF0F1; /* Light mode background */
-  color: #2C3E50; /* Light mode text color */
-}
-
 .players-scores {
   width: 100%;
   flex-grow: 1;
@@ -78,12 +73,6 @@ body.light .game-board {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-}
-
-body.light .dartboard-unique-number,
-body.light .dartboard-number {
-  background-color: #3498DB; /* Light mode button background */
-  color: white; /* Light mode button text color */
 }
 
 .last-row {
@@ -150,10 +139,6 @@ body.light .dartboard-number {
   color: white;
   border-radius: 5px;
   font-weight: bold;
-}
-
-body.light .contract-item {
-  background-color: #2C3E50; /* Light mode contract item background */
 }
 
 .contract-item.success {
@@ -304,10 +289,6 @@ li {
     min-height: 48px;
     padding: 10px;
     color: white;
-}
-
-body.light .result-button {
-  background-color: #7f8c8d; /* Light mode button color */
 }
 
 .contract-result.success {

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <!-- Show the logo only if the game hasn't started or it's over -->
     <div class="header" v-if="!gameStarted || gameOver">
       <img :src="require('@/assets/capital.png')" alt="Title" class="capital" />
       <img
@@ -11,27 +10,30 @@
       />
     </div>
 
-    <!-- PlayerSelection component, visible when the game has not started -->
     <PlayerSelection
       v-if="!gameStarted && !gameOver"
       @start-game="startGame"
       :defaultPlayers="preselectedPlayers"
       @restore-game="prepareGameForRestore"
+      :soundEnabled="soundEnabled"
+      :iaDifficulty="iaDifficulty"
+      :theme="theme"
+      @settings-saved="handleSettingsSaved"
     />
 
-    <!-- GameBoard component, visible when the game has started -->
     <GameBoard
       v-else-if="gameStarted && !gameOver"
       ref="gameBoard"
       :players="players"
       @game-over="handleGameOver"
       @restart-game="restartGame"
+      :soundEnabled="soundEnabled"
+      :iaDifficulty="iaDifficulty"
+      :theme="theme"
     />
 
-    <!-- GameOver component, visible when the game is over -->
     <GameOver v-if="gameOver" :winners="winners" @restart-game="restartGame" />
 
-    <!-- Modale d'information sur l'association -->
     <div v-if="showAssociationInfo" class="modal-backdrop">
       <div class="modal">
         <h3>VojvoDarts Côte d'Azur</h3>
@@ -46,19 +48,19 @@
         </p>
 
         <div class="social-buttons">
-  <button
-    class="social-button"
-    @click="openLink('https://www.instagram.com/vojvodarts', '_blank')"
-  >
-    <font-awesome-icon :icon="['fab', 'instagram']" />
-  </button>
-  <button
-    class="social-button"
-    @click="openLink('https://www.facebook.com/VojvoDarts', '_blank')"
-  >
-    <font-awesome-icon :icon="['fab', 'facebook']" />
-  </button>
-</div>
+          <button
+            class="social-button"
+            @click="openLink('https://www.instagram.com/vojvodarts', '_blank')"
+          >
+            <font-awesome-icon :icon="['fab', 'instagram']" />
+          </button>
+          <button
+            class="social-button"
+            @click="openLink('https://www.facebook.com/VojvoDarts', '_blank')"
+          >
+            <font-awesome-icon :icon="['fab', 'facebook']" />
+          </button>
+        </div>
 
         <div class="modal-actions">
           <button
@@ -74,9 +76,11 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import PlayerSelection from "@/components/PlayerSelection.vue";
 import GameBoard from "@/components/GameBoard.vue";
 import GameOver from "@/components/GameOver.vue";
+import { useStore } from "vuex";
 
 export default {
   data() {
@@ -90,60 +94,69 @@ export default {
       showAssociationInfo: false,
     };
   },
+  setup() {
+    const store = useStore();
+
+    // Accéder aux réglages via le store
+    const soundEnabled = computed(() => store.state.settings.soundEnabled);
+    const iaDifficulty = computed(() => store.state.settings.iaDifficulty);
+    const theme = computed(() => store.state.settings.theme);
+
+    return {
+      soundEnabled,
+      iaDifficulty,
+      theme,
+    };
+  },
   watch: {
     gameStarted(newVal) {
       if (newVal && this.restoreGameState) {
-        // Only restore the game if the user chose to restore a saved game
         this.$nextTick(() => {
-          if (
-            this.$refs.gameBoard &&
-            typeof this.$refs.gameBoard.restoreGame === "function"
-          ) {
+          if (this.$refs.gameBoard && typeof this.$refs.gameBoard.restoreGame === "function") {
             const savedSnapshot = localStorage.getItem("dartGameSnapshot");
             if (savedSnapshot) {
               const snapshot = JSON.parse(savedSnapshot);
               this.$refs.gameBoard.restoreGame(snapshot);
-              this.restoreGameState = false; // Reset the flag after restoring
+              this.restoreGameState = false;
             }
           } else {
-            console.error(
-              "GameBoard component is not available or restoreGame is not a function.",
-            );
+            console.error("GameBoard component is not available or restoreGame is not a function.");
           }
         });
       }
     },
   },
   methods: {
+    handleSettingsSaved(newSoundSetting, newIaDifficulty, newTheme) {
+      this.$store.commit('setSoundEnabled', newSoundSetting);
+      this.$store.commit('setIaDifficulty', newIaDifficulty);
+      this.$store.commit('setTheme', newTheme);
+    },
     openLink(url) {
       window.open(url, "_blank");
     },
     startGame(selectedPlayers) {
-      // Start a new game without restoring any saved state
       this.players = selectedPlayers.sort(() => Math.random() - 0.5);
       this.gameStarted = true;
-      this.restoreGameState = false; // Ensure no restoration happens during new game
-      this.preselectedPlayers = []; // Reset after starting the game
+      this.restoreGameState = false;
+      this.preselectedPlayers = [];
     },
     prepareGameForRestore() {
-      // Called when the user clicks "Restaurer la partie"
       const savedSnapshot = localStorage.getItem("dartGameSnapshot");
       if (savedSnapshot) {
-        this.restoreGameState = true; // Set flag to restore game
-        this.players = JSON.parse(savedSnapshot).players; // Preselect the players
-        this.gameStarted = true; // Mark the game as started to trigger GameBoard mount
+        this.restoreGameState = true;
+        this.players = JSON.parse(savedSnapshot).players;
+        this.gameStarted = true;
       } else {
         console.error("No saved game state found in localStorage.");
       }
     },
     handleGameOver(winners) {
-      // When the game is over, show the winners and return to player selection
       this.winners = winners;
       this.gameStarted = false;
       this.gameOver = true;
     },
     restartGame() {
-      // Reset the game state and allow the user to start fresh
       this.gameStarted = false;
       this.gameOver = false;
       this.preselectedPlayers = [...this.players];

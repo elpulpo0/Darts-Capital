@@ -34,12 +34,12 @@
       :showContractRulesModal="showContractRulesModal"
       :soundEnabled="soundEnabled"
       :iaDifficulty="iaDifficulty"
+      :theme="theme"
       @do-not-save="handleDoNotSave"
       @canceled="closeConfirmPopup"
       @save-game="handleSaveGame"
       @close-settings-modal="closeSettingsModal"
       @close-contract-rules-modal="closeContractRulesModal"
-      @settings-saved="handleSettingsSaved"
     />
 
     <PlayerHistoryModal
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import GameBoardHeader from "./GameBoardHeader.vue";
 import PlayerList from "./PlayerList.vue";
 import DartBoard from "./DartBoard.vue";
@@ -73,6 +75,17 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const store = useStore();
+
+    // Accéder aux réglages
+    const soundEnabled = computed(() => store.state.settings.soundEnabled);
+    const iaDifficulty = computed(() => store.state.settings.iaDifficulty);
+    const theme = computed(() => store.state.settings.theme);
+
+    return { soundEnabled, iaDifficulty, theme };
+  },
+
   components: {
     GameBoardHeader,
     PlayerList,
@@ -83,8 +96,6 @@ export default {
   data() {
     return {
       showSettingsModal: false,
-      soundEnabled: true,
-      iaDifficulty: "medium",
       gameOver: false,
       winner: null,
       currentPlayerIndex: 0,
@@ -163,11 +174,6 @@ export default {
     closeSettingsModal() {
       this.showSettingsModal = false;
     },
-    handleSettingsSaved(newSoundSetting, newIaDifficulty) {
-      this.soundEnabled = newSoundSetting;
-      this.iaDifficulty = newIaDifficulty;
-    },
-
     openContractRules() {
       this.showContractRulesModal = true;
     },
