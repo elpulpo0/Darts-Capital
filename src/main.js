@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import store from "./stores/store";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUndoAlt,
@@ -16,6 +17,19 @@ const app = createApp(App);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 
+// Ajouter le thème au body au démarrage
+const theme = store.state.settings.theme;
+document.body.classList.add(theme);
+
 app.use(router);
+app.use(store);
+
+// Écouter les changements de thème
+store.subscribe((mutation) => {
+  if (mutation.type === "setTheme") {
+    document.body.className = ""; // Réinitialiser les classes
+    document.body.classList.add(mutation.payload); // Ajouter le nouveau thème
+  }
+});
 
 app.mount("#app");

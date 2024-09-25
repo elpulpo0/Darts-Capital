@@ -1,6 +1,11 @@
 <template>
   <div class="player-selection">
-    <h2>Sélection des joueurs</h2>
+    <div class="topline-container">
+      <button @click="openSettingsModal" class="settings-button-home">
+        <font-awesome-icon :icon="['fas', 'cog']" />
+      </button>
+      <h2 class="title">Sélection des joueurs</h2>
+    </div>
 
     <p v-if="storedPlayers.length === 0" class="instruction-text">
       Ajoutez des joueurs pour commencer.
@@ -20,7 +25,6 @@
       >
         <img :src="player.avatar" alt="Avatar" class="player-avatar" />
         <div class="player-info">
-          <!-- Appliquer une couleur différente pour les ordinateurs -->
           <span
             class="player-name"
             :style="{ color: player.isComputer ? '#3498db' : 'white' }"
@@ -35,23 +39,19 @@
     </ul>
 
     <div class="add-players-container">
-  <!-- À gauche : Bouton pour ajouter une IA -->
-  <button @click="addComputerPlayer" class="add-ia-button">
-    Ajouter une IA
-  </button>
-
-  <!-- À droite : Formulaire pour ajouter un joueur (input + bouton +) -->
-  <form @submit.prevent="addNewPlayer" class="add-player-form">
-    <input
-      v-model="newPlayerName"
-      type="text"
-      placeholder="Ajouter un joueur"
-      class="player-input"
-    />
-    <button type="submit" class="add-button">+</button>
-  </form>
-</div>
-
+      <button @click="addComputerPlayer" class="add-ia-button">
+        Ajouter une IA
+      </button>
+      <form @submit.prevent="addNewPlayer" class="add-player-form">
+        <input
+          v-model="newPlayerName"
+          type="text"
+          placeholder="Ajouter un joueur"
+          class="player-input"
+        />
+        <button type="submit" class="add-button">+</button>
+      </form>
+    </div>
 
     <button
       @click="startGame"
@@ -76,47 +76,66 @@
     </button>
 
     <p class="privacy-link">
-      <router-link to="/privacy-policy"
-        >Politique de confidentialité</router-link
-      >
+      <router-link to="/privacy-policy">Politique de confidentialité</router-link>
     </p>
+    <ModalsHandler
+      :showSettingsModal="showSettingsModal"
+      :soundEnabled="soundEnabled"
+      :iaDifficulty="iaDifficulty"
+      :theme="theme"
+      @close-settings-modal="closeSettingsModal"
+    />
   </div>
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import ModalsHandler from "./ModalsHandler.vue";
+
 export default {
   props: {
     defaultPlayers: Array,
   },
+  components: {
+    ModalsHandler,
+  },
   data() {
     return {
+      showSettingsModal: false,
       storedPlayers: [],
       selectedPlayers: [],
       newPlayerName: "",
-      newComputerName: "",
-      holdTimeout: null,
-      holding: false,
       gameSaved: false,
     };
+  },
+  setup() {
+    const store = useStore();
+
+    // Accéder aux réglages
+    const soundEnabled = computed(() => store.state.settings.soundEnabled);
+    const iaDifficulty = computed(() => store.state.settings.iaDifficulty);
+    const theme = computed(() => store.state.settings.theme);
+
+    return { soundEnabled, iaDifficulty, theme, store };
   },
   mounted() {
     this.loadStoredPlayers();
     this.checkSavedGame();
   },
   methods: {
+    openSettingsModal() {
+      this.showSettingsModal = true;
+    },
+    closeSettingsModal() {
+      this.showSettingsModal = false;
+    },
     addComputerPlayer() {
-      // Charger tous les avatars disponibles
       const context = require.context("@/assets/ProPlayers", false, /\.png$/);
       const avatars = context.keys().map(context);
-
-      // Sélectionner un avatar aléatoire
       const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
-
-      // Extraire le nom du fichier pour générer le nom du joueur
-      const fileName = randomAvatar.split("/").pop().split(".")[0]; // Récupérer seulement le nom sans l'extension
-      const playerName = fileName.replace(/_/g, " "); // Remplacer les underscores par des espaces
-
-      // Créer le joueur ordinateur avec le nom extrait du fichier
+      const fileName = randomAvatar.split("/").pop().split(".")[0];
+      const playerName = fileName.replace(/_/g, " ");
       const computerPlayer = {
         name: playerName,
         isComputer: true,
@@ -126,8 +145,6 @@ export default {
         darts: [],
         dartsDisplay: [],
       };
-
-      // Ajouter le joueur ordinateur à la liste des joueurs
       this.storedPlayers.push(computerPlayer);
       this.selectedPlayers.push(computerPlayer);
     },
@@ -150,9 +167,6 @@ export default {
       this.$emit("restore-game");
     },
     handleClick(player) {
-      if (this.holding) {
-        return;
-      }
       this.toggleSelection(player);
     },
     toggleSelection(player) {
@@ -163,24 +177,11 @@ export default {
         this.selectedPlayers.push(player);
       }
     },
-    startHold(index) {
-      this.holding = false;
-      this.clearHold();
-      this.holdTimeout = setTimeout(() => {
-        this.holding = true;
-        this.removePlayer(index);
-      }, 800);
-    },
-    clearHold() {
-      clearTimeout(this.holdTimeout);
-      this.holdTimeout = null;
-    },
     addNewPlayer() {
       if (this.newPlayerName !== "") {
         const context = require.context("@/assets/ProPlayers", false, /\.png$/);
         const avatars = context.keys().map(context);
-        const randomAvatar =
-          avatars[Math.floor(Math.random() * avatars.length)];
+        const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
 
         const newPlayer = {
           name: this.newPlayerName,
@@ -214,6 +215,11 @@ export default {
       }));
       this.$emit("start-game", this.selectedPlayers);
     },
+    updateSettings(newSoundSetting, newIaDifficulty, newTheme) {
+      this.store.commit("setSoundEnabled", newSoundSetting);
+      this.store.commit("setIaDifficulty", newIaDifficulty);
+      this.store.commit("setTheme", newTheme);
+    },
     isSelected(player) {
       return this.selectedPlayers.includes(player);
     },
@@ -224,4 +230,5 @@ export default {
 <style scoped>
 @import "@/styles/player-selection.css";
 @import "@/styles/home.css";
+@import "@/styles/popup.css";
 </style>

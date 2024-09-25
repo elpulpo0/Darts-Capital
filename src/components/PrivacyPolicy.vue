@@ -71,6 +71,11 @@ export default {
 
 <style scoped>
 
+body.light .privacy-policy-container {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
 .privacy-policy-container {
   width: 100%;
   max-width: 500px;

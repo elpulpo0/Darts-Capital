@@ -10,6 +10,7 @@
       :isVisible="showSettingsModal"
       :soundEnabled="soundEnabled"
       :iaDifficulty="iaDifficulty"
+      :theme="theme"
       @settings-saved="forwardSettingsSaved"
       @close="closeSettingsModal"
     />
@@ -21,6 +22,8 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import ConfirmationDialog from "./ConfirmationDialog.vue";
 import SettingsModal from "./SettingsModal.vue";
 import ContractRulesModal from "./ContractRulesModal.vue";
@@ -30,11 +33,6 @@ export default {
     showConfirmPopup: Boolean,
     showSettingsModal: Boolean,
     showContractRulesModal: Boolean,
-    soundEnabled: Boolean,
-    iaDifficulty: {
-      type: String,
-      default: "medium", // Valeur par défaut
-    },
   },
 
   emits: [
@@ -45,6 +43,18 @@ export default {
     "settings-saved",
     "save-game",
   ],
+
+  setup() {
+    const store = useStore();
+
+    // Accéder aux réglages du store
+    const soundEnabled = computed(() => store.state.settings.soundEnabled);
+    const iaDifficulty = computed(() => store.state.settings.iaDifficulty);
+    const theme = computed(() => store.state.settings.theme);
+
+    return { soundEnabled, iaDifficulty, theme, store }; // Retourne aussi le store si nécessaire
+  },
+
   methods: {
     handleDoNotSave() {
       this.$emit("do-not-save");
@@ -58,13 +68,18 @@ export default {
     closeContractRulesModal() {
       this.$emit("close-contract-rules-modal");
     },
-    forwardSettingsSaved(newSoundSetting, newIaDifficulty) {
-      this.$emit("settings-saved", newSoundSetting, newIaDifficulty);
+    forwardSettingsSaved(newSoundSetting, newIaDifficulty, newTheme) {
+      // Utiliser le store pour mettre à jour les réglages
+      this.store.commit("setSoundEnabled", newSoundSetting);
+      this.store.commit("setIaDifficulty", newIaDifficulty);
+      this.store.commit("setTheme", newTheme);
+      this.$emit("settings-saved", newSoundSetting, newIaDifficulty, newTheme);
     },
     handleSaveGame() {
       this.$emit("save-game");
     },
   },
+
   components: {
     ConfirmationDialog,
     SettingsModal,

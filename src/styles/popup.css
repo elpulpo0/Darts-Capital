@@ -1,3 +1,12 @@
+body.light .modal, body.light .modal-label, body.light .modal-select, body.light .modal-select option {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
+body.light .settings-button-top-left, body.light .back-button-top-right, body.light .settings-button-home {
+  color: #2C3E50;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -212,3 +221,51 @@ input:checked + .slider:before {
   background-color: #2c3e50;
   color: #ecf0f1;
 }
+
+.back-button-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+  padding-top: 3px;
+}
+
+.settings-button-top-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+  padding-top: 3px;
+}
+
+.topline-container {
+  display: flex;
+  align-items: center; /* Aligner verticalement */
+  justify-content: center; /* Centrer horizontalement */
+  position: relative; /* Permet d'utiliser position:absolute sur le bouton */
+  padding: 10px; /* Ajuster le padding selon les besoins */
+}
+
+.settings-button-home {
+  position: absolute;
+  left: -100px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+  padding-top: 3px;
+}
+
+.title {
+  margin: 0; /* Enlever la marge par défaut du h2 */
+}
+

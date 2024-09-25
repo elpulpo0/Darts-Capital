@@ -1,3 +1,12 @@
+body.light .game-board, body.light .contract-item {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
+body.light .dartboard-number, body.light .dartboard-unique-number {
+  background-color: #8888878a;
+}
+
 .game-board {
   text-align: center;
   margin: 0;
@@ -263,31 +272,6 @@ li {
   background-color: inherit;
 }
 
-.back-button-top-right {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: white;
-  padding-top: 3px;
-}
-
-.settings-button-top-left {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: white;
-  padding-top: 3px;
-}
-
-
 .info-icon {
   margin-left: 10px;
   color: #3498db; /* Couleur pour l'icône */
@@ -305,27 +289,6 @@ li {
 .contract-result-container span,
 .contract-result-container p {
     margin-right: 10px; /* Espacement entre le texte et le bouton */
-}
-
-.result-button {
-    background-color: #34495E;
-    border: none;
-    border-radius: 5px;
-    min-height: 48px;
-    padding: 10px;
-    color: white;
-}
-
-.contract-result.success {
-    color: #2ecc71; /* Couleur du texte pour "Contrat Réussi" */
-}
-
-.contract-result.failure {
-    color: #e74c3c; /* Couleur du texte pour "Contrat Raté" */
-}
-
-.contract-result.confirmed {
-    color: #f39c12; /* Couleur du texte pour "Capital Confirmé" */
 }
 
 .restart-game-button {
