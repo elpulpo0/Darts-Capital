@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="modal-backdrop">
     <div class="modal">
       <h3>
-        Historique des lancers de {{ player.name }}
+        {{ $t('history.throwHistoryTitle', { playerName: player.name }) }}
       </h3>
       <div v-if="player.history && player.history.length">
         <ul>
@@ -12,9 +12,9 @@
           </li>
         </ul>
       </div>
-      <p v-else>Aucun lancer enregistré</p>
+      <p v-else>{{ $t('history.noThrows') }}</p>
       <button class="modal-button confirm-button" @click="closeModal">
-        Fermer
+        {{ $t('history.closeButton') }}
       </button>
     </div>
   </div>
@@ -39,3 +39,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@import "@/styles/popup.css";
+</style>

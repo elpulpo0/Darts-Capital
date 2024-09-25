@@ -1,10 +1,14 @@
 <template>
   <div v-if="isVisible" class="modal-backdrop">
     <div class="modal">
-      <h3>Réglages</h3>
+      <h3>{{$t('settings.settings')}}</h3>
 
       <div class="modal-row">
-        <label class="modal-label">{{ localSoundEnabled ? "Désactiver les effets sonores" : "Activer les effets sonores" }}</label>
+        <label class="modal-label">{{
+          localSoundEnabled
+            ? $t('settings.disableSounds')
+            : $t('settings.unableSounds')
+        }}</label>
         <label class="switch">
           <input type="checkbox" v-model="localSoundEnabled" />
           <span class="slider round"></span>
@@ -12,7 +16,7 @@
       </div>
 
       <div class="modal-row">
-        <span class="modal-label">Niveau de l'IA</span>
+        <span class="modal-label">{{$t("settings.aiLevel")}}</span>
         <select v-model="localIaDifficulty" class="modal-select">
           <option value="very_easy">Easy</option>
           <option value="easy">Soft</option>
@@ -24,8 +28,12 @@
 
       <div class="modal-row">
         <label class="modal-label">
-    {{ theme === "light" ? "Activer le Mode Sombre" : "Activer le Mode Clair" }}
-  </label>
+          {{
+            theme === "light"
+              ? $t('settings.darkMode')
+              : $t('settings.lightMode')
+          }}
+        </label>
         <label class="switch">
           <input
             type="checkbox"
@@ -36,12 +44,22 @@
         </label>
       </div>
 
+      <div class="modal-row">
+        <label for="language">{{ $t("settings.language") }}</label>
+        <select id="language"
+          v-model="selectedLanguage"
+          @change="changeLanguage" class="modal-select">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
       <div class="modal-actions">
         <button class="modal-button confirm-button" @click="saveSettings">
-          Sauvegarder
+          {{$t('settings.saveSettings')}}
         </button>
         <button class="modal-button cancel-button" @click="closeModal">
-          Fermer
+          {{$t('settings.closeSettings')}}
         </button>
       </div>
       <div class="app-version">
@@ -82,6 +100,7 @@ export default {
       localIaDifficulty: this.iaDifficulty,
       localTheme: this.theme === "light" ? "light" : "dark",
       versionName: process.env.VUE_APP_VERSION_NAME || "Unknown",
+      selectedLanguage: this.$i18n.locale,
     };
   },
   watch: {
@@ -96,6 +115,9 @@ export default {
     },
   },
   methods: {
+    changeLanguage() {
+      this.$i18n.locale = this.selectedLanguage;
+    },
     saveSettings() {
       // Mettre à jour le store avec les nouvelles valeurs
       this.$store.commit("setSoundEnabled", this.localSoundEnabled);

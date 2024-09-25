@@ -1,54 +1,34 @@
 <template>
-    <div class="privacy-policy-container">
-      <h1>Politique de Confidentialité</h1>
-      <p>Dernière mise à jour : 4 septembre 2024</p>
+  <div class="privacy-policy-container">
+    <h1>{{ $t('privacyPolicy.title') }}</h1>
+    <p>{{ $t('privacyPolicy.lastUpdated') }}</p>
 
-      <p>
-        Nous ne collectons aucune donnée personnelle identifiable via cette
-        application. Notre application est conçue pour être utilisée par des
-        utilisateurs de tout âge et ne nécessite aucune information personnelle
-        pour fonctionner.
-      </p>
+    <p>{{ $t('privacyPolicy.intro') }}</p>
 
-      <h2>Informations collectées</h2>
-      <p>
-        Aucune donnée personnelle n'est collectée via cette application. Nous
-        ne recueillons aucune information sur votre identité, votre emplacement
-        ou votre comportement d'utilisation.
-      </p>
+    <h2>{{ $t('privacyPolicy.informationCollectedTitle') }}</h2>
+    <p>{{ $t('privacyPolicy.informationCollectedText') }}</p>
 
-      <h2>Cookies</h2>
-      <p>
-        Nous n'utilisons pas de cookies ou de technologies similaires pour suivre
-        les utilisateurs ou collecter des informations.
-      </p>
+    <h2>{{ $t('privacyPolicy.cookiesTitle') }}</h2>
+    <p>{{ $t('privacyPolicy.cookiesText') }}</p>
 
-      <h2>Partage des informations</h2>
-      <p>
-        Aucune information personnelle n'est partagée avec des tiers, car nous ne
-        collectons aucune donnée.
-      </p>
+    <h2>{{ $t('privacyPolicy.sharingTitle') }}</h2>
+    <p>{{ $t('privacyPolicy.sharingText') }}</p>
 
-      <h2>Modification de la politique de confidentialité</h2>
-      <p>
-        Nous nous réservons le droit de modifier cette politique de
-        confidentialité à tout moment. Toute modification sera affichée sur cette
-        page.
-      </p>
+    <h2>{{ $t('privacyPolicy.modificationTitle') }}</h2>
+    <p>{{ $t('privacyPolicy.modificationText') }}</p>
 
-      <h2>Nous contacter</h2>
-      <p>
-        Si vous avez des questions concernant cette politique de confidentialité,
-        vous pouvez nous contacter à : <strong>chris.elpulpo@gmail.com</strong>.
-      </p>
+    <h2>{{ $t('privacyPolicy.contactTitle') }}</h2>
+    <p>{{ $t('privacyPolicy.contactText') }}
+      <strong>chris.elpulpo@gmail.com</strong>
+    </p>
 
-      <!-- Ajout du bouton de retour -->
-      <div class="button-container">
-        <button class="back-to-home-button" @click="goBackToHome">
-          Retour à l'accueil
-        </button>
-      </div>
+    <!-- Ajout du bouton de retour -->
+    <div class="button-container">
+      <button class="back-to-home-button" @click="goBackToHome">
+        {{ $t('privacyPolicy.backButton') }}
+      </button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -66,7 +46,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped>
@@ -77,6 +56,9 @@ body.light .privacy-policy-container {
 }
 
 .privacy-policy-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Met le contenu en haut et le bouton en bas */
   width: 100%;
   max-width: 500px;
   overflow-y: auto;
@@ -84,27 +66,33 @@ body.light .privacy-policy-container {
   background-color: #2C3E50;
   padding: 20px;
   box-sizing: border-box;
-  scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
-  -ms-overflow-style: none; /* Masquer la barre de défilement pour Internet Explorer et Edge */
+  height: 100vh;
+  line-height: 1; /* Ajuste l'espacement des lignes */
 }
 
 .privacy-policy-container::-webkit-scrollbar {
   display: none; /* Masquer la barre de défilement pour Chrome, Safari et autres navigateurs Webkit */
 }
 
-h1 {
-  color: #3498db;
+h1, h2 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+p {
+  margin: 10px 0;
 }
 
 h2 {
   margin-top: 20px;
   color: #989a9b;
+  font-size: 1.2em;
 }
 
-/* Ajout du style pour le bouton */
 .button-container {
+  align-self: flex-end; /* Assure que le bouton est en bas */
   text-align: center;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
 .back-to-home-button {
@@ -122,4 +110,5 @@ h2 {
 .back-to-home-button:hover {
   background-color: #2980b9;
 }
+
 </style>

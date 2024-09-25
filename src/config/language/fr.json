@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Sélection des joueurs",
+    "addPlayer": "Ajouter un joueur",
+    "startGame": "Lancer une nouvelle partie",
+    "restoreGame": "Restaurer la partie sauvegardée",
+    "addPlayerToStart": "Ajoutez des joueurs pour commencer.",
+    "clicOnPlayerToSelect": "Cliquez sur les joueurs pour les sélectionner.",
+    "selectPlayers": "Sélectionnez au moins 2 joueurs",
+    "addAi": "Ajouter une IA",
+    "select2players": "Sélectionnez au moins 2 joueurs",
+    "privacyPolicy": "Politique de confidentialité"
+  },
+
+  "settings": {
+    "settings": "Réglages",
+    "disableSounds": "Désactiver les effets sonores",
+    "unableSounds": "Activer les effets sonores",
+    "aiLevel": "Niveau de l'IA",
+    "darkMode": "Activer le mode Sombre",
+    "lightMode": "Activer le mode Clair",
+    "language": "Langue",
+    "saveSettings": "Sauvegarder",
+    "closeSettings": "Fermer"
+  },
+
+  "privacyPolicy": {
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : 4 septembre 2024",
+    "intro": "Nous ne collectons aucune donnée personnelle identifiable via cette application. Notre application est conçue pour être utilisée par des utilisateurs de tout âge et ne nécessite aucune information personnelle pour fonctionner.",
+    "informationCollectedTitle": "Informations collectées",
+    "informationCollectedText": "Aucune donnée personnelle n'est collectée via cette application. Nous ne recueillons aucune information sur votre identité, votre emplacement ou votre comportement d'utilisation.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Nous n'utilisons pas de cookies ou de technologies similaires pour suivre les utilisateurs ou collecter des informations.",
+    "sharingTitle": "Partage des informations",
+    "sharingText": "Aucune information personnelle n'est partagée avec des tiers, car nous ne collectons aucune donnée.",
+    "modificationTitle": "Modification de la politique de confidentialité",
+    "modificationText": "Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Toute modification sera affichée sur cette page.",
+    "contactTitle": "Nous contacter",
+    "contactText": "Si vous avez des questions concernant cette politique de confidentialité, vous pouvez nous contacter sur ",
+    "backButton": "Retour à l'accueil"
+  },
+
+  "contracts": {
+    "20": "Marquez au moins un 20.",
+    "Suite": "Marquez 3 numéros qui se suivent.",
+    "19": "Marquez au moins un 19.",
+    "Side": "Marquez dans 3 secteurs adjacents.",
+    "18": "Marquez au moins un 18.",
+    "Couleur": "Marquez dans trois couleurs différentes.",
+    "17": "Marquez au moins un 17.",
+    "57": "Marquez exactement 57 points.",
+    "16": "Marquez au moins un 16.",
+    "Peluche": "Marquez 20 points ou moins sans 0.",
+    "15": "Marquez au moins un 15.",
+    "Triple": "Marquez au moins un Triple.",
+    "14": "Marquez au moins un 14.",
+    "Double": "Marquez au moins un Double.",
+    "13": "Marquez au moins un 13.",
+    "Centre": "Marquez au moins une bulle."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Capital Initial",
+    "gameOver": "Le jeu est terminé !",
+    "defineCapital": "Définissez votre capital de départ.",
+    "mission": "Mission : {name}",
+    "undo": "Annuler",
+    "settings": "Réglages"
+  },
+
+  "gameOver": {
+    "winners": "Le(s) gagnant(s) :",
+    "withPoints": "avec {points} points !",
+    "restartButton": "Recommencer"
+  },
+
+  "modal": {
+    "confirmMessage": "Êtes-vous sûr de vouloir quitter la partie en cours ?",
+    "confirmAndQuit": "Annuler et quitter",
+    "saveAndQuit": "Sauvegarder et quitter",
+    "cancel": "Retour"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Règles des missions",
+    "closeButton": "Fermer",
+    "contracts": {
+      "initialCapital": "Capital Initial",
+      "number": "Nombre",
+      "sequence": "Suite",
+      "color": "Couleur",
+      "side": "Side",
+      "plush": "Peluche",
+      "fiftySeven": "57",
+      "double": "Double",
+      "triple": "Triple",
+      "center": "Centre"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "Le joueur doit définir son capital de départ en lançant 3 fléchettes",
+      "number": "Le joueur doit toucher le segment correspondant au nombre spécifié avec au moins une fléchette.",
+      "sequence": "Le joueur doit marquer des points dans 3 segments consécutifs.",
+      "color": "Le joueur doit toucher trois segments de couleurs différentes.",
+      "side": "Le joueur doit marquer des points dans 3 segments adjacents.",
+      "plush": "Le total des fléchettes ne doit pas dépasser 20.",
+      "fiftySeven": "Le joueur doit marquer exactement 57 points avec une, deux ou trois fléchettes",
+      "double": "Le joueur doit toucher un segment double.",
+      "triple": "Le joueur doit toucher un segment triple.",
+      "center": "Le joueur doit toucher le centre de la cible (25 ou 50 points)."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "Historique des lancés de {playerName}",
+    "noThrows": "Aucun lancé enregistré",
+    "closeButton": "Fermer"
+  }
+}
