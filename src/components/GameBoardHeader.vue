@@ -1,15 +1,13 @@
 <template>
   <div class="game-board-header">
     <h2 v-if="!contractResult && isInitialPhase" @click="$emit('open-contract-rules')">
-      Capital Initial<font-awesome-icon
-        :icon="['fas', 'info-circle']"
-        class="info-icon"
-      />
+      {{ $t('gameBoard.initialCapital') }}
+      <font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
     </h2>
-    <h2 v-else-if="!contractResult && gameOver">Le jeu est terminé !</h2>
+    <h2 v-else-if="!contractResult && gameOver">{{ $t('gameBoard.gameOver') }}</h2>
     <h2 v-else @click="$emit('open-contract-rules')">
-      Mission : {{ currentContract?.name
-      }}<font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
+      {{ $t('gameBoard.mission', { name: currentContract?.name }) }}
+      <font-awesome-icon :icon="['fas', 'info-circle']" class="info-icon" />
     </h2>
 
     <button
@@ -30,11 +28,11 @@
 
     <span v-if="!contractResult">
       <div v-if="isInitialPhase">
-        <p class="instruction-text">Définissez votre capital de départ.</p>
+        <p class="instruction-text">{{ $t('gameBoard.defineCapital') }}</p>
       </div>
 
       <div v-else-if="!gameOver">
-        <p class="instruction-text">{{ currentContract?.description }}</p>
+        <p class="instruction-text">{{ $t(currentContract?.descriptionKey) }}</p>
       </div>
     </span>
   </div>

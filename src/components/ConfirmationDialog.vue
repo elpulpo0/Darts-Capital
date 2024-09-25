@@ -1,16 +1,16 @@
 <template>
   <div v-if="isVisible" class="modal-backdrop">
     <div class="modal">
-      <p class="modal-message">{{ message }}</p>
+      <p class="modal-message">{{ $t('modal.confirmMessage') }}</p>
       <div class="modal-actions">
         <button class="modal-button confirm-button" @click="confirmAndQuit">
-          Annuler et quitter
+          {{ $t('modal.confirmAndQuit') }}
         </button>
         <button class="modal-button confirm-button" @click="saveAndQuit">
-          Sauvegarder et quitter
+          {{ $t('modal.saveAndQuit') }}
         </button>
         <button class="modal-button cancel-button" @click="cancel">
-          Retour
+          {{ $t('modal.cancel') }}
         </button>
       </div>
     </div>
@@ -26,7 +26,7 @@ export default {
     },
     message: {
       type: String,
-      default: "Êtes-vous sûr de vouloir quitter la partie en cours ?",
+      default: "", // Laisse vide si tu veux utiliser le texte par défaut de i18n
     },
   },
   methods: {

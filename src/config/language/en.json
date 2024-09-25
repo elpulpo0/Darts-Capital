@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Player Selection",
+    "addPlayer": "Add a player",
+    "startGame": "Start a new game",
+    "restoreGame": "Restore the last saved game",
+    "addPlayerToStart": "Add players to start.",
+    "clicOnPlayerToSelect": "Clic on players to select them.",
+    "selectPlayers": "Select at least 2 players",
+    "addAi": "Add AI",
+    "select2players": "Select at least 2 players",
+    "privacyPolicy": "Privacy policy"
+  },
+
+  "settings": {
+    "settings": "Settings",
+    "disableSounds": "Disable sounds effect",
+    "unableSounds": "Unable sounds effect",
+    "darkMode": "Unable Dark mode",
+    "lightMode": "Unable Light mode",
+    "aiLevel": "AI level",
+    "language": "Language",
+    "saveSettings": "Save",
+    "closeSettings": "Close"
+  },
+
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: September 4, 2024",
+    "intro": "We do not collect any personally identifiable data through this application. Our app is designed for users of all ages and does not require any personal information to function.",
+    "informationCollectedTitle": "Information Collected",
+    "informationCollectedText": "No personal data is collected through this application. We do not collect any information about your identity, location, or usage behavior.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "We do not use cookies or similar technologies to track users or collect information.",
+    "sharingTitle": "Information Sharing",
+    "sharingText": "No personal information is shared with third parties as we do not collect any data.",
+    "modificationTitle": "Modification of Privacy Policy",
+    "modificationText": "We reserve the right to modify this privacy policy at any time. Any changes will be posted on this page.",
+    "contactTitle": "Contact Us",
+    "contactText": "If you have any questions about this privacy policy, you can contact us at ",
+    "backButton": "Back to Home"
+  },
+
+  "contracts": {
+    "20": "Score at least one 20.",
+    "Suite": "Score 3 consecutive numbers.",
+    "19": "Score at least one 19.",
+    "Side": "Score in 3 adjacent sectors.",
+    "18": "Score at least one 18.",
+    "Couleur": "Score in three different colors.",
+    "17": "Score at least one 17.",
+    "57": "Score exactly 57 points.",
+    "16": "Score at least one 16.",
+    "Peluche": "Score 20 points or less without 0.",
+    "15": "Score at least one 15.",
+    "Triple": "Score at least one Triple.",
+    "14": "Score at least one 14.",
+    "Double": "Score at least one Double.",
+    "13": "Score at least one 13.",
+    "Centre": "Score at least one bullseye."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Initial Capital",
+    "gameOver": "The game is over!",
+    "defineCapital": "Set your starting capital.",
+    "mission": "Mission: {name}",
+    "undo": "Undo",
+    "settings": "Settings"
+  },
+
+  "gameOver": {
+    "winners": "Winner(s):",
+    "withPoints": "with {points} points!",
+    "restartButton": "Restart"
+  },
+
+  "modal": {
+    "confirmMessage": "Are you sure you want to quit the current game?",
+    "confirmAndQuit": "Cancel and Quit",
+    "saveAndQuit": "Save and Quit",
+    "cancel": "Back"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Mission Rules",
+    "closeButton": "Close",
+    "contracts": {
+      "initialCapital": "Initial Capital",
+      "number": "Number",
+      "sequence": "Sequence",
+      "color": "Color",
+      "side": "Side",
+      "plush": "Plush",
+      "fiftySeven": "57",
+      "double": "Double",
+      "triple": "Triple",
+      "center": "Center"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "The player must define their starting capital by throwing 3 darts.",
+      "number": "The player must hit the specified number with at least one dart.",
+      "sequence": "The player must score points in 3 consecutive segments.",
+      "color": "The player must hit three different colored segments.",
+      "side": "The player must score points in 3 adjacent segments.",
+      "plush": "The total points must not exceed 20.",
+      "fiftySeven": "The player must score exactly 57 points with one, two, or three darts.",
+      "double": "The player must hit a double segment.",
+      "triple": "The player must hit a triple segment.",
+      "center": "The player must hit the center of the target (25 or 50 points)."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "{playerName}'s throw history",
+    "noThrows": "No throws recorded",
+    "closeButton": "Close"
+  }
+}

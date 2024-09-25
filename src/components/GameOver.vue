@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="game-over-winners">
-      Le(s) gagnant(s) :
+      {{ $t('gameOver.winners') }}
       <br />
       <br />
       <span v-for="(player, index) in winners" :key="index" class="winner-name">
@@ -9,10 +9,10 @@
       </span>
       <br />
       <br />
-      avec <span class="points">{{ winners[0].capital }} points !</span>
+      {{ $t('gameOver.withPoints', { points: winners[0].capital }) }}
     </p>
     <button class="restart-game-button" @click="$emit('restartGame')">
-      Recommencer
+      {{ $t('gameOver.restartButton') }}
     </button>
   </div>
 </template>

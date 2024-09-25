@@ -7,16 +7,16 @@
         </button>
       </div>
       <div class="title-container">
-        <h2 class="title">Sélection des joueurs</h2>
+        <h2 class="title">{{ $t('home.title') }}</h2>
       </div>
     </div>
 
     <p v-if="storedPlayers.length === 0" class="instruction-text">
-      Ajoutez des joueurs pour commencer.
+      {{ $t('home.addPlayerToStart') }}
     </p>
 
     <p v-if="storedPlayers.length > 0" class="instruction-text">
-      Cliquez sur les joueurs pour les sélectionner.
+      {{ $t('home.clicOnPlayerToSelect') }}
     </p>
 
     <ul class="player-list">
@@ -44,13 +44,13 @@
 
     <div class="add-players-container">
       <button @click="addComputerPlayer" class="add-ia-button">
-        Ajouter une IA
+        {{$t('home.addAi')}}
       </button>
       <form @submit.prevent="addNewPlayer" class="add-player-form">
         <input
           v-model="newPlayerName"
           type="text"
-          placeholder="Ajouter un joueur"
+          :placeholder="$t('home.addPlayer')"
           class="player-input"
         />
         <button type="submit" class="add-button">+</button>
@@ -65,8 +65,8 @@
     >
       {{
         selectedPlayers.length < 2
-          ? "Sélectionnez au moins 2 joueurs"
-          : "Lancer une nouvelle partie"
+          ? $t('home.select2players')
+          : $t('home.startGame')
       }}
     </button>
 
@@ -76,12 +76,12 @@
       class="start-game-button"
       :class="{ disabled: !gameSaved }"
     >
-      Restaurer la partie sauvegardée
+      {{$t('home.restoreGame')}}
     </button>
 
     <p class="privacy-link">
       <router-link to="/privacy-policy"
-        >Politique de confidentialité</router-link
+        >{{$t('home.privacyPolicy')}}</router-link
       >
     </p>
     <ModalsHandler
