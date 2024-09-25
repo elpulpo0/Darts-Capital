@@ -66,7 +66,8 @@ body.light .privacy-policy-container {
   background-color: #2C3E50;
   padding: 20px;
   box-sizing: border-box;
-  height: 100vh;
+  height: 100vh;  /* Fallback pour les anciens navigateurs */
+  height: 100dvh; /* Utilisation de dvh pour les navigateurs compatibles */
   line-height: 1; /* Ajuste l'espacement des lignes */
 }
 
