@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Spelersselectie",
+    "addPlayer": "Voeg een speler toe",
+    "startGame": "Begin een nieuw spel",
+    "restoreGame": "Herstel opgeslagen spel",
+    "addPlayerToStart": "Voeg spelers toe om te beginnen.",
+    "clicOnPlayerToSelect": "Klik op de spelers om ze te selecteren.",
+    "selectPlayers": "Selecteer minimaal 2 spelers",
+    "addAi": "Voeg een AI toe",
+    "select2players": "Selecteer minimaal 2 spelers",
+    "privacyPolicy": "Privacybeleid"
+  },
+
+  "settings": {
+    "settings": "Instellingen",
+    "disableSounds": "Geluidseffecten uitschakelen",
+    "unableSounds": "Geluidseffecten inschakelen",
+    "aiLevel": "AI-niveau",
+    "darkMode": "Donkere modus inschakelen",
+    "lightMode": "Lichte modus inschakelen",
+    "language": "Taal",
+    "saveSettings": "Opslaan",
+    "closeSettings": "Sluiten"
+  },
+
+  "privacyPolicy": {
+    "title": "Privacybeleid",
+    "lastUpdated": "Laatste update: 4 september 2024",
+    "intro": "We verzamelen geen persoonlijk identificeerbare gegevens via deze applicatie. Onze app is ontworpen voor gebruikers van alle leeftijden en vereist geen persoonlijke informatie om te functioneren.",
+    "informationCollectedTitle": "Verzamelde informatie",
+    "informationCollectedText": "Er worden geen persoonlijke gegevens verzameld via deze applicatie. We verzamelen geen informatie over uw identiteit, locatie of gebruiksgedrag.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "We gebruiken geen cookies of vergelijkbare technologieën om gebruikers te volgen of informatie te verzamelen.",
+    "sharingTitle": "Delen van informatie",
+    "sharingText": "Er worden geen persoonlijke gegevens gedeeld met derden, aangezien we geen gegevens verzamelen.",
+    "modificationTitle": "Wijziging van het privacybeleid",
+    "modificationText": "We behouden ons het recht voor om dit privacybeleid op elk moment te wijzigen. Elke wijziging wordt op deze pagina geplaatst.",
+    "contactTitle": "Contacteer ons",
+    "contactText": "Als u vragen heeft over dit privacybeleid, kunt u contact met ons opnemen via ",
+    "backButton": "Terug naar de startpagina"
+  },
+
+  "contracts": {
+    "20": "Markeer minstens een 20.",
+    "Suite": "Markeer 3 opeenvolgende nummers.",
+    "19": "Markeer minstens een 19.",
+    "Side": "Markeer in 3 aangrenzende sectoren.",
+    "18": "Markeer minstens een 18.",
+    "Couleur": "Markeer in drie verschillende kleuren.",
+    "17": "Markeer minstens een 17.",
+    "57": "Behaal precies 57 punten.",
+    "16": "Markeer minstens een 16.",
+    "Peluche": "Behaal 20 punten of minder zonder een 0.",
+    "15": "Markeer minstens een 15.",
+    "Triple": "Markeer minstens een Triple.",
+    "14": "Markeer minstens een 14.",
+    "Double": "Markeer minstens een Double.",
+    "13": "Markeer minstens een 13.",
+    "Centre": "Markeer minstens één schot in het midden."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Startkapitaal",
+    "gameOver": "Het spel is voorbij!",
+    "defineCapital": "Definieer je startkapitaal.",
+    "mission": "Missie: {name}",
+    "undo": "Ongedaan maken",
+    "settings": "Instellingen"
+  },
+
+  "gameOver": {
+    "winners": "De winnaar(s):",
+    "withPoints": "met {points} punten!",
+    "restartButton": "Opnieuw beginnen"
+  },
+
+  "modal": {
+    "confirmMessage": "Weet je zeker dat je het huidige spel wilt verlaten?",
+    "confirmAndQuit": "Annuleer en verlaat",
+    "saveAndQuit": "Opslaan en verlaten",
+    "cancel": "Terug"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Missieregels",
+    "closeButton": "Sluiten",
+    "contracts": {
+      "initialCapital": "Startkapitaal",
+      "number": "Nummer",
+      "sequence": "Reeks",
+      "color": "Kleur",
+      "side": "Zijde",
+      "plush": "Pluche",
+      "fiftySeven": "57",
+      "double": "Dubbel",
+      "triple": "Triple",
+      "center": "Midden"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "De speler moet zijn startkapitaal definiëren door 3 pijlen te werpen.",
+      "number": "De speler moet het segment raken dat overeenkomt met het opgegeven nummer met ten minste één pijl.",
+      "sequence": "De speler moet punten scoren in 3 opeenvolgende segmenten.",
+      "color": "De speler moet drie segmenten raken in verschillende kleuren.",
+      "side": "De speler moet punten scoren in 3 aangrenzende segmenten.",
+      "plush": "Het totale aantal pijlpuntjes mag niet hoger zijn dan 20.",
+      "fiftySeven": "De speler moet precies 57 punten scoren met één, twee of drie pijlen.",
+      "double": "De speler moet een dubbel segment raken.",
+      "triple": "De speler moet een triple segment raken.",
+      "center": "De speler moet het midden van het bord raken (25 of 50 punten)."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "Worp geschiedenis van {playerName}",
+    "noThrows": "Geen worpen geregistreerd",
+    "closeButton": "Sluiten"
+  }
+}

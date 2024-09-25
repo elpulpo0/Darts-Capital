@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Seleção de jogadores",
+    "addPlayer": "Adicionar jogador",
+    "startGame": "Iniciar um novo jogo",
+    "restoreGame": "Restaurar jogo salvo",
+    "addPlayerToStart": "Adicione jogadores para começar.",
+    "clicOnPlayerToSelect": "Clique nos jogadores para selecioná-los.",
+    "selectPlayers": "Selecione pelo menos 2 jogadores",
+    "addAi": "Adicionar IA",
+    "select2players": "Selecione pelo menos 2 jogadores",
+    "privacyPolicy": "Política de Privacidade"
+  },
+
+  "settings": {
+    "settings": "Configurações",
+    "disableSounds": "Desativar efeitos sonoros",
+    "unableSounds": "Ativar efeitos sonoros",
+    "aiLevel": "Nível da IA",
+    "darkMode": "Ativar Modo Escuro",
+    "lightMode": "Ativar Modo Claro",
+    "language": "Idioma",
+    "saveSettings": "Salvar",
+    "closeSettings": "Fechar"
+  },
+
+  "privacyPolicy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: 4 de setembro de 2024",
+    "intro": "Não coletamos dados pessoais identificáveis através deste aplicativo. Nosso aplicativo é projetado para ser usado por pessoas de todas as idades e não requer informações pessoais para funcionar.",
+    "informationCollectedTitle": "Informações coletadas",
+    "informationCollectedText": "Nenhum dado pessoal é coletado por este aplicativo. Não coletamos informações sobre sua identidade, localização ou comportamento de uso.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Não usamos cookies ou tecnologias semelhantes para rastrear usuários ou coletar informações.",
+    "sharingTitle": "Compartilhamento de informações",
+    "sharingText": "Nenhuma informação pessoal é compartilhada com terceiros, pois não coletamos nenhum dado.",
+    "modificationTitle": "Alteração da política de privacidade",
+    "modificationText": "Reservamo-nos o direito de alterar esta política de privacidade a qualquer momento. Qualquer alteração será exibida nesta página.",
+    "contactTitle": "Contate-nos",
+    "contactText": "Se tiver alguma dúvida sobre esta política de privacidade, pode nos contatar em ",
+    "backButton": "Voltar à página inicial"
+  },
+
+  "contracts": {
+    "20": "Marque pelo menos um 20.",
+    "Suite": "Marque 3 números consecutivos.",
+    "19": "Marque pelo menos um 19.",
+    "Side": "Marque em 3 setores adjacentes.",
+    "18": "Marque pelo menos um 18.",
+    "Couleur": "Marque em três cores diferentes.",
+    "17": "Marque pelo menos um 17.",
+    "57": "Marque exatamente 57 pontos.",
+    "16": "Marque pelo menos um 16.",
+    "Peluche": "Marque 20 pontos ou menos sem zerar.",
+    "15": "Marque pelo menos um 15.",
+    "Triple": "Marque pelo menos um triplo.",
+    "14": "Marque pelo menos um 14.",
+    "Double": "Marque pelo menos um duplo.",
+    "13": "Marque pelo menos um 13.",
+    "Centre": "Marque pelo menos um centro."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Capital Inicial",
+    "gameOver": "O jogo acabou!",
+    "defineCapital": "Defina o seu capital inicial.",
+    "mission": "Missão: {name}",
+    "undo": "Desfazer",
+    "settings": "Configurações"
+  },
+
+  "gameOver": {
+    "winners": "O(s) vencedor(es):",
+    "withPoints": "com {points} pontos!",
+    "restartButton": "Recomeçar"
+  },
+
+  "modal": {
+    "confirmMessage": "Tem certeza de que deseja sair do jogo em andamento?",
+    "confirmAndQuit": "Cancelar e sair",
+    "saveAndQuit": "Salvar e sair",
+    "cancel": "Voltar"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Regras das Missões",
+    "closeButton": "Fechar",
+    "contracts": {
+      "initialCapital": "Capital Inicial",
+      "number": "Número",
+      "sequence": "Sequência",
+      "color": "Cor",
+      "side": "Lado",
+      "plush": "Pelúcia",
+      "fiftySeven": "57",
+      "double": "Duplo",
+      "triple": "Triplo",
+      "center": "Centro"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "O jogador deve definir seu capital inicial lançando 3 dardos.",
+      "number": "O jogador deve acertar o segmento correspondente ao número especificado com pelo menos um dardo.",
+      "sequence": "O jogador deve marcar pontos em 3 segmentos consecutivos.",
+      "color": "O jogador deve acertar três segmentos de cores diferentes.",
+      "side": "O jogador deve marcar pontos em 3 segmentos adjacentes.",
+      "plush": "O total dos pontos dos dardos não deve ultrapassar 20.",
+      "fiftySeven": "O jogador deve marcar exatamente 57 pontos com um, dois ou três dardos.",
+      "double": "O jogador deve acertar um segmento duplo.",
+      "triple": "O jogador deve acertar um segmento triplo.",
+      "center": "O jogador deve acertar o centro do alvo (25 ou 50 pontos)."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "Histórico de arremessos de {playerName}",
+    "noThrows": "Nenhum arremesso registrado",
+    "closeButton": "Fechar"
+  }
+}

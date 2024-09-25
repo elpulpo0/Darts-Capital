@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Selezione dei giocatori",
+    "addPlayer": "Aggiungi un giocatore",
+    "startGame": "Inizia una nuova partita",
+    "restoreGame": "Ripristina la partita salvata",
+    "addPlayerToStart": "Aggiungi giocatori per iniziare.",
+    "clicOnPlayerToSelect": "Clicca sui giocatori per selezionarli.",
+    "selectPlayers": "Seleziona almeno 2 giocatori",
+    "addAi": "Aggiungi un'IA",
+    "select2players": "Seleziona almeno 2 giocatori",
+    "privacyPolicy": "Politica sulla Privacy"
+  },
+
+  "settings": {
+    "settings": "Impostazioni",
+    "disableSounds": "Disattiva effetti sonori",
+    "unableSounds": "Attiva effetti sonori",
+    "aiLevel": "Livello IA",
+    "darkMode": "Attiva modalità scura",
+    "lightMode": "Attiva modalità chiara",
+    "language": "Lingua",
+    "saveSettings": "Salva",
+    "closeSettings": "Chiudi"
+  },
+
+  "privacyPolicy": {
+    "title": "Politica sulla Privacy",
+    "lastUpdated": "Ultimo aggiornamento: 4 settembre 2024",
+    "intro": "Non raccogliamo dati personali identificabili tramite questa applicazione. La nostra app è progettata per essere utilizzata da utenti di tutte le età e non richiede informazioni personali per funzionare.",
+    "informationCollectedTitle": "Informazioni raccolte",
+    "informationCollectedText": "Non vengono raccolti dati personali tramite questa applicazione. Non raccogliamo informazioni sulla tua identità, posizione o comportamento d'uso.",
+    "cookiesTitle": "Cookie",
+    "cookiesText": "Non utilizziamo cookie o tecnologie simili per tracciare gli utenti o raccogliere informazioni.",
+    "sharingTitle": "Condivisione delle informazioni",
+    "sharingText": "Nessuna informazione personale viene condivisa con terzi poiché non raccogliamo alcun dato.",
+    "modificationTitle": "Modifica della politica sulla privacy",
+    "modificationText": "Ci riserviamo il diritto di modificare questa politica in qualsiasi momento. Qualsiasi modifica verrà pubblicata su questa pagina.",
+    "contactTitle": "Contattaci",
+    "contactText": "Se hai domande su questa politica sulla privacy, puoi contattarci su ",
+    "backButton": "Torna alla home"
+  },
+
+  "contracts": {
+    "20": "Segna almeno un 20.",
+    "Suite": "Segna 3 numeri consecutivi.",
+    "19": "Segna almeno un 19.",
+    "Side": "Segna in 3 settori adiacenti.",
+    "18": "Segna almeno un 18.",
+    "Couleur": "Segna in tre colori diversi.",
+    "17": "Segna almeno un 17.",
+    "57": "Segna esattamente 57 punti.",
+    "16": "Segna almeno un 16.",
+    "Peluche": "Segna 20 punti o meno senza uno 0.",
+    "15": "Segna almeno un 15.",
+    "Triple": "Segna almeno un triplo.",
+    "14": "Segna almeno un 14.",
+    "Double": "Segna almeno un doppio.",
+    "13": "Segna almeno un 13.",
+    "Centre": "Segna almeno un centro."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Capitale iniziale",
+    "gameOver": "La partita è finita!",
+    "defineCapital": "Definisci il tuo capitale di partenza.",
+    "mission": "Missione: {name}",
+    "undo": "Annulla",
+    "settings": "Impostazioni"
+  },
+
+  "gameOver": {
+    "winners": "Vincitore(i):",
+    "withPoints": "con {points} punti!",
+    "restartButton": "Ricomincia"
+  },
+
+  "modal": {
+    "confirmMessage": "Sei sicuro di voler uscire dalla partita in corso?",
+    "confirmAndQuit": "Annulla e esci",
+    "saveAndQuit": "Salva e esci",
+    "cancel": "Indietro"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Regole delle missioni",
+    "closeButton": "Chiudi",
+    "contracts": {
+      "initialCapital": "Capitale Iniziale",
+      "number": "Numero",
+      "sequence": "Sequenza",
+      "color": "Colore",
+      "side": "Side",
+      "plush": "Peluche",
+      "fiftySeven": "57",
+      "double": "Doppio",
+      "triple": "Triplo",
+      "center": "Centro"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "Il giocatore deve definire il suo capitale di partenza lanciando 3 freccette.",
+      "number": "Il giocatore deve colpire il segmento corrispondente al numero specificato con almeno una freccetta.",
+      "sequence": "Il giocatore deve segnare punti in 3 segmenti consecutivi.",
+      "color": "Il giocatore deve colpire tre segmenti di colori diversi.",
+      "side": "Il giocatore deve segnare punti in 3 segmenti adiacenti.",
+      "plush": "Il totale dei punti delle freccette non deve superare 20.",
+      "fiftySeven": "Il giocatore deve segnare esattamente 57 punti con una, due o tre freccette.",
+      "double": "Il giocatore deve colpire un segmento doppio.",
+      "triple": "Il giocatore deve colpire un segmento triplo.",
+      "center": "Il giocatore deve colpire il centro del bersaglio (25 o 50 punti)."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "Storico dei lanci di {playerName}",
+    "noThrows": "Nessun lancio registrato",
+    "closeButton": "Chiudi"
+  }
+}

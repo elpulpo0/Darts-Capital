@@ -1,0 +1,120 @@
+{
+  "home": {
+    "title": "Spielerauswahl",
+    "addPlayer": "Spieler hinzufügen",
+    "startGame": "Neues Spiel starten",
+    "restoreGame": "Gespeichertes Spiel wiederherstellen",
+    "addPlayerToStart": "Füge Spieler hinzu, um zu starten.",
+    "clicOnPlayerToSelect": "Klicke auf die Spieler, um sie auszuwählen.",
+    "selectPlayers": "Wähle mindestens 2 Spieler",
+    "addAi": "KI hinzufügen",
+    "select2players": "Wähle mindestens 2 Spieler",
+    "privacyPolicy": "Datenschutzrichtlinie"
+  },
+
+  "settings": {
+    "settings": "Einstellungen",
+    "disableSounds": "Soundeffekte deaktivieren",
+    "unableSounds": "Soundeffekte aktivieren",
+    "aiLevel": "KI-Stufe",
+    "darkMode": "Dunkelmodus aktivieren",
+    "lightMode": "Hellmodus aktivieren",
+    "language": "Sprache",
+    "saveSettings": "Speichern",
+    "closeSettings": "Schließen"
+  },
+
+  "privacyPolicy": {
+    "title": "Datenschutzrichtlinie",
+    "lastUpdated": "Letztes Update: 4. September 2024",
+    "intro": "Wir sammeln keine personenbezogenen Daten über diese App. Unsere Anwendung ist für Benutzer jeden Alters konzipiert und erfordert keine persönlichen Informationen, um zu funktionieren.",
+    "informationCollectedTitle": "Gesammelte Informationen",
+    "informationCollectedText": "Es werden keine persönlichen Daten über diese App gesammelt. Wir erheben keine Informationen über Ihre Identität, Ihren Standort oder Ihr Nutzungsverhalten.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Wir verwenden keine Cookies oder ähnliche Technologien, um Benutzer zu verfolgen oder Informationen zu sammeln.",
+    "sharingTitle": "Weitergabe von Informationen",
+    "sharingText": "Es werden keine persönlichen Informationen an Dritte weitergegeben, da wir keine Daten sammeln.",
+    "modificationTitle": "Änderung der Datenschutzrichtlinie",
+    "modificationText": "Wir behalten uns das Recht vor, diese Datenschutzrichtlinie jederzeit zu ändern. Alle Änderungen werden auf dieser Seite veröffentlicht.",
+    "contactTitle": "Kontaktieren Sie uns",
+    "contactText": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, können Sie uns kontaktieren unter ",
+    "backButton": "Zurück zur Startseite"
+  },
+
+  "contracts": {
+    "20": "Markiere mindestens eine 20.",
+    "Suite": "Markiere 3 aufeinanderfolgende Zahlen.",
+    "19": "Markiere mindestens eine 19.",
+    "Side": "Markiere in 3 benachbarten Sektoren.",
+    "18": "Markiere mindestens eine 18.",
+    "Couleur": "Markiere in drei verschiedenen Farben.",
+    "17": "Markiere mindestens eine 17.",
+    "57": "Erziele genau 57 Punkte.",
+    "16": "Markiere mindestens eine 16.",
+    "Peluche": "Erziele 20 Punkte oder weniger ohne eine 0.",
+    "15": "Markiere mindestens eine 15.",
+    "Triple": "Markiere mindestens einen Dreifach-Treffer.",
+    "14": "Markiere mindestens eine 14.",
+    "Double": "Markiere mindestens einen Doppeltreffer.",
+    "13": "Markiere mindestens eine 13.",
+    "Centre": "Markiere mindestens einen Treffer in der Mitte."
+  },
+
+  "gameBoard": {
+    "initialCapital": "Startkapital",
+    "gameOver": "Das Spiel ist vorbei!",
+    "defineCapital": "Definiere dein Startkapital.",
+    "mission": "Mission: {name}",
+    "undo": "Rückgängig",
+    "settings": "Einstellungen"
+  },
+
+  "gameOver": {
+    "winners": "Der/die Gewinner:",
+    "withPoints": "mit {points} Punkten!",
+    "restartButton": "Neustart"
+  },
+
+  "modal": {
+    "confirmMessage": "Möchten Sie das laufende Spiel wirklich beenden?",
+    "confirmAndQuit": "Abbrechen und beenden",
+    "saveAndQuit": "Speichern und beenden",
+    "cancel": "Zurück"
+  },
+
+  "rules": {
+    "missionRulesTitle": "Missionsregeln",
+    "closeButton": "Schließen",
+    "contracts": {
+      "initialCapital": "Startkapital",
+      "number": "Nummer",
+      "sequence": "Reihenfolge",
+      "color": "Farbe",
+      "side": "Seite",
+      "plush": "Plüsch",
+      "fiftySeven": "57",
+      "double": "Doppelt",
+      "triple": "Dreifach",
+      "center": "Mitte"
+    },
+
+    "contractDescriptions": {
+      "initialCapital": "Der Spieler muss sein Startkapital durch Werfen von 3 Pfeilen festlegen.",
+      "number": "Der Spieler muss das Segment mit der angegebenen Nummer mit mindestens einem Pfeil treffen.",
+      "sequence": "Der Spieler muss Punkte in 3 aufeinanderfolgenden Segmenten erzielen.",
+      "color": "Der Spieler muss drei Segmente in verschiedenen Farben treffen.",
+      "side": "Der Spieler muss Punkte in 3 benachbarten Segmenten erzielen.",
+      "plush": "Die Gesamtpunktzahl der Pfeile darf 20 nicht überschreiten.",
+      "fiftySeven": "Der Spieler muss genau 57 Punkte mit einem, zwei oder drei Pfeilen erzielen.",
+      "double": "Der Spieler muss ein Doppelsegment treffen.",
+      "triple": "Der Spieler muss ein Dreifachsegment treffen.",
+      "center": "Der Spieler muss die Mitte der Scheibe (25 oder 50 Punkte) treffen."
+    }
+  },
+
+  "history": {
+    "throwHistoryTitle": "Wurfhistorie von {playerName}",
+    "noThrows": "Keine Würfe registriert",
+    "closeButton": "Schließen"
+  }
+}

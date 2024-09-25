@@ -13,6 +13,11 @@ import { faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import en from "./config/language/en.json";
 import fr from "./config/language/fr.json";
+import de from "./config/language/de.json";
+import it from "./config/language/it.json";
+import nl from "./config/language/nl.json";
+import pt from "./config/language/pt.json";
+import es from "./config/language/es.json";
 
 library.add(faUndoAlt, faInfoCircle, faCog, faInstagram, faFacebook);
 
@@ -22,6 +27,11 @@ const i18n = createI18n({
   messages: {
     fr,
     en,
+    de,
+    it,
+    nl,
+    pt,
+    es,
   },
 });
 

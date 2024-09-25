@@ -1,13 +1,13 @@
 <template>
   <div v-if="isVisible" class="modal-backdrop">
     <div class="modal">
-      <h3>{{$t('settings.settings')}}</h3>
+      <h3>{{ $t("settings.settings") }}</h3>
 
       <div class="modal-row">
         <label class="modal-label">{{
           localSoundEnabled
-            ? $t('settings.disableSounds')
-            : $t('settings.unableSounds')
+            ? $t("settings.disableSounds")
+            : $t("settings.unableSounds")
         }}</label>
         <label class="switch">
           <input type="checkbox" v-model="localSoundEnabled" />
@@ -16,7 +16,7 @@
       </div>
 
       <div class="modal-row">
-        <span class="modal-label">{{$t("settings.aiLevel")}}</span>
+        <span class="modal-label">{{ $t("settings.aiLevel") }}</span>
         <select v-model="localIaDifficulty" class="modal-select">
           <option value="very_easy">Easy</option>
           <option value="easy">Soft</option>
@@ -30,8 +30,8 @@
         <label class="modal-label">
           {{
             theme === "light"
-              ? $t('settings.darkMode')
-              : $t('settings.lightMode')
+              ? $t("settings.darkMode")
+              : $t("settings.lightMode")
           }}
         </label>
         <label class="switch">
@@ -46,20 +46,28 @@
 
       <div class="modal-row">
         <label for="language">{{ $t("settings.language") }}</label>
-        <select id="language"
+        <select
+          id="language"
           v-model="selectedLanguage"
-          @change="changeLanguage" class="modal-select">
+          @change="changeLanguage"
+          class="modal-select"
+        >
           <option value="fr">Français</option>
           <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="nl">Nederlands</option>
+          <option value="pt">Português</option>
         </select>
       </div>
 
       <div class="modal-actions">
         <button class="modal-button confirm-button" @click="saveSettings">
-          {{$t('settings.saveSettings')}}
+          {{ $t("settings.saveSettings") }}
         </button>
         <button class="modal-button cancel-button" @click="closeModal">
-          {{$t('settings.closeSettings')}}
+          {{ $t("settings.closeSettings") }}
         </button>
       </div>
       <div class="app-version">
