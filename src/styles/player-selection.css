@@ -1,3 +1,12 @@
+body.light .player-selection, body.light .privacy-link a {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
+body.light .player-item {
+  background-color: #8888878a;
+}
+
 .player-selection {
   text-align: center;
   margin: 0;

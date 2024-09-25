@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="header" v-if="!gameStarted || gameOver">
-      <img :src="require('@/assets/capital.png')" alt="Title" class="capital" />
+      <img :src="theme == 'dark' ? require('@/assets/capital.png') : require('@/assets/capital_light.png')" alt="Title" class="capital" />
       <img
-        :src="require('@/assets/logo.png')"
+        :src="theme == 'dark' ? require('@/assets/logo.png') : require('@/assets/logo_light.png')"
         alt="Logo"
         class="logo"
         @click="showAssociationInfo = true"

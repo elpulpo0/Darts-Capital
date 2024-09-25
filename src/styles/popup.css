@@ -1,3 +1,12 @@
+body.light .modal, body.light .modal-label, body.light .modal-select, body.light .modal-select option {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
+body.light .settings-button-top-left, body.light .back-button-top-right, body.light .settings-button-home {
+  color: #2C3E50;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;

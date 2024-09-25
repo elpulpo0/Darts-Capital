@@ -4,7 +4,7 @@
       <h3>Réglages</h3>
 
       <div class="modal-row">
-        <span class="modal-label">Effets sonores</span>
+        <label class="modal-label">{{ localSoundEnabled ? "Désactiver les effets sonores" : "Activer les effets sonores" }}</label>
         <label class="switch">
           <input type="checkbox" v-model="localSoundEnabled" />
           <span class="slider round"></span>
@@ -23,7 +23,9 @@
       </div>
 
       <div class="modal-row">
-        <label class="modal-label">Mode Sombre</label>
+        <label class="modal-label">
+    {{ theme === "light" ? "Activer le Mode Sombre" : "Activer le Mode Clair" }}
+  </label>
         <label class="switch">
           <input
             type="checkbox"
@@ -78,7 +80,7 @@ export default {
     return {
       localSoundEnabled: this.soundEnabled,
       localIaDifficulty: this.iaDifficulty,
-      localTheme: this.theme === 'light' ? 'light' : 'dark',
+      localTheme: this.theme === "light" ? "light" : "dark",
       versionName: process.env.VUE_APP_VERSION_NAME || "Unknown",
     };
   },
@@ -103,17 +105,17 @@ export default {
       this.closeModal(true); // Fermer la modale après avoir sauvegardé
     },
     toggleTheme() {
-    this.localTheme = this.localTheme === "dark" ? "light" : "dark";
-    this.$store.commit("setTheme", this.localTheme); // Mettre à jour le store avec le nouveau thème
+      this.localTheme = this.localTheme === "dark" ? "light" : "dark";
+      this.$store.commit("setTheme", this.localTheme); // Mettre à jour le store avec le nouveau thème
 
-    // Émettre pour sauvegarder les réglages
-    this.$emit(
-      "settings-saved",
-      this.localSoundEnabled,
-      this.localIaDifficulty,
-      this.localTheme,
-    );
-  },
+      // Émettre pour sauvegarder les réglages
+      this.$emit(
+        "settings-saved",
+        this.localSoundEnabled,
+        this.localIaDifficulty,
+        this.localTheme,
+      );
+    },
     closeModal(isSaving = false) {
       if (!isSaving) {
         this.localSoundEnabled = this.soundEnabled;

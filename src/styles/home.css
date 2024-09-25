@@ -1,3 +1,8 @@
+body.light .home {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
 /* Empêche les gestes tactiles comme le pinch-to-zoom et le double-tap zoom */
 html, body {
   height: 100%; /* S'assurer que le body prend 100% de la hauteur */

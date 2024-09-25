@@ -1,3 +1,12 @@
+body.light .game-board, body.light .contract-item {
+  background-color: #ECF0F1;
+  color: #2C3E50;
+}
+
+body.light .dartboard-number, body.light .dartboard-unique-number {
+  background-color: #8888878a;
+}
+
 .game-board {
   text-align: center;
   margin: 0;
@@ -14,11 +23,6 @@
   align-items: center;
   overflow: hidden;
   position: relative;
-}
-
-body.light .game-board {
-  background-color: #ECF0F1; /* Light mode background */
-  color: #2C3E50; /* Light mode text color */
 }
 
 .players-scores {
@@ -78,12 +82,6 @@ body.light .game-board {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-}
-
-body.light .dartboard-unique-number,
-body.light .dartboard-number {
-  background-color: #3498DB; /* Light mode button background */
-  color: white; /* Light mode button text color */
 }
 
 .last-row {
@@ -150,10 +148,6 @@ body.light .dartboard-number {
   color: white;
   border-radius: 5px;
   font-weight: bold;
-}
-
-body.light .contract-item {
-  background-color: #2C3E50; /* Light mode contract item background */
 }
 
 .contract-item.success {
@@ -295,31 +289,6 @@ li {
 .contract-result-container span,
 .contract-result-container p {
     margin-right: 10px; /* Espacement entre le texte et le bouton */
-}
-
-.result-button {
-    background-color: #34495E;
-    border: none;
-    border-radius: 5px;
-    min-height: 48px;
-    padding: 10px;
-    color: white;
-}
-
-body.light .result-button {
-  background-color: #7f8c8d; /* Light mode button color */
-}
-
-.contract-result.success {
-    color: #2ecc71; /* Couleur du texte pour "Contrat Réussi" */
-}
-
-.contract-result.failure {
-    color: #e74c3c; /* Couleur du texte pour "Contrat Raté" */
-}
-
-.contract-result.confirmed {
-    color: #f39c12; /* Couleur du texte pour "Capital Confirmé" */
 }
 
 .restart-game-button {
