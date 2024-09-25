@@ -247,25 +247,36 @@ input:checked + .slider:before {
 }
 
 .topline-container {
-  display: flex;
-  align-items: center; /* Aligner verticalement */
-  justify-content: center; /* Centrer horizontalement */
-  position: relative; /* Permet d'utiliser position:absolute sur le bouton */
-  padding: 10px; /* Ajuster le padding selon les besoins */
+  position: relative; /* Positionnement relatif pour utiliser l'absolu dans les enfants */
+  width: 100%; /* Prend toute la largeur disponible */
+  height: 60px; /* Ajuste selon ton design */
 }
 
-.settings-button-home {
+.settings-container {
   position: absolute;
-  left: -100px;
+  left: 10px; /* Place le bouton de réglage à 10px du bord gauche */
+  top: 50%; /* Centre verticalement */
+  transform: translateY(-50%); /* Assure le centrage parfait */
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center; /* Centre le texte */
+}
+
+
+.settings-button-home {
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 24px;
   color: white;
-  padding-top: 3px;
 }
-
-.title {
-  margin: 0; /* Enlever la marge par défaut du h2 */
-}
-

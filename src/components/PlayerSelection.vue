@@ -1,10 +1,14 @@
 <template>
   <div class="player-selection">
     <div class="topline-container">
-      <button @click="openSettingsModal" class="settings-button-home">
-        <font-awesome-icon :icon="['fas', 'cog']" />
-      </button>
-      <h2 class="title">Sélection des joueurs</h2>
+      <div class="settings-container">
+        <button @click="openSettingsModal" class="settings-button-home">
+          <font-awesome-icon :icon="['fas', 'cog']" />
+        </button>
+      </div>
+      <div class="title-container">
+        <h2 class="title">Sélection des joueurs</h2>
+      </div>
     </div>
 
     <p v-if="storedPlayers.length === 0" class="instruction-text">
@@ -76,7 +80,9 @@
     </button>
 
     <p class="privacy-link">
-      <router-link to="/privacy-policy">Politique de confidentialité</router-link>
+      <router-link to="/privacy-policy"
+        >Politique de confidentialité</router-link
+      >
     </p>
     <ModalsHandler
       :showSettingsModal="showSettingsModal"
@@ -89,8 +95,8 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { computed } from "vue";
+import { useStore } from "vuex";
 import ModalsHandler from "./ModalsHandler.vue";
 
 export default {
@@ -181,7 +187,8 @@ export default {
       if (this.newPlayerName !== "") {
         const context = require.context("@/assets/ProPlayers", false, /\.png$/);
         const avatars = context.keys().map(context);
-        const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+        const randomAvatar =
+          avatars[Math.floor(Math.random() * avatars.length)];
 
         const newPlayer = {
           name: this.newPlayerName,
