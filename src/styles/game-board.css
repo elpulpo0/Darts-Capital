@@ -65,6 +65,7 @@ body.light .dartboard-number, body.light .dartboard-unique-number {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  margin-bottom: 50px;
   grid-column: span 7;
 }
 
