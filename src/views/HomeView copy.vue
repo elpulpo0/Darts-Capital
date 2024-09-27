@@ -13,7 +13,6 @@
     <PlayerSelection
       v-if="!gameStarted && !gameOver"
       @start-game="startGame"
-      @start-tournament="startTournament"
       :defaultPlayers="preselectedPlayers"
       @restore-game="prepareGameForRestore"
       :soundEnabled="soundEnabled"
@@ -22,9 +21,8 @@
       @settings-saved="handleSettingsSaved"
     />
 
-    <!-- Partie normale -->
     <GameBoard
-      v-else-if="gameStarted && !gameOver && !isTournamentMode"
+      v-else-if="gameStarted && !gameOver"
       ref="gameBoard"
       :players="players"
       @game-over="handleGameOver"
@@ -32,14 +30,6 @@
       :soundEnabled="soundEnabled"
       :iaDifficulty="iaDifficulty"
       :theme="theme"
-    />
-
-    <!-- Mode tournoi : on affiche TournamentBoard -->
-    <TournamentBoard
-      v-else-if="isTournamentMode && !gameOver"
-      :players="players"
-      @tournament-over="handleTournamentOver"
-      @restart-tournament="restartTournament"
     />
 
     <GameOver v-if="gameOver" :winners="winners" @restart-game="restartGame" />
@@ -50,9 +40,11 @@
         <p class="modal-message">
           L’association a pour objet de :
           <br /><br />
-          - Proposer l’initiation au jeu de fléchettes traditionnelles au grand public.<br /><br />
+          - Proposer l’initiation au jeu de fléchettes traditionnelles au grand
+          public.<br /><br />
           - Développer la vocation éducative et sociale du sport<br /><br />
-          - Proposer à ses membres la pratique libre ou encadrée du jeu de fléchettes traditionnelles et éventuellement électroniques.
+          - Proposer à ses membres la pratique libre ou encadrée du jeu de
+          fléchettes traditionnelles et éventuellement électroniques.
         </p>
 
         <div class="social-buttons">
@@ -71,7 +63,10 @@
         </div>
 
         <div class="modal-actions">
-          <button class="modal-button cancel-button" @click="showAssociationInfo = false">
+          <button
+            class="modal-button cancel-button"
+            @click="showAssociationInfo = false"
+          >
             Fermer
           </button>
         </div>
@@ -84,7 +79,6 @@
 import { computed } from 'vue';
 import PlayerSelection from "@/components/PlayerSelection.vue";
 import GameBoard from "@/components/GameBoard.vue";
-import TournamentBoard from "@/components/TournamentBoard.vue";
 import GameOver from "@/components/GameOver.vue";
 import { useStore } from "vuex";
 
@@ -93,7 +87,6 @@ export default {
     return {
       gameStarted: false,
       gameOver: false,
-      isTournamentMode: false,
       players: [],
       winners: [],
       preselectedPlayers: [],
@@ -104,6 +97,7 @@ export default {
   setup() {
     const store = useStore();
 
+    // Accéder aux réglages via le store
     const soundEnabled = computed(() => store.state.settings.soundEnabled);
     const iaDifficulty = computed(() => store.state.settings.iaDifficulty);
     const theme = computed(() => store.state.settings.theme);
@@ -113,6 +107,24 @@ export default {
       iaDifficulty,
       theme,
     };
+  },
+  watch: {
+    gameStarted(newVal) {
+      if (newVal && this.restoreGameState) {
+        this.$nextTick(() => {
+          if (this.$refs.gameBoard && typeof this.$refs.gameBoard.restoreGame === "function") {
+            const savedSnapshot = localStorage.getItem("dartGameSnapshot");
+            if (savedSnapshot) {
+              const snapshot = JSON.parse(savedSnapshot);
+              this.$refs.gameBoard.restoreGame(snapshot);
+              this.restoreGameState = false;
+            }
+          } else {
+            console.error("GameBoard component is not available or restoreGame is not a function.");
+          }
+        });
+      }
+    },
   },
   methods: {
     handleSettingsSaved(newSoundSetting, newIaDifficulty, newTheme) {
@@ -126,14 +138,6 @@ export default {
     startGame(selectedPlayers) {
       this.players = selectedPlayers.sort(() => Math.random() - 0.5);
       this.gameStarted = true;
-      this.isTournamentMode = false;
-      this.restoreGameState = false;
-      this.preselectedPlayers = [];
-    },
-    startTournament(selectedPlayers) {
-      this.players = selectedPlayers.sort(() => Math.random() - 0.5);
-      this.gameStarted = true;
-      this.isTournamentMode = true; // Mode tournoi activé
       this.restoreGameState = false;
       this.preselectedPlayers = [];
     },
@@ -152,29 +156,16 @@ export default {
       this.gameStarted = false;
       this.gameOver = true;
     },
-    handleTournamentOver(winners) {
-      this.winners = winners;
-      this.gameStarted = false;
-      this.gameOver = true;
-    },
     restartGame() {
       this.gameStarted = false;
       this.gameOver = false;
       this.preselectedPlayers = [...this.players];
       this.players = [];
     },
-    restartTournament() {
-      this.gameStarted = false;
-      this.gameOver = false;
-      this.isTournamentMode = false;
-      this.preselectedPlayers = [...this.players];
-      this.players = [];
-    }
   },
   components: {
     PlayerSelection,
     GameBoard,
-    TournamentBoard,
     GameOver,
   },
 };

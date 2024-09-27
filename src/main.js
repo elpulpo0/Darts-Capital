@@ -8,6 +8,8 @@ import {
   faUndoAlt,
   faInfoCircle,
   faCog,
+  faArrowLeft,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -19,7 +21,15 @@ import nl from "./config/language/nl.json";
 import pt from "./config/language/pt.json";
 import es from "./config/language/es.json";
 
-library.add(faUndoAlt, faInfoCircle, faCog, faInstagram, faFacebook);
+library.add(
+  faUndoAlt,
+  faInfoCircle,
+  faCog,
+  faArrowLeft,
+  faArrowRight,
+  faInstagram,
+  faFacebook,
+);
 
 const i18n = createI18n({
   locale: "en", // Langue par défaut

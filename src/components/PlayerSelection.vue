@@ -7,16 +7,16 @@
         </button>
       </div>
       <div class="title-container">
-        <h2 class="title">{{ $t('home.title') }}</h2>
+        <h2 class="title">{{ $t("home.title") }}</h2>
       </div>
     </div>
 
     <p v-if="storedPlayers.length === 0" class="instruction-text">
-      {{ $t('home.addPlayerToStart') }}
+      {{ $t("home.addPlayerToStart") }}
     </p>
 
     <p v-if="storedPlayers.length > 0" class="instruction-text">
-      {{ $t('home.clicOnPlayerToSelect') }}
+      {{ $t("home.clicOnPlayerToSelect") }}
     </p>
 
     <ul class="player-list">
@@ -44,7 +44,7 @@
 
     <div class="add-players-container">
       <button @click="addComputerPlayer" class="add-ia-button">
-        {{$t('home.addAi')}}
+        {{ $t("home.addAi") }}
       </button>
       <form @submit.prevent="addNewPlayer" class="add-player-form">
         <input
@@ -57,18 +57,30 @@
       </form>
     </div>
 
-    <button
-      @click="startGame"
-      :disabled="selectedPlayers.length < 2"
-      class="start-game-button"
-      :class="{ disabled: selectedPlayers.length < 2 }"
-    >
-      {{
-        selectedPlayers.length < 2
-          ? $t('home.select2players')
-          : $t('home.startGame')
-      }}
-    </button>
+    <div class="mode-selection">
+      <button @click="toggleGameMode('left')" class="arrow-button">
+        <font-awesome-icon :icon="['fas', 'arrow-left']" />
+      </button>
+      <button
+        @click="gameMode === 'normal' ? startGame() : startTournament()"
+        :disabled="isStartDisabled"
+        class="start-game-button"
+        :class="{ disabled: isStartDisabled }"
+      >
+        {{
+          isStartDisabled
+            ? gameMode === "normal"
+              ? $t("home.select2players")
+              : $t("home.select4players")
+            : gameMode === "normal"
+              ? $t("home.startGame")
+              : $t("home.startTournament")
+        }}
+      </button>
+      <button @click="toggleGameMode('right')" class="arrow-button">
+        <font-awesome-icon :icon="['fas', 'arrow-right']" />
+      </button>
+    </div>
 
     <button
       @click="restoreGame"
@@ -76,13 +88,13 @@
       class="start-game-button"
       :class="{ disabled: !gameSaved }"
     >
-      {{$t('home.restoreGame')}}
+      {{ $t("home.restoreGame") }}
     </button>
 
     <p class="privacy-link">
-      <router-link to="/privacy-policy"
-        >{{$t('home.privacyPolicy')}}</router-link
-      >
+      <router-link to="/privacy-policy">{{
+        $t("home.privacyPolicy")
+      }}</router-link>
     </p>
     <ModalsHandler
       :showSettingsModal="showSettingsModal"
@@ -113,7 +125,20 @@ export default {
       selectedPlayers: [],
       newPlayerName: "",
       gameSaved: false,
+      gameMode: "normal",
     };
+  },
+  computed: {
+    isStartDisabled() {
+      // Désactiver si moins de 2 joueurs pour le mode normal ou moins de 4 pour le mode tournoi
+      if (this.gameMode === "normal") {
+        return this.selectedPlayers.length < 2; // Mode normal exige 2 joueurs minimum
+      } else if (this.gameMode === "tournament") {
+        return this.selectedPlayers.length < 4; // Mode tournoi exige 4 joueurs minimum
+      } else {
+        return true; // Par défaut, désactiver si aucun mode valide
+      }
+    },
   },
   setup() {
     const store = useStore();
@@ -130,6 +155,15 @@ export default {
     this.checkSavedGame();
   },
   methods: {
+    toggleGameMode(direction) {
+      const modes = ["normal", "tournament"];
+      const currentIndex = modes.indexOf(this.gameMode);
+      if (direction === "left") {
+        this.gameMode = modes[(currentIndex - 1 + modes.length) % modes.length];
+      } else {
+        this.gameMode = modes[(currentIndex + 1) % modes.length];
+      }
+    },
     openSettingsModal() {
       this.showSettingsModal = true;
     },
@@ -221,6 +255,14 @@ export default {
         dartsDisplay: [],
       }));
       this.$emit("start-game", this.selectedPlayers);
+    },
+    startTournament() {
+      this.storedPlayers = this.storedPlayers.map((player) => ({
+        ...player,
+        darts: [],
+        dartsDisplay: [],
+      }));
+      this.$emit("start-tournament", this.selectedPlayers);
     },
     updateSettings(newSoundSetting, newIaDifficulty, newTheme) {
       this.store.commit("setSoundEnabled", newSoundSetting);

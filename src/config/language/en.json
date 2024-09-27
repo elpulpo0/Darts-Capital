@@ -3,10 +3,11 @@
     "title": "Player Selection",
     "addPlayer": "Add a player",
     "startGame": "Start a new game",
+    "startTournament": "Start a new tournament",
     "restoreGame": "Restore the last saved game",
     "addPlayerToStart": "Add players to start.",
     "clicOnPlayerToSelect": "Clic on players to select them.",
-    "selectPlayers": "Select at least 2 players",
+    "select4players": "Select at least 4 players",
     "addAi": "Add AI",
     "select2players": "Select at least 2 players",
     "privacyPolicy": "Privacy policy"
@@ -116,5 +117,18 @@
     "throwHistoryTitle": "{playerName}'s throw history",
     "noThrows": "No throws recorded",
     "closeButton": "Close"
+  },
+
+  "tournament": {
+    "scoreboardTitle": "Scoreboard",
+    "playerName": "Player",
+    "totalPoints": "Total Points",
+    "roundsWon": "Rounds Won",
+    "title": "Darts Tournament",
+    "round": "Round",
+    "winner": "Winner",
+    "restart": "Restart Tournament",
+    "nextRound": "Next Round",
+    "playNextRound": "Play Next Round"
   }
 }

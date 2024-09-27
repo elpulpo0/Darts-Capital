@@ -3,10 +3,11 @@
     "title": "Sélection des joueurs",
     "addPlayer": "Ajouter un joueur",
     "startGame": "Lancer une nouvelle partie",
+    "startTournament": "Lancer un nouveau tournoi",
     "restoreGame": "Restaurer la partie sauvegardée",
     "addPlayerToStart": "Ajoutez des joueurs pour commencer.",
     "clicOnPlayerToSelect": "Cliquez sur les joueurs pour les sélectionner.",
-    "selectPlayers": "Sélectionnez au moins 2 joueurs",
+    "select4players": "Sélectionnez au moins 4 joueurs",
     "addAi": "Ajouter une IA",
     "select2players": "Sélectionnez au moins 2 joueurs",
     "privacyPolicy": "Politique de confidentialité"
@@ -116,5 +117,18 @@
     "throwHistoryTitle": "Historique des lancés de {playerName}",
     "noThrows": "Aucun lancé enregistré",
     "closeButton": "Fermer"
+  },
+
+  "tournament": {
+    "scoreboardTitle": "Tableau des scores",
+    "playerName": "Joueur",
+    "totalPoints": "Points totaux",
+    "roundsWon": "Manches gagnées",
+    "title": "Tournoi de fléchettes",
+    "round": "Tour",
+    "winner": "Gagnant",
+    "restart": "Recommencer le tournoi",
+    "nextRound": "Prochain tour",
+    "playNextRound": "Jouer le prochain tour"
   }
 }

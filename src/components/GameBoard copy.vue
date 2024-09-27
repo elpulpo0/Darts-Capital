@@ -73,14 +73,8 @@ export default {
     players: {
       type: Array,
       required: true,
-      default: () => [], // Ajout d'une valeur par défaut
-    },
-    isTournamentMode: {
-      type: Boolean,
-      default: false,
     },
   },
-
   setup() {
     const store = useStore();
 
@@ -107,19 +101,16 @@ export default {
       currentPlayerIndex: 0,
       currentContractIndex: -1,
       isUndoing: false,
-      localPlayers:
-        this.players && this.players.length > 0
-          ? this.players.map((player) => ({
-              ...player,
-              darts: [],
-              dartsDisplay: [],
-              currentRoundPoints: 0,
-              contractsStatus: Array(contracts.length).fill({
-                success: undefined,
-              }),
-              history: [],
-            }))
-          : [], // Ajout d'une valeur par défaut vide
+      localPlayers: this.players.map((player) => ({
+        ...player,
+        darts: [],
+        dartsDisplay: [],
+        currentRoundPoints: 0,
+        contractsStatus: Array(contracts.length).fill({
+          success: undefined,
+        }),
+        history: [],
+      })),
       dartboardLayout: [
         [1, 2, 3, 4, 5, 6, 7],
         [8, 9, 10, 11, 12, 13, 14],
@@ -138,39 +129,8 @@ export default {
       historyPlayerIndex: null,
       gameHistory: [],
       showContractRulesModal: false,
-      isTournamentModeCopy: this.isTournamentMode,
     };
   },
-
-  created() {
-    if (this.players && this.players.length > 0) {
-      this.localPlayers = this.players.map((player) => ({
-        ...player,
-        darts: [],
-        dartsDisplay: [],
-        currentRoundPoints: 0,
-        contractsStatus: Array(contracts.length).fill({
-          success: undefined,
-        }),
-        history: [],
-      }));
-    } else if (this.$route.query.players) {
-      try {
-        this.localPlayers = JSON.parse(this.$route.query.players);
-        this.round = this.$route.query.round;
-        this.isTournamentModeCopy =
-          this.$route.query.isTournamentMode === "true";
-      } catch (e) {
-        console.error("Erreur lors de la conversion des joueurs:", e);
-        this.localPlayers = [];
-      }
-    } else {
-      console.error(
-        "Pas de joueurs disponibles dans les paramètres de la route.",
-      );
-    }
-  },
-
   mounted() {
     // Si le premier joueur est un ordinateur, lancez son tour immédiatement
     if (this.currentPlayer.isComputer) {
@@ -988,15 +948,7 @@ export default {
       this.winners = this.localPlayers.filter(
         (player) => player.capital === maxScore,
       );
-
-      if (this.isTournamentModeCopy) {
-        // Utiliser la copie
-        // Si nous sommes en mode tournoi, informer le TournamentBoard de la fin du tour
-        this.$emit("game-over", this.winners);
-        this.$router.push({ name: "TournamentBoard" }); // Retourner à l'écran du tournoi
-      } else {
-        this.$emit("game-over", this.winners);
-      }
+      this.$emit("game-over", this.winners);
     },
     toggleMultiplier(multiplier) {
       if (this.soundEnabled) {

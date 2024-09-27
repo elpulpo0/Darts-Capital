@@ -37,7 +37,7 @@ export default {
 
   emits: [
     "canceled",
-    "do-no-save",
+    "do-not-save",
     "close-settings-modal",
     "close-contract-rules-modal",
     "settings-saved",

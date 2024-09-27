@@ -7,6 +7,10 @@ body.light .player-item {
   background-color: #8888878a;
 }
 
+body.light .arrow-button {
+  color: #2C3E50;
+}
+
 .player-selection {
   text-align: center;
   margin: 0;
@@ -179,3 +183,35 @@ body.light .player-item {
   margin-left: 10px;
   transition: color 0.3s ease;
 }
+
+.mode-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.arrow-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+}
+
+.start-game-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  min-width: 150px;
+}
+
+.start-game-button.disabled {
+  background-color: #bdc3c7;
+}
+
